@@ -20,6 +20,32 @@
         };
       in
       {
+        packages =
+          let
+            manifest = (pkgs.lib.importTOML ./Cargo.toml).package;
+          in
+          rec {
+            default = pkgs.rustPlatform.buildRustPackage {
+              pname = manifest.name;
+              version = manifest.version;
+              src = pkgs.lib.cleanSource ./.;
+
+              cargoLock.lockFile = ./Cargo.lock;
+
+              nativeBuildInputs = with pkgs; [
+                cargo
+                rustc
+              ];
+            };
+
+            image = pkgs.dockerTools.buildImage {
+              name = manifest.name;
+              tag = manifest.version;
+              copyToRoot = [ default ];
+              config.Cmd = "${default}/bin/v-thomas-com";
+            };
+
+          };
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             rustc

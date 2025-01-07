@@ -1,17 +1,4 @@
-mod pages;
-use pages::{
-    about::{self, about_page},
-    index::index_page,
-};
-use personal_website::components::{footer::footer, navbar::navbar};
-use titan::{
-    html::{
-        css,
-        tags::{head::Head, html::Html, Body},
-    },
-    web::{self, Redirect},
-    App, Respondable,
-};
+use titan::{web::Redirect, App};
 use tokio::net::TcpListener;
 
 #[tokio::main]
