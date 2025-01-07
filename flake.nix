@@ -18,39 +18,40 @@
         pkgs = import nixpkgs {
           inherit system;
         };
+
+        manifest = (pkgs.lib.importTOML ./Cargo.toml).package;
+
+        package = pkgs.rustPlatform.buildRustPackage {
+          pname = "v-thomas-com";
+          version = manifest.version;
+          src = pkgs.lib.cleanSource ./.;
+
+          cargoLock.lockFile = ./Cargo.lock;
+
+          nativeBuildInputs = with pkgs; [
+            cargo
+            rustc
+          ];
+        };
       in
       {
-        packages =
-          let
-            manifest = (pkgs.lib.importTOML ./Cargo.toml).package;
-          in
-          rec {
-            default = pkgs.rustPlatform.buildRustPackage {
-              pname = manifest.name;
-              version = manifest.version;
-              src = pkgs.lib.cleanSource ./.;
+        packages = {
+          default = package;
 
-              cargoLock.lockFile = ./Cargo.lock;
-
-              nativeBuildInputs = with pkgs; [
-                cargo
-                rustc
-              ];
-            };
-
-            image = pkgs.dockerTools.buildImage {
-              name = manifest.name;
-              tag = manifest.version;
-              copyToRoot = [ default ];
-              config.Cmd = "${default}/bin/v-thomas-com";
-            };
-
+          image = pkgs.dockerTools.streamLayeredImage {
+            name = "v-thomas-com";
+            tag = "latest";
+            contents = [ package ];
+            config.Cmd = "${package}/bin/v-thomas-com";
           };
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            rustc
 
-            cargo
+        };
+        devShells.default = pkgs.mkShell {
+          inputsFrom = [ package ];
+          buildInputs = with pkgs; [
+            # rustc
+            #
+            # cargo
             cargo-watch
             clippy
 

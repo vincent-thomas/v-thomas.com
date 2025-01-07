@@ -1,9 +1,14 @@
-use titan::{web::Redirect, App};
+use titan::{http::StatusCode, web::Redirect, App, Respondable};
 use tokio::net::TcpListener;
+
+async fn fallback() -> impl Respondable {
+    (StatusCode::NOT_FOUND, "404 Not Found")
+}
 
 #[tokio::main]
 async fn main() {
     let app = App::default()
+        .fallback(fallback)
         .at("github", Redirect::permanent("//github.com/vincent-thomas"))
         .at(
             "linkedin",
