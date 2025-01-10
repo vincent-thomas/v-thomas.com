@@ -1,10 +1,12 @@
-dev:
-  @cargo watch -x "run"
+build:
+  rm target/lambda -rf
+  nix build .
+  mkdir -p target/lambda/v-thomas-com
+  cp ./result/bin/v-thomas-com ./target/lambda/v-thomas-com/bootstrap
+  rm result
 
-docker:
-  nix build .#image
-  ./result | docker load
+dev:
+  @cargo lambda watch
 
 deploy:
-  just docker
-  fly deploy --local-only
+  pnpm --prefix=infra cdk deploy

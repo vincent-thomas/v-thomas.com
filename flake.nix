@@ -3,12 +3,16 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    fenix.url = "github:nix-community/fenix";
+    naersk.url = "github:nix-community/naersk";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
     {
       self,
+      fenix,
+      naersk,
       nixpkgs,
       flake-utils,
     }:
@@ -19,45 +23,37 @@
           inherit system;
         };
 
-        manifest = (pkgs.lib.importTOML ./Cargo.toml).package;
-
-        package = pkgs.rustPlatform.buildRustPackage {
-          pname = "v-thomas-com";
-          version = manifest.version;
-          src = pkgs.lib.cleanSource ./.;
-
-          cargoLock.lockFile = ./Cargo.lock;
-
-          nativeBuildInputs = with pkgs; [
-            cargo
-            rustc
+        toolchain =
+          with fenix.packages.${system};
+          combine [
+            minimal.rustc
+            minimal.cargo
+            targets.x86_64-unknown-linux-musl.latest.rust-std
           ];
+
+        naersk' = naersk.lib.${system}.override {
+          cargo = toolchain;
+          rustc = toolchain;
         };
+
       in
       {
-        packages = {
-          default = package;
-
-          image = pkgs.dockerTools.streamLayeredImage {
-            name = "v-thomas-com";
-            tag = "latest";
-            contents = [ package ];
-            config.Cmd = "${package}/bin/v-thomas-com";
-          };
-
+        packages.default = naersk'.buildPackage {
+          src = ./.;
+          doCheck = true;
+          nativeBuildInputs = with pkgs; [ pkgsStatic.stdenv.cc ];
+          CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
+          CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
         };
+        # packages.default = package;
         devShells.default = pkgs.mkShell {
-          inputsFrom = [ package ];
+          # inputsFrom = [ package ];
           buildInputs = with pkgs; [
-            # rustc
-            #
-            # cargo
             cargo-watch
+            cargo-lambda
             clippy
 
             just
-
-            flyctl
           ];
 
         };

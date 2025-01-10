@@ -1,4 +1,10 @@
-use titan::{http::StatusCode, web::Redirect, App, Respondable};
+use std::error::Error;
+use titan::{
+    http::StatusCode,
+    web::{self, Redirect},
+    App, Respondable,
+};
+use titan_lambda::Request;
 use tokio::net::TcpListener;
 
 async fn fallback() -> impl Respondable {
@@ -6,21 +12,17 @@ async fn fallback() -> impl Respondable {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     let app = App::default()
         .fallback(fallback)
-        .at("github", Redirect::permanent("//github.com/vincent-thomas"))
         .at(
-            "linkedin",
+            "/github",
+            Redirect::permanent("//github.com/vincent-thomas"),
+        )
+        .at(
+            "/linkedin",
             Redirect::permanent("//linkedin.com/in/vincent-thomas-08577b333/"),
         );
 
-    let port = match std::env::var("PORT") {
-        Ok(value) => value,
-        Err(_) => "4000".to_string(),
-    };
-
-    let listener = TcpListener::bind(format!("0.0.0.0:{port}")).await.unwrap();
-
-    titan::serve(listener, app).await.unwrap();
+    titan_lambda::app_runtime(app).run().await
 }
