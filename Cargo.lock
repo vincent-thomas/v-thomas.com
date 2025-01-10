@@ -1546,9 +1546,9 @@ checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
 name = "titan"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf00e4b3390906bdeec38ee0066e5b5ea7b5d2bcbf4c6709e8ea8ea9fc836b16"
+checksum = "b6d2a19353962c2f33d33514f1d94e8ce7546217c46285dd032c0a301b6317ae"
 dependencies = [
  "futures-util",
  "lambda_http",
@@ -1566,9 +1566,9 @@ dependencies = [
 
 [[package]]
 name = "titan-core"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8d26b9c267a812cc406f50fc59928b2f4fd2b05e8141637602b1d0f173ed5fd7"
+checksum = "a4a856a6a0526a30c7b97e2b318a4d442963ff400c7440c75f653f7da729458a"
 dependencies = [
  "futures-core",
  "lambda_http",
@@ -1579,9 +1579,9 @@ dependencies = [
 
 [[package]]
 name = "titan-html"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf2820fe67a435e19c8f6596f99f1d49773cc3f915ee178776b9585e0f99debb"
+checksum = "2f41c874ceef930ad8eee398da55d693ee114db536ded567d0dcf8adc06bc425"
 dependencies = [
  "cssparser",
  "lightningcss",
@@ -1594,9 +1594,9 @@ dependencies = [
 
 [[package]]
 name = "titan-html-derive"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d92f4399d7e49613599003cf86857658b0a06f30d6a404c682c1b85593cb365"
+checksum = "2a13ea559b722ba36bcd0bd147635b93b0dcad33f4fec26869113faaee225d45"
 dependencies = [
  "quote",
  "syn 2.0.95",
@@ -1605,9 +1605,9 @@ dependencies = [
 
 [[package]]
 name = "titan-http"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e3b8e22aba745bbb363f81786ffd4d8bb330d44d4622351b3eba1e06d0cc7c2"
+checksum = "ce29198d163c0ec6d4eaa7d0866629a51bac4c97a8f207f64b7731d6b63708e3"
 dependencies = [
  "bytes",
  "futures-core",
@@ -1618,9 +1618,9 @@ dependencies = [
 
 [[package]]
 name = "titan-lambda"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9b89f26084df2916a55db75e8a15fe7dfbd7e863fcffc7a65272d35256cd6fd"
+checksum = "966aada21a2ba998f1f0799d0b67e4a833af37160c81b3e26854e97bf7aa38b1"
 dependencies = [
  "futures-util",
  "lambda_http",
@@ -1631,15 +1631,15 @@ dependencies = [
 
 [[package]]
 name = "titan-router"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e838252effffe07017a5c819d647816a3d7700134f77c2cfab5c394de71b447"
+checksum = "2d5881659217b1200ebc9a422cd48244e5b3c191d54c87d99f95fd12761bc8ab"
 
 [[package]]
 name = "titan-server"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "509c8ec5085d5cc10adae6e420cb6fc1dee8d606c5e8ec4da7724dd5010f18e7"
+checksum = "0fb473c0895056ddc2a2678781421329530825d3df177036606792222828c485"
 dependencies = [
  "futures-util",
  "titan-core",
@@ -1649,9 +1649,9 @@ dependencies = [
 
 [[package]]
 name = "titan-utils"
-version = "0.1.6"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5398434f4b5f70e69c3302e50d8fc7cb3f898c5bd06f188be21a7ea015623634"
+checksum = "aa4d637035f7dd868b6c325529d3bb2d43f192fe02d3b07e9b1b883bcea3ef98"
 dependencies = [
  "cssparser",
  "lightningcss",

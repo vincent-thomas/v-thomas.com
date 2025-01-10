@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-titan = "0.1.4"
-titan-lambda = "0.1.6"
-tokio = { version = "1.42.0", features = ["macros", "rt", "rt-multi-thread", "net"] }
+titan = "0.1.8"
+titan-lambda = "0.1.8"
+tokio = { version = "1.42.0", features = ["macros", "rt", "rt-multi-thread"] }

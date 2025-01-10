@@ -45,9 +45,7 @@
           CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
           CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
         };
-        # packages.default = package;
         devShells.default = pkgs.mkShell {
-          # inputsFrom = [ package ];
           buildInputs = with pkgs; [
             cargo-watch
             cargo-lambda
