@@ -6,7 +6,8 @@ build:
   rm result
 
 dev:
-  @cargo lambda watch
+  cargo lambda watch
 
 deploy:
+  just build
   pnpm --prefix=infra cdk deploy
