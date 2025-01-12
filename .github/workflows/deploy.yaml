@@ -15,8 +15,8 @@ jobs:
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@master
         with:
-          role-to-assume: arn:aws:iam::649534857523:role/github-ci-role
-          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: arn:aws:iam::649534857523:role/github-ci
+          aws-region: ${{ vars.AWS_REGION }}
 
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/flake-checker-action@main
