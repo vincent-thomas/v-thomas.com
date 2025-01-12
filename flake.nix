@@ -3,15 +3,20 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    fenix.url = "github:nix-community/fenix";
+
     naersk.url = "github:nix-community/naersk";
+    naersk.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-utils.url = "github:numtide/flake-utils";
+
+    rust-overlay.url = "github:oxalica/rust-overlay";
+    rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
     {
       self,
-      fenix,
+      rust-overlay,
       naersk,
       nixpkgs,
       flake-utils,
@@ -21,15 +26,10 @@
       let
         pkgs = import nixpkgs {
           inherit system;
+          overlays = [ (import rust-overlay) ];
         };
 
-        toolchain =
-          with fenix.packages.${system};
-          combine [
-            minimal.rustc
-            minimal.cargo
-            targets.x86_64-unknown-linux-musl.latest.rust-std
-          ];
+        toolchain = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
 
         naersk' = naersk.lib.${system}.override {
           cargo = toolchain;
@@ -47,9 +47,9 @@
         };
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
+            toolchain
             cargo-watch
             cargo-lambda
-            clippy
 
             go
             pnpm_9
@@ -61,3 +61,26 @@
       }
     );
 }
+
+# };
+
+#   outputs =
+#     {
+#       self,
+#       nixpkgs,
+#       rust-overlay,
+#       flake-utils,
+#     }:
+#     flake-utils.lib.eachDefaultSystem (
+#       system:
+#       let
+#         overlays = [ (import rust-overlay) ];
+#         pkgs = import nixpkgs {
+#           inherit system overlays;
+#         };
+#
+#       in
+#       {
+#         devShells.default = pkgs.mkShell {
+#           buildInputs = with pkgs; [
+# kkkkkkkkkkk
