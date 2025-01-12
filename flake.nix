@@ -11,6 +11,9 @@
 
     rust-overlay.url = "github:oxalica/rust-overlay";
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-develop-gha.url = "github:nicknovitski/nix-develop";
+    nix-develop-gha.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -19,6 +22,7 @@
       rust-overlay,
       naersk,
       nixpkgs,
+      nix-develop-gha,
       flake-utils,
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -38,12 +42,15 @@
 
       in
       {
-        packages.default = naersk'.buildPackage {
-          src = ./.;
-          doCheck = true;
-          nativeBuildInputs = with pkgs; [ pkgsStatic.stdenv.cc ];
-          CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
-          CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
+        packages = {
+          github-actions = nix-develop-gha.packages.${system}.default;
+          default = naersk'.buildPackage {
+            src = ./.;
+            doCheck = true;
+            nativeBuildInputs = with pkgs; [ pkgsStatic.stdenv.cc ];
+            CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
+            CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
+          };
         };
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [

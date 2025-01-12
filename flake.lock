@@ -38,6 +38,26 @@
         "type": "github"
       }
     },
+    "nix-develop-gha": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1734490467,
+        "narHash": "sha256-ToIOXWXMOWUWrL7V31c8yWlsE0HCrd5z85u5HdaeqOk=",
+        "owner": "nicknovitski",
+        "repo": "nix-develop",
+        "rev": "82048009667406ecdc696956b5bc019de10a6dd3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nicknovitski",
+        "repo": "nix-develop",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1736523798,
@@ -58,6 +78,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "naersk": "naersk",
+        "nix-develop-gha": "nix-develop-gha",
         "nixpkgs": "nixpkgs",
         "rust-overlay": "rust-overlay"
       }

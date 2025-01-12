@@ -10,7 +10,7 @@ jobs:
       contents: read
     steps:
       - name: Git clone the repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@master
@@ -22,18 +22,19 @@ jobs:
       - uses: DeterminateSystems/flake-checker-action@main
 
       - name: Cache cargo registry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         continue-on-error: false
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             ~/.local/share/pnpm/store/v3
-          key: cargo-pnpm-build-cache
+          key: cargo-${{ hashFiles('Cargo.lock') }}-pnpm-${{ hashFiles('infra/pnpm-lock.yaml') }}
 
-      - run: nix develop -c pnpm --prefix=infra install
+      - run: nix run .#github-actions
+      - run: pnpm --prefix=infra install
 
-      - run: nix develop -c cargo clippy
-      - run: nix develop -c just deploy
+      - run: cargo clippy
+      - run: just deploy
         env:
           CERT_ARN: ${{ secrets.CERT_ARN }}
