@@ -5,6 +5,6 @@ edition = "2021"
 
 [dependencies]
 chrono = "0.4.39"
-titan = "0.2.0"
-titan-lambda = "0.2.0"
+titan = "0.3"
+titan-lambda = "0.3.0"
 tokio = { version = "1.42.0", features = ["macros", "rt", "rt-multi-thread"] }

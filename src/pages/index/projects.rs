@@ -2,25 +2,16 @@ use std::collections::{HashMap, HashSet};
 
 use titan::html::{
     css,
-    tags::{link::Link, Div, IntoTag, Span, Tag, P},
+    tags::{link::Link, Div, IntoTag, Tag, H1, P},
 };
 
-pub(super) fn projects() -> Tag {
+pub fn projects() -> Tag {
     Div::default()
         .styles(css!("display: flex; flex-direction: column; gap: 1rem;"))
         .children(
             [
-                Tag::Tag {
-                    children: Some(
-                        [Span::text("# Notable Projects").id("projects-h1").into_tag()].to_vec(),
-                    ),
-                    ids: Vec::default(),
-                    ident: "h1",
-                    classes: HashSet::default(),
-                    attributes: HashMap::default(),
-                    urls_to_preconnect: HashSet::default(),
-                    urls_to_prefetch: HashSet::default(),
-                },
+                H1::text("# Notable Projects")
+                  .class("projects-h1").into_tag(),
                 project(Project {
                     title: "Titan",
                     description: "Titan is a web suite of tools that can be applicable to almost everything web.
