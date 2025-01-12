@@ -2,5 +2,5 @@
 /result
 .direnv
 .env
-infra/node_modules
-infra/cdk.out
+node_modules
+cdk.out

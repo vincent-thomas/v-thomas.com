@@ -3,6 +3,15 @@ name = "v-thomas-com"
 version = "0.1.0"
 edition = "2021"
 
+[profile.release]
+lto = true
+codegen-units = 1 # Ensures better optimization at the cost of build time
+strip = "symbols" # Strips debug symbols from the binary
+opt-level = "z" # Optimize for size
+
+[profile.dev]
+incremental = true
+
 [dependencies]
 chrono = "0.4.39"
 titan = "0.3"

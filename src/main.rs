@@ -1,10 +1,4 @@
-use titan::{
-    http::StatusCode,
-    web::{self, Redirect},
-    App, Respondable,
-};
-use tokio::net::TcpListener;
-use v_thomas_com::pages::index::index_page;
+use titan::{http::StatusCode, web::Redirect, App, Respondable};
 
 async fn fallback() -> impl Respondable {
     (StatusCode::NOT_FOUND, "404 Not Found")
@@ -23,11 +17,17 @@ async fn main() {
             Redirect::permanent("//linkedin.com/in/vincent-thomas-08577b333/"),
         );
 
-    if cfg!(debug_assertions) {
+    #[cfg(not(debug_assertions))]
+    {
+        titan_lambda::app_runtime(app).run().await.unwrap();
+    }
+    #[cfg(debug_assertions)]
+    {
+        use titan::web;
+        use tokio::net::TcpListener;
+        use v_thomas_com::pages::index::index_page;
         let routes = app.at("/", web::get(index_page));
         let tcp = TcpListener::bind("0.0.0.0:8080").await.unwrap();
         titan::serve(tcp, routes).await.unwrap()
-    } else {
-        titan_lambda::app_runtime(app).run().await.unwrap();
     }
 }

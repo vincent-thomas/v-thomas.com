@@ -51,6 +51,9 @@
             cargo-lambda
             clippy
 
+            go
+            pnpm_9
+
             just
           ];
 

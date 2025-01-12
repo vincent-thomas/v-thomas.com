@@ -6,8 +6,8 @@ build:
   rm result
 
 dev:
-  cargo lambda watch
+  cargo watch -x run
 
 deploy:
   just build
-  pnpm --prefix=infra cdk deploy
+  pnpm --prefix=infra cdk deploy --require-approval never
