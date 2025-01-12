@@ -28,7 +28,10 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-          key: cargo-build-cache
+            ~/.local/share/pnpm/store/v3
+          key: cargo-pnpm-build-cache
+
+      - run: nix develop -c pnpm --prefix=infra install
 
       - run: nix develop -c cargo clippy
       - run: nix develop -c just deploy
