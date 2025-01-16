@@ -1641,6 +1641,8 @@ name = "v-thomas-com"
 version = "0.1.0"
 dependencies = [
  "chrono",
+ "futures-util",
+ "lazy_static",
  "titan",
  "titan-lambda",
  "tokio",

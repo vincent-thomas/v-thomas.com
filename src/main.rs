@@ -9,6 +9,7 @@ use titan::{
 };
 use v_thomas_com::{
   components::header,
+  pages::index::index_wrap,
   pages::{default_body, default_head},
 };
 
@@ -47,8 +48,9 @@ async fn main() {
   {
     use titan::web;
     use tokio::net::TcpListener;
-    use v_thomas_com::pages::index::index_page;
-    let routes = app.at("/", web::get(index_page)).at("/cv", web::get(cv));
+    let routes = app
+      .at("/", web::get(v_thomas_com::pages::index::Random))
+      .at("/cv", web::get(cv));
     let tcp = TcpListener::bind("0.0.0.0:8080").await.unwrap();
     titan::serve(tcp, routes).await.unwrap()
   }

@@ -14,6 +14,8 @@ incremental = true
 
 [dependencies]
 chrono = "0.4.39"
+futures-util = "0.3.31"
+lazy_static = "1.5.0"
 titan = "0.4"
 titan-lambda = "0.4"
 tokio = { version = "1.42.0", features = ["macros", "rt", "rt-multi-thread"] }
