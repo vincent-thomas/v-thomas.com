@@ -11,12 +11,20 @@ import add_ids_to_headers from "rehype-slugs";
 
 import rehypeKatex from "rehype-katex";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://v-thomas.com",
   integrations: [mdx(), sitemap(), icon()],
   prefetch: true,
   devToolbar: { enabled: false },
+
+  adapter: cloudflare({
+    imageService: "cloudflare",
+  }),
+
+  output: "static",
 
   scopedStyleStrategy: "where",
   trailingSlash: "never",
