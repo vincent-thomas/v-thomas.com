@@ -1,0 +1,19 @@
+---
+import Socials from "../components/Socials.astro";
+const today = new Date();
+---
+
+<footer class="flex flex-col pb-16">
+  <hr class="text-[var(--blue-indicator)] mb-10 mt-14" />
+  <div class="w-full flex justify-between items-end">
+    <section class="flex flex-col gap-4">
+      <h2 class="text-white font-bold text-3xl">Lets connect!</h2>
+      <Socials />
+    </section>
+    <section>
+      <p class="text-white">
+        &copy; {today.getFullYear()} Vincent Thomas. All rights reserved.
+      </p>
+    </section>
+  </div>
+</footer>

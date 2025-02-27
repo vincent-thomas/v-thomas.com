@@ -1,0 +1,88 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Body from "./Body.astro";
+import { Icon } from "astro-icon/components";
+
+type Props = CollectionEntry<'blog'>['data'] | { wordCount: number };
+
+const { title, description, pubDate, updatedDate, heroImage, wordCount, id } = Astro.props;
+
+const minuteRead = wordCount / 238;
+
+const minuteReadLow = Math.floor(minuteRead);
+const minuteReadHigh = Math.ceil(minuteRead);
+
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+  <Body>
+    <article class="flex flex-col gap-7">
+      <div class="mt-12 flex flex-col gap-4">
+        <div class="mb-6">
+          <a href="/blog" class="text-gray-400 hover:bg-gray-800 px-3 py-2 rounded-md inline-flex gap-4 items-center cursor-pointer"><Icon name="back-arrow" /> Go back</a>
+        </div>
+        {heroImage && <img width={1020} height={510} src={heroImage} alt="" class="rounded-lg" transition:name={`img-${title.replace(" ", "_")}`}  />}
+        <div class="flex justify-between">
+          <div class="text-gray-400 max-w-[45ch] flex flex-col">
+            <p>
+              Published <FormattedDate date={pubDate} />
+            <p>
+            {updatedDate && (
+              <p class="mt-1">
+                Last updated <FormattedDate date={updatedDate} />
+              </p>
+            )}
+          </div>
+          <span class="text-gray-400 max-w-[45ch]">{minuteReadLow}-{minuteReadHigh} minute read</span>
+        </div>
+      </div>
+      <h1 class="text-[var(--blue-indicator)] font-[800] text-6xl">{title}</h1>
+      <div class="flex justify-between">
+        <p class="text-gray-400 max-w-[45ch]">{description}</p>
+      </div>
+      <hr class="text-[var(--blue-indicator)]" />
+      <div class="prose w-full max-w-[unset] dark:prose-invert       fix-link-headings">
+        <slot/>
+      </div>
+      <style is:global lang="scss">
+        .fix-link-headings h1 a, .fix-link-headings h2 a, .fix-link-headings h3 a, .fix-link-headings h4 a, .fix-link-headings h5 a, .fix-link-headings h6 a {
+          text-decoration: unset;
+          position: relative;
+
+          &:hover {
+            text-decoration: underline;
+          }
+
+          &:hover::before {
+            opacity: 1;
+          }
+
+          &::before {
+            content: '#';
+            opacity: 0;
+            margin-right: 8px;
+            left: 0;
+
+            &:hover {
+              position: absolute;
+              color: white;
+
+            }
+          }
+        }
+
+        // KaTeX plugin needs this
+        *[aria-hidden="true"] {
+          display: none;
+        }
+      </style>
+    </article>
+	</Body>
+</html>

@@ -1,0 +1,22 @@
+---
+import HeaderLink from './HeaderLink.astro';
+import Socials from "./Socials.astro";
+import { SITE_TITLE } from '../consts';
+---
+
+<navbar class="flex justify-end w-full">
+  <a href="/" class="text-white font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{SITE_TITLE}</a>
+  <ul class="flex gap-4 mr-18">
+    <li>
+      <a href="/work" class="text-white font-semibold px-4 py-3 hover:bg-gray-800 rounded-md">
+        My work
+      </a>
+    </li>
+    <li>
+      <a href="/blog" class="text-white font-semibold px-4 py-3 hover:bg-gray-800 rounded-md">
+        Blog
+      </a>
+    </li>
+  </ul>
+  <Socials />
+</navbar>

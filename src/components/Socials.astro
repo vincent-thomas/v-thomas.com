@@ -1,0 +1,18 @@
+---
+import Social from './NavSocialLink.astro';
+---
+<nav class="flex gap-3">
+  <Social href="#" icon="mail" class="email-btn" data-email="" />
+  <script>
+    import {ENCODED_EMAIL} from "../consts";
+
+    const email = atob(ENCODED_EMAIL);
+    let elements = document.querySelectorAll("*[data-email='']");
+    for (let el of elements) {
+      el.href = `mailto:${email}`;
+    }
+  </script>
+  <Social href="https://v-thomas.com/linkedin" icon="linkedin" />
+  <Social href="https://v-thomas.com/github" icon="github" />
+  <Social href="https://x.com/vincenttho1337" icon="x" />
+</nav>

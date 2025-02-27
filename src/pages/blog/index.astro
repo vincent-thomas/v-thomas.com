@@ -1,0 +1,59 @@
+
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+
+import Global from "../../components/GlobalDropdownMenu.astro";
+import Social from "../../components/NavSocialLink.astro"
+import FormattedDate from "../../components/FormattedDate.astro";
+
+import Body from "../../layouts/Body.astro";
+
+import { slide } from 'astro:transitions';
+
+import { Image } from 'astro:assets';
+
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <Body>
+    <div class="lg:my-24 my-8 flex flex-col gap-3">
+      <a href="/" class="text-gray-300">Go back</a>
+      <h1 class="text-white text-3xl md:text-5xl xl:text-7xl font-[800]">VT's Blog</h1>
+      <p class="text-gray-400">Mostly focused on quite low level software-engineering stuff.</p>
+    </div>
+		<section class="md:grid flex flex-col md:grid-cols-2 gap-x-4 gap-y-10">
+					{
+						posts.map((post) => (
+							<a href={`/blog/${post.id}`} class="post-link">
+							  <article class="flex flex-col gap-1">
+                  <Image width={720} height={360} src={post.data.heroImage} alt="" transition:name={`img-${post.data.title.replace(" ", "_")}`} />
+									<h4 class="text-white font-semibold mt-4 post-title">{post.data.title}</h4>
+                  <p class="text-gray-200">
+										<FormattedDate date={post.data.pubDate} />
+									</p>
+                </article>
+						  </a>
+						))
+					}
+    </section>
+    <style>
+      .post-link:hover .post-title {
+        color: var(--blue-indicator);
+        text-decoration: underline;
+      }
+    </style>
+  </Body>
+</html>
+

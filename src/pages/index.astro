@@ -1,0 +1,26 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+import Global from "../components/GlobalDropdownMenu.astro";
+import Social from "../components/NavSocialLink.astro"
+
+import Body from "../layouts/Body.astro";
+
+---
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <Body>
+    <h1 class="text-6xl mt-14">
+      <span class="text-[var(--blue-11)]">Hello!</span>
+      <p class="text-[var(--blue-11)]">
+        I'm <span class="text-[var(--blue-10)] font-bold"> Vincent Thomas</span>
+      </p>
+    </h1>
+  </Body>
+</html>
