@@ -6,6 +6,7 @@ import '../styles/tailwind.css';
 import { SITE_TITLE } from '../consts';
 import { ClientRouter } from 'astro:transitions';
 
+
 interface Props {
 	title: string;
 	description: string;
@@ -16,6 +17,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 ---
+
+<script>
+  import "../lit/email-obf";
+</script>
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />

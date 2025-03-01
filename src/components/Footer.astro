@@ -1,6 +1,6 @@
 ---
 import Socials from "../components/Socials.astro";
-const today = new Date();
+const today = new Date().getFullYear();
 ---
 
 <footer class="flex flex-col pb-16">
@@ -12,8 +12,11 @@ const today = new Date();
     </section>
     <section>
       <p class="text-white">
-        &copy; {today.getFullYear()} Vincent Thomas. All rights reserved.
+      &copy; <span id="year">{today}</span> Vincent Thomas. All rights reserved.
       </p>
+      <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+      </script>
     </section>
   </div>
 </footer>

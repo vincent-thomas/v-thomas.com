@@ -2,21 +2,74 @@
 import HeaderLink from './HeaderLink.astro';
 import Socials from "./Socials.astro";
 import { SITE_TITLE } from '../consts';
+import Menu from "~icons/gg/menu-right-alt";
 ---
 
-<navbar class="flex justify-end w-full">
+<navbar class="flex justify-end items-center w-full">
   <a href="/" class="text-white font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{SITE_TITLE}</a>
-  <ul class="flex gap-4 mr-18">
-    <li>
-      <a href="/work" class="text-white font-semibold px-4 py-3 hover:bg-gray-800 rounded-md">
-        My work
-      </a>
-    </li>
-    <li>
-      <a href="/blog" class="text-white font-semibold px-4 py-3 hover:bg-gray-800 rounded-md">
-        Blog
-      </a>
-    </li>
-  </ul>
-  <Socials />
+  <div>
+    <button class="lg:hidden text-white font-bold text-xl p-3 rounded-full hover:bg-gray-700" id="hamburger-handler" set:html={Menu}>
+    </button>
+    <div id="navbar-open-wrapper" class="hidden lg:block">
+      <div class="lg:flex-row flex-col lg:flex hidden navbar-open-body gap-12">
+        <ul class="flex gap-6 lg:flex-row flex-col">
+          <li>
+            <a href="/work" class="text-white font-semibold px-4 py-3 hover:bg-gray-800 rounded-md block">
+              My work
+            </a>
+          </li>
+          <li>
+            <a href="/articles" class="text-white font-semibold px-4 py-3 hover:bg-gray-800 rounded-md block">
+              Developer log
+            </a>
+          </li>
+        </ul>
+        <div class="flex gap-4 flex-col justify-center">
+          <p class="lg:hidden text-[var(--blue-11)] font-bold text-3xl">Let's connect</p>
+          <Socials />
+        </div>
+      </div>
+      <button class="acting-background lg:hidden"></button>
+    </div>
+  </div>
 </navbar>
+
+<script>
+  const toggleOpen = () => {
+    document.querySelector('navbar').classList.toggle('open');
+  }
+  document.getElementById('hamburger-handler').addEventListener('click', () => {
+    toggleOpen();
+  });
+
+  document.querySelector('.acting-background').addEventListener('click', () => {
+    toggleOpen();
+  });
+</script>
+
+<style lang="scss">
+  navbar.open #navbar-open-wrapper {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    & .acting-background {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+
+    & .navbar-open-body {
+      display: flex;
+      background-color: var(--color-background);
+      padding: 4rem;
+      border-radius: 0.5rem;
+      flex-direction: column;
+      gap: 3rem;
+
+      ul li {
+        width: 100%;
+      }
+    }
+  }
+</style>

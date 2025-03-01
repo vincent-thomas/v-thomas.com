@@ -15,12 +15,13 @@ import Body from "../layouts/Body.astro";
 	<head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <Body>
-    <h1 class="text-6xl mt-14">
-      <span class="text-[var(--blue-11)]">Hello!</span>
-      <p class="text-[var(--blue-11)]">
+  <Body class="flex flex-col gap-36">
+    <h1 class="mt-36">
+      <span class="text-6xl text-[var(--blue-11)]">Hello!</span>
+      <p class="text-6xl text-[var(--blue-11)]">
         I'm <span class="text-[var(--blue-10)] font-bold"> Vincent Thomas</span>
       </p>
+      <p class="mt-3 text-lg text-[var(--blue-11)]">A software engineer who specialises in backend/memory/networking</p>
     </h1>
   </Body>
 </html>

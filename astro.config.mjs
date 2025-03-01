@@ -2,31 +2,39 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import icon from "astro-icon";
+import cloudflare from "@astrojs/cloudflare";
+
 import tailwindcss from "@tailwindcss/vite";
 
 import autolink_headers from "rehype-autolink-headings";
 import autolink_links from "rehype-external-links";
 import add_ids_to_headers from "rehype-slugs";
-
 import rehypeKatex from "rehype-katex";
 
-import cloudflare from "@astrojs/cloudflare";
+import Icons from "unplugin-icons/vite";
 
-// https://astro.build/config
 export default defineConfig({
   site: "https://v-thomas.com",
-  integrations: [mdx(), sitemap(), icon()],
+  integrations: [mdx(), sitemap()],
   prefetch: true,
   devToolbar: { enabled: false },
 
-  adapter: cloudflare({
-    imageService: "cloudflare",
-  }),
+  redirects: {
+    "/github": "https://github.com/vincent-thomas",
+    "/linkedin": "https://www.linkedin.com/in/vincent-thomas-08577b333/",
+    "/x": "https://x.com/vincenttho1337",
+  },
+
+  adapter:
+    process.env.NODE_ENV !== "production"
+      ? undefined
+      : cloudflare({
+          imageService: "compile",
+          platformProxy: { enabled: false },
+        }),
 
   output: "static",
-
-  scopedStyleStrategy: "where",
+  scopedStyleStrategy: "attribute",
   trailingSlash: "never",
 
   markdown: {
@@ -43,12 +51,12 @@ export default defineConfig({
     ],
   },
 
-  redirects: {
-    "/github": "https://github.com/vincent-thomas",
-    "/linkedin": "https://www.linkedin.com/in/vincent-thomas-08577b333/",
-  },
-
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      Icons({
+        compiler: "raw",
+      }),
+    ],
   },
 });
