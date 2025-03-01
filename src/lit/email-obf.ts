@@ -37,7 +37,7 @@ export class EmailLink extends LitElement {
   protected render() {
     return html`<social-link
       rawIcon="${Email}"
-      href="mailto:vincent@v-thomas.com"
+      href="${atob("bWFpbHRvOnZpbmNlbnRAdi10aG9tYXMuY29t")}"
       label="Send email to my address"
     ></social-link>`;
   }

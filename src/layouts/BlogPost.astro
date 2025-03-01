@@ -32,7 +32,7 @@ const minuteReadHigh = Math.ceil(minuteRead);
           <div class="text-gray-400 max-w-[45ch] flex flex-col">
              <p>
              {pubDate ? <>Published <FormattedDate date={pubDate} /></> : "Draft"}
-              <p> 
+              <p>
             {updatedDate && (
               <p class="mt-1">
                 Last updated <FormattedDate date={updatedDate} />
@@ -42,7 +42,7 @@ const minuteReadHigh = Math.ceil(minuteRead);
           <span class="text-gray-400 max-w-[45ch]">{minuteReadLow}-{minuteReadHigh} minute read</span>
         </div>
       </div>
-      <h1 class="text-[var(--blue-indicator)] font-[800] text-6xl">{title}</h1>
+      <h1 class="text-[var(--blue-indicator)] font-[800] text-6xl" transition:name={`post-title-${id}`}>{title}</h1>
       <div class="flex justify-between">
         <p class="text-gray-400 max-w-[45ch]">{description}</p>
       </div>
