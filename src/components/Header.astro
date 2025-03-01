@@ -8,7 +8,7 @@ import Menu from "~icons/gg/menu-right-alt";
 <navbar class="flex justify-end items-center w-full">
   <a href="/" class="text-white font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{SITE_TITLE}</a>
   <div>
-    <button class="lg:hidden text-white font-bold text-xl p-3 rounded-full hover:bg-gray-700" id="hamburger-handler" set:html={Menu}>
+    <button class="lg:hidden text-white font-bold text-xl p-3 rounded-full hover:bg-gray-700" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
     </button>
     <div id="navbar-open-wrapper" class="hidden lg:block">
       <div class="lg:flex-row flex-col lg:flex hidden navbar-open-body gap-12">

@@ -21,9 +21,12 @@ export class SocialLink extends LitElement {
 
   @property() rawIcon?: string;
   @property() href?: string;
+  @property() label?: string;
 
   protected render() {
-    return html`<a href="${this.href}">${unsafeHTML(this.rawIcon)}</a>`;
+    return html`<a href="${this.href}" aria-label="${this.label}"
+      >${unsafeHTML(this.rawIcon)}</a
+    >`;
   }
 }
 
@@ -35,6 +38,7 @@ export class EmailLink extends LitElement {
     return html`<social-link
       rawIcon="${Email}"
       href="mailto:vincent@v-thomas.com"
+      label="Send email to my address"
     ></social-link>`;
   }
 }
