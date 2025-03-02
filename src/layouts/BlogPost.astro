@@ -33,17 +33,15 @@ const ldData = {
     <script type="application/ld+json" set:html={JSON.stringify(ldData)}></script>
 	</head>
   <Body>
-    <article class="flex flex-col gap-7">
-      <div class="mt-12 flex flex-col gap-4">
+    <article class="mt-12  flex flex-col gap-7">
+      <div class="flex flex-col gap-4">
         <div class="mb-6">
           <GoBack onClick="window.history.back()" />
         </div>
         {heroImage && <img width={952} height={554} src={heroImage} alt={heroImageDescription} class="rounded-lg" transition:name={`img-${title.replace(" ", "_")}`}  />}
         <div class="flex justify-between">
           <div class="text-gray-400 max-w-[45ch] flex flex-col">
-             <p>
-             {pubDate ? <>Published <FormattedDate date={pubDate} /></> : "Private draft"}
-              <p>
+            <p>{pubDate ? <>Published <FormattedDate date={pubDate} /></> : "Private draft"}</p>
             {pubDate != lastModified && (
               <p class="mt-1">
                 Last updated <FormattedDate date={lastModified} />
