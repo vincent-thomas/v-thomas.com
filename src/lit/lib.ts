@@ -1,7 +1,5 @@
 import { render, type TemplateResult } from "lit-html";
 
-import { compileString } from "sass";
-
 export abstract class WebComponent extends HTMLElement {
   styles?: string;
 
@@ -16,8 +14,7 @@ export abstract class WebComponent extends HTMLElement {
 
     if (!!this.styles) {
       const sheet = new CSSStyleSheet();
-      const { css } = compileString(this.styles);
-      sheet.replaceSync(css);
+      sheet.replaceSync(this.styles);
       shadow.adoptedStyleSheets = [sheet];
     }
 
