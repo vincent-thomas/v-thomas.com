@@ -11,6 +11,8 @@ import autolink_links from "rehype-external-links";
 import add_ids_to_headers from "rehype-slugs";
 import rehypeKatex from "rehype-katex";
 
+import { remarkReadingTime, remarkModifiedTime } from "./remark-plugins.mjs";
+
 import Icons from "unplugin-icons/vite";
 
 export default defineConfig({
@@ -49,6 +51,7 @@ export default defineConfig({
       ],
       rehypeKatex,
     ],
+    remarkPlugins: [remarkReadingTime, remarkModifiedTime],
   },
 
   vite: {

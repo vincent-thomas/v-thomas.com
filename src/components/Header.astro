@@ -6,20 +6,20 @@ import Menu from "~icons/gg/menu-right-alt";
 ---
 
 <navbar class="flex justify-end items-center w-full">
-  <a href="/" class="text-white font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{SITE_TITLE}</a>
+  <a href="/" class="text-[var(--blue-12)] font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{SITE_TITLE}</a>
   <div>
-    <button class="lg:hidden text-white font-bold text-xl p-3 rounded-full hover:bg-gray-700" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
+    <button class="lg:hidden text-[var(--blue-12)] font-bold text-xl p-3 rounded-full hover:bg-[var(--blue-4)]" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
     </button>
     <div id="navbar-open-wrapper" class="hidden lg:block">
       <div class="lg:flex-row flex-col lg:flex hidden navbar-open-body gap-12">
         <ul class="flex gap-6 lg:flex-row flex-col">
           <li>
-            <a href="/work" class="text-white font-semibold px-4 py-3 hover:bg-gray-800 rounded-md block">
+            <a href="/work" class="text-[var(--blue-11)] font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">
               My work
             </a>
           </li>
           <li>
-            <a href="/articles" class="text-white font-semibold px-4 py-3 hover:bg-gray-800 rounded-md block">
+            <a href="/articles" class="text-[var(--blue-11)] font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">
               Developer log
             </a>
           </li>

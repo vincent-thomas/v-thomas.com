@@ -11,6 +11,17 @@ const article = defineCollection({
     pubDate: z.coerce.date().optional(),
     updatedDate: z.coerce.date().optional(),
     heroImage: z.string().optional(),
+    heroImageDescription: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+
+    furtherReading: z
+      .array(
+        z.object({
+          title: z.string(),
+          url: z.string(),
+        }),
+      )
+      .optional(),
   }),
 });
 

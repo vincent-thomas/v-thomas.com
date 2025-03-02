@@ -1,0 +1,35 @@
+---
+import BackArrow from "~icons/material-symbols/arrow-left-alt-rounded";
+
+export interface Props {
+    onClick: string;
+}
+
+const {onClick} = Astro.props;
+---
+
+<button onclick={onClick} transition:name="back-btn">
+  <Fragment set:html={BackArrow} /> Go back
+</button>
+
+<style>
+    button {
+      color: var(--gray-11);
+
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      display: inline-flex;
+      gap: 0.75rem;
+      align-items: center;
+      cursor: pointer;
+      background-color: unset;
+
+      font-family: var(--font-family);
+      font-size: 14px;
+
+      &:hover {
+        background-color: var(--blue-5);
+      }
+    }
+</style>

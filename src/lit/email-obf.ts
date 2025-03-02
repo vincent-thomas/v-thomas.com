@@ -6,11 +6,11 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 export class SocialLink extends LitElement {
   static styles = css`
     a {
-      color: oklch(0.707 0.022 261.325);
+      color: var(--gray-11);
       transition: all 0.2s ease;
     }
     a:hover {
-      color: white;
+      color: var(--gray-12);
     }
 
     svg {

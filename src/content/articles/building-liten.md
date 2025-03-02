@@ -2,7 +2,16 @@
 title: 'Making a multithreaded rust async runtime'
 description: "Many people don't know how async runtimes (for example tokio) works. The goal of this article is explaining how one works and making one efficient."
 heroImage: '/article-img/making-async-runtime.svg'
-pubDate: 21 Jan 2022
+heroImageDescription: Diagram of the 'liten' rust async runtime.
+pubDate: 1 Mar 2025
+tags:
+  - rust
+  - async
+  - multithreading
+furtherReading:
+  - url: https://tokio.rs/blog/2019-10-scheduler
+    title: Making the Tokio scheduler 10x faster
+
 ---
 
 # Background

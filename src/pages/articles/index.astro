@@ -9,23 +9,24 @@ import Global from "../../components/GlobalDropdownMenu.astro";
 import Social from "../../components/NavSocialLink.astro"
 import FormattedDate from "../../components/FormattedDate.astro";
 import Body from "../../layouts/Body.astro";
-import BackArrow from "~icons/material-symbols/arrow-left-alt-rounded";
+import GoBack from "../../components/GoBack.astro";
 
 import { slide } from 'astro:transitions';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
+
 import Date from "~icons/material-symbols/date-range";
 
 const posts = (await getCollection('article')).filter(post => !!post.data.pubDate).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-  );
+);
 
-  const postsWithoutContent = posts.map(post => ({
-  ...post.data,
-  content: undefined
-  }))
- //class="md:grid flex flex-col md:grid-cols-2 gap-x-4 gap-y-10"
+const allTags = posts.reduce((old, post) => [...old, ...post.data.tags], []);
 ---
 
 <!doctype html>
@@ -34,26 +35,31 @@ const posts = (await getCollection('article')).filter(post => !!post.data.pubDat
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <Body>
-    <div class="lg:my-24 my-8 flex flex-col gap-3 items-start">
-      <a href="/" class="text-gray-400 hover:bg-gray-800 px-3 py-2 rounded-md inline-flex gap-3 items-center cursor-pointer" transition:name="back-btn"><Fragment set:html={BackArrow} /> Go back</a>
-      <h1 class="text-white text-3xl md:text-5xl xl:text-7xl font-[800]">VT's Articles</h1>
-      <p class="text-gray-400">Mostly focused on quite low level software-engineering stuff.</p>
+    <div class="lg:my-20 my-8 flex flex-col gap-3 items-start">
+      <GoBack onClick="window.history.back()" />
+      <h1 class="text-[var(--gray-12)] text-3xl md:text-5xl xl:text-7xl font-[800]">VT's dev log</h1>
+      <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
+      <div class="flex gap-2">{allTags.map(tag => <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>)}</div>
     </div>
 		<section>
 					{
 						posts.map((post) => (
-                <div class="mb-6 border-b border-gray-800 pb-12 last:border-0">
-                  <a href={`/articles/${post.id}`} class="post-link group">
-                    <article>
-                      <!--<Image width={720} height={360} src={post.data.heroImage} alt="" transition:name={`img-${post.data.title.replace(" ", "_")}`} />-->
-                      <h2 class="mb-4 text-3xl text-white font-semibold mt-4 group-hover:text-[var(--blue-indicator)]" transition:name={`post-title-${post.id}`}>{post.data.title}</h4>
+                <div class="mb-6 border-b border-[var(--gray-10)] pb-12 last:border-0">
+                  <article>
+                    <a href={`/articles/${post.id}`} class="post-link group">
+                      <h2 class="mb-4 text-3xl text-[var(--gray-12)] font-semibold mt-4 group-hover:text-[var(--red-11)] group-hover:underline" transition:name={`post-title-${post.id}`}>{post.data.title}</h4>
                       <p class="mb-4 text-[var(--blue-11)] max-w-[55ch]">{post.data.description}</p>
-                      <div class="mb-6 flex gap-2 text-gray-200">
-                        <Fragment set:html={Date} /> <FormattedDate date={post.data.pubDate} />
+                      <div class="mb-6 flex items-center gap-2 text-[var(--gray-11)]">
+                        <Fragment set:html={Date} /> <FormattedDate date={dayjs(post.data.pubDate).utc().startOf("day")} />
                       </div>
-                      <button class="group-hover:underline text-purple-300">Read more</button>
-                    </article>
-                  </a>
+                      <button class="group-hover:underline text-[var(--red-11)] mb-4">Read more</button>
+                    </a>
+                    <div class="flex gap-2">
+                      {post.data.tags.map(tag => (
+                        <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>
+                      ))}
+                    </div>
+                  </article>
                 </div>
               )
 						)
@@ -61,4 +67,3 @@ const posts = (await getCollection('article')).filter(post => !!post.data.pubDat
     </section>
   </Body>
 </html>
-
