@@ -6,9 +6,15 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 import Global from "../components/GlobalDropdownMenu.astro";
 import Social from "../components/NavSocialLink.astro"
+import BlogPost from "../components/BlogPost.astro";
 
 import Body from "../layouts/Body.astro";
 
+import { getCollection } from "astro:content";
+
+import GotoArrow from "~icons/material-symbols/arrow-right-alt-rounded";
+
+const posts = await getCollection("article");
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +27,17 @@ import Body from "../layouts/Body.astro";
       <p class="text-6xl text-[var(--blue-11)]">
         I'm <span class="text-[var(--blue-10)] font-bold"> Vincent Thomas</span>
       </p>
-      <p class="mt-3 text-lg text-[var(--blue-11)]">A software engineer who specialises in backend/memory/networking</p>
+      <p class="mt-3 text-lg text-[var(--blue-11)]">Student with interest in software engineering who specialises in backend/memory/networking</p>
     </h1>
+
+    <section class="flex flex-col">
+      <h2 class="text-4xl text-[var(--blue-11)] font-semibold mb-6">Latest logs</h2>
+      <div>
+        {posts.map(post => <BlogPost post={post} />)}
+      </div>
+      <a href="/articles" class="text-[var(--red-11)] hover:bg-[var(--red-5)] py-2 px-4 flex gap-2 items-center self-start rounded-lg">
+        More posts <Fragment set:html={GotoArrow} />
+      </a>
+    </section>
   </Body>
 </html>

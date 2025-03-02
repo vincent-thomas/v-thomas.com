@@ -15,10 +15,7 @@ import { slide } from 'astro:transitions';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
+import BlogPost from "../../components/BlogPost.astro";
 
 import Date from "~icons/material-symbols/date-range";
 
@@ -27,6 +24,7 @@ const posts = (await getCollection('article')).filter(post => !!post.data.pubDat
 );
 
 const allTags = posts.reduce((old, post) => [...old, ...post.data.tags], []);
+
 ---
 
 <!doctype html>
@@ -42,28 +40,7 @@ const allTags = posts.reduce((old, post) => [...old, ...post.data.tags], []);
       <div class="flex gap-2">{allTags.map(tag => <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>)}</div>
     </div>
 		<section>
-					{
-						posts.map((post) => (
-                <div class="mb-6 border-b border-[var(--gray-10)] pb-12 last:border-0">
-                  <article>
-                    <a href={`/articles/${post.id}`} class="post-link group">
-                      <h2 class="mb-4 text-3xl text-[var(--gray-12)] font-semibold mt-4 group-hover:text-[var(--red-11)] group-hover:underline" transition:name={`post-title-${post.id}`}>{post.data.title}</h4>
-                      <p class="mb-4 text-[var(--blue-11)] max-w-[55ch]">{post.data.description}</p>
-                      <div class="mb-6 flex items-center gap-2 text-[var(--gray-11)]">
-                        <Fragment set:html={Date} /> <FormattedDate date={dayjs(post.data.pubDate).utc().startOf("day")} />
-                      </div>
-                      <button class="group-hover:underline text-[var(--red-11)] mb-4">Read more</button>
-                    </a>
-                    <div class="flex gap-2">
-                      {post.data.tags.map(tag => (
-                        <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>
-                      ))}
-                    </div>
-                  </article>
-                </div>
-              )
-						)
-					}
+			{posts.map((post) => <BlogPost post={post} />)}
     </section>
   </Body>
 </html>

@@ -5,19 +5,20 @@ const today = new Date().getFullYear();
 ---
 
 <footer class="flex flex-col pb-16">
-  <hr class="text-[var(--gray-11)] mb-10 mt-14" />
-  <div class="w-full flex justify-between items-end">
-    <section class="flex flex-col gap-4">
-      <h2 class="text-[var(--gray-12)] font-bold text-3xl">Lets connect!</h2>
+  <hr class="text-[var(--blue-indicator)] mb-10 mt-14" />
+  <section class="flex justify-between items-end">
+    <div>
+      <h2 class="text-4xl text-[var(--blue-11)] font-semibold mb-3">Let's connect!</h2>
+      <p class="mb-6 text-[var(--gray-12)]">I'm alwyas open to socialising!</p>
       <Socials />
-    </section>
-    <section>
+    </div>
+    <div>
       <p class="text-[var(--gray-12)]">
       &copy; <span id="year">{today}</span> {SITE_TITLE}. All rights reserved.
       </p>
       <script>
         document.getElementById('year').textContent = new Date().getFullYear();
       </script>
-    </section>
-  </div>
+    </div>
+  </section>
 </footer>

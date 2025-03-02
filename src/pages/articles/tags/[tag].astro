@@ -1,8 +1,6 @@
 ---
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../../consts';
 import { type CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
-import { render } from 'astro:content';
 
 import {listTags} from "../../../utils/reordertaggedArticles";
 
@@ -24,15 +22,9 @@ const props = Astro.props;
 
 import BaseHead from '../../../components/BaseHead.astro';
 
-import Global from "../../components/GlobalDropdownMenu.astro";
-import Social from "../../components/NavSocialLink.astro"
 import Body from "../../../layouts/Body.astro";
-import BackArrow from "~icons/material-symbols/arrow-left-alt-rounded";
 import GoBack from "../../../components/GoBack.astro";
-
-import { slide } from 'astro:transitions';
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
+import FormattedDate from "../../../components/FormattedDate.astro";
 
 import Date from "~icons/material-symbols/date-range";
 ---
@@ -45,7 +37,7 @@ import Date from "~icons/material-symbols/date-range";
   <Body>
     <div class="lg:my-20 my-8 flex flex-col gap-3 items-start">
       <GoBack onClick="window.history.back()" />
-      <h1 class="text-[var(--gray-12)] text-3xl md:text-5xl xl:text-7xl font-[800]">VT's dev log `{props.tag}`</h1>
+      <h1 class="text-[var(--gray-12)] text-3xl md:text-4xl xl:text-5xl font-[800]">VT's dev log `{props.tag}`</h1>
       <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
     </div>
 		<section>
@@ -54,7 +46,7 @@ import Date from "~icons/material-symbols/date-range";
                 return (
                   <a class="text-[var(--gray-12)] group last:mb-0 mb-2 block" href={`/articles/${post.id}`}>
                     <article class="flex gap-2 items-center hover:bg-[var(--blue-4)] p-1 rounded-lg">
-                      <p class="group-hover:underline flex gap-1 items-center"><Fragment set:html={Date} />{post.data.pubDate.toDateString()}</p>
+                      <p class="group-hover:underline flex gap-1 items-center"><Fragment set:html={Date} /><FormattedDate date={post.data.pubDate} /></p>
                       -
                       <h2 class="group-hover:underline font-semibold">{post.data.title}</h2>
                     </article>

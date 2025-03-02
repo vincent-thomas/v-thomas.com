@@ -1,13 +1,19 @@
 ---
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
+
 interface Props {
 	date: Date;
 }
 
 const { date } = Astro.props;
+
+let dayjsDate = dayjs(date).utc().startOf("day");
+
 ---
 
-<time datetime={date.toDate()}>
-	{
-		date.format("D MMM YYYY")
-	}
+<time datetime={dayjsDate}>
+	{dayjsDate.format("D MMM YYYY")}
 </time>

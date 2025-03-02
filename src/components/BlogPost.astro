@@ -1,0 +1,30 @@
+---
+import { CollectionEntry } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+
+import Date from "~icons/material-symbols/date-range";
+
+export interface Props {
+  post: CollectionEntry<"article">;
+}
+
+const {post} = Astro.props;
+---
+
+<div class="mb-6 border-b border-[var(--gray-10)] pb-12 last:border-0" transition:name={`post-${post.id}`}>
+  <article>
+    <a href={`/articles/${post.id}`} class="group">
+      <h2 class="text-3xl text-[var(--gray-12)] font-semibold mt-4 group-hover:text-[var(--red-11)] group-hover:underline" transition:name={`post-title-${post.id}`}>{post.data.title}</h4>
+      <p class="mt-4 text-[var(--blue-11)] max-w-[55ch]">{post.data.description}</p>
+      <div class="mt-4 flex items-center gap-2 text-[var(--gray-11)]">
+        <Fragment set:html={Date} /> <FormattedDate date={post.data.pubDate} />
+      </div>
+      <button class="mt-6 group-hover:underline text-[var(--red-11)] mb-4 block">Read more</button>
+    </a>
+    <div class="flex gap-2">
+      {post.data.tags.map(tag => (
+        <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>
+      ))}
+    </div>
+  </article>
+</div>
