@@ -9,7 +9,6 @@ const article = defineCollection({
     description: z.string(),
     // Transform string to Date object
     pubDate: z.coerce.date().optional(),
-    updatedDate: z.coerce.date().optional(),
     heroImage: z.string().optional(),
     heroImageDescription: z.string().optional(),
     tags: z.array(z.string()),

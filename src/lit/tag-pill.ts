@@ -1,27 +1,27 @@
-import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { html } from "lit-html";
+import { WebComponent } from "./lib";
 
-@customElement("tag-pill")
-export class SocialLink extends LitElement {
-  static styles = css`
-    a {
-      color: var(--blue-12);
-      text-decoration: none;
+window.customElements.define(
+  "tag-pill",
+  class extends WebComponent {
+    styles = `
+      a {
+        color: var(--blue-12);
+        text-decoration: none;
 
-      padding-block: 0.25rem;
-      padding-inline: 0.5rem;
+        padding-block: 0.25rem;
+        padding-inline: 0.5rem;
 
-      border: 1px solid var(--blue-10);
-      border-radius: 0.25rem;
-      &:hover {
-        background-color: var(--blue-4);
+        border: 1px solid var(--blue-10);
+        border-radius: 0.25rem;
+        &:hover {
+          background-color: var(--blue-4);
+        }
       }
+    `;
+
+    render() {
+      return html`<a href=${this.getAttribute("href")}><slot /></a>`;
     }
-  `;
-
-  @property() href: string = "#";
-
-  protected render() {
-    return html`<a href=${this.href}><slot /></a>`;
-  }
-}
+  },
+);

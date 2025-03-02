@@ -13,11 +13,24 @@ dayjs.extend(utc);
 export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
 
 const { data: {title, description, pubDate, heroImage, heroImageDescription, tags,furtherReading} , minuteRead, id, lastModified }: Props = Astro.props;
+
+const ldData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Vincent Thomas"
+  },
+  "datePublished": dayjs( pubDate?.toDateString()).format("YYYY-MM-DD"),
+};
 ---
 
 <html lang="en">
 	<head>
     <BaseHead title={title} description={description} image={heroImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(ldData)}></script>
 	</head>
   <Body>
     <article class="flex flex-col gap-7">
