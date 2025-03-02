@@ -8,7 +8,10 @@ import BlogPost from "../components/BlogPost.astro";
 import GotoArrow from "~icons/material-symbols/arrow-right-alt-rounded";
 
 import { getCollection } from "astro:content";
-const posts = await getCollection("article");
+
+import { take } from "../utils/take"
+
+const posts = take(await getCollection("article"), 3);
 ---
 <!DOCTYPE html>
 <html lang="en">
