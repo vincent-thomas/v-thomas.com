@@ -1,25 +1,18 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Body from "./Body.astro";
 import GoBack from "../components/GoBack.astro";
-import {Image} from "astro:assets";
 
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 
-type Props = CollectionEntry<'article'>['data'] | { minuteRead: number, lastModified: Date };
+export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
 
-const { title, description, pubDate, heroImage, heroImageDescription, tags, furtherReading, minuteRead, id, lastModified } = Astro.props;
-
-const lastModified2 = dayjs(lastModified).utc().startOf("day");
-const pubDate2 = dayjs(pubDate).utc().startOf("day");
-
+const { data: {title, description, pubDate, heroImage, heroImageDescription, tags,furtherReading} , minuteRead, id, lastModified }: Props = Astro.props;
 ---
 
 <html lang="en">
@@ -36,11 +29,11 @@ const pubDate2 = dayjs(pubDate).utc().startOf("day");
         <div class="flex justify-between">
           <div class="text-gray-400 max-w-[45ch] flex flex-col">
              <p>
-             {pubDate ? <>Published <FormattedDate date={pubDate2} /></> : "Private draft"}
+             {pubDate ? <>Published <FormattedDate date={pubDate} /></> : "Private draft"}
               <p>
             {pubDate != lastModified && (
               <p class="mt-1">
-                Last updated <FormattedDate date={lastModified2} />
+                Last updated <FormattedDate date={lastModified} />
               </p>
             )}
           </div>
@@ -51,7 +44,7 @@ const pubDate2 = dayjs(pubDate).utc().startOf("day");
       <div class="flex lg:flex-row flex-col lg:justify-between items-center gap-4">
         <p class="text-gray-400 max-w-[45ch] text-center lg:text-left">{description}</p>
         <div class="flex flex-wrap max-w-[300px] gap-3 items-center">
-          {tags.map(tag => <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>)}
+          {tags!.map(tag => <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>)}
         </div>
       </div>
       <hr class="text-[var(--blue-indicator)]" />

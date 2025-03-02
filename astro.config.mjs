@@ -55,6 +55,7 @@ export default defineConfig({
   },
 
   vite: {
+    esbuild: { legalComments: "none" },
     plugins: [
       tailwindcss(),
       Icons({

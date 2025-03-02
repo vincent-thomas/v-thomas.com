@@ -1,5 +1,5 @@
 ---
-import { CollectionEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import FormattedDate from "./FormattedDate.astro";
 
 import Date from "~icons/material-symbols/date-range";
@@ -17,7 +17,7 @@ const {post} = Astro.props;
       <h2 class="text-3xl text-[var(--gray-12)] font-semibold mt-4 group-hover:text-[var(--red-11)] group-hover:underline" transition:name={`post-title-${post.id}`}>{post.data.title}</h4>
       <p class="mt-4 text-[var(--blue-11)] max-w-[55ch]">{post.data.description}</p>
       <div class="mt-4 flex items-center gap-2 text-[var(--gray-11)]">
-        <Fragment set:html={Date} /> <FormattedDate date={post.data.pubDate} />
+        <Fragment set:html={Date} /> <FormattedDate date={post.data.pubDate!} />
       </div>
       <button class="mt-6 group-hover:underline text-[var(--red-11)] mb-4 block">Read more</button>
     </a>

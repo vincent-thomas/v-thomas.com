@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 	  }
   });
 }
-type Props = CollectionEntry<'article'>;
+type Props = {posts: CollectionEntry<'article'>[], tag: string};
 
 const props = Astro.props;
 
@@ -46,7 +46,7 @@ import Date from "~icons/material-symbols/date-range";
                 return (
                   <a class="text-[var(--gray-12)] group last:mb-0 mb-2 block" href={`/articles/${post.id}`}>
                     <article class="flex gap-2 items-center hover:bg-[var(--blue-4)] p-1 rounded-lg">
-                      <p class="group-hover:underline flex gap-1 items-center"><Fragment set:html={Date} /><FormattedDate date={post.data.pubDate} /></p>
+                      <p class="group-hover:underline flex gap-1 items-center"><Fragment set:html={Date} /><FormattedDate date={post.data.pubDate!} /></p>
                       -
                       <h2 class="group-hover:underline font-semibold">{post.data.title}</h2>
                     </article>

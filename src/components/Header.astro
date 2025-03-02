@@ -3,73 +3,105 @@ import HeaderLink from './HeaderLink.astro';
 import Socials from "./Socials.astro";
 import { SITE_TITLE } from '../consts';
 import Menu from "~icons/gg/menu-right-alt";
----
 
-<navbar class="flex justify-end items-center w-full" transition:persist>
-  <a href="/" class="text-[var(--blue-12)] font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{SITE_TITLE}</a>
-  <div>
-    <button class="lg:hidden text-[var(--blue-12)] font-bold text-xl p-3 rounded-full hover:bg-[var(--blue-4)]" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
-    </button>
-    <div id="navbar-open-wrapper" class="hidden lg:block">
-      <div class="lg:flex-row flex-col lg:flex hidden navbar-open-body gap-12">
-        <ul class="flex gap-6 lg:flex-row flex-col">
-          <li>
-            <a href="/work" class="text-[var(--blue-11)] font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">
-              My work
-            </a>
-          </li>
-          <li>
-            <a href="/articles" class="text-[var(--blue-11)] font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">
-              Developer log
-            </a>
-          </li>
-        </ul>
-        <div class="flex gap-4 flex-col justify-center">
-          <p class="lg:hidden text-[var(--blue-11)] font-bold text-3xl">Let's connect</p>
-          <Socials />
+const links = [
+  { href: '/', text: 'Home' },
+  { href: '/work', text: 'My work' },
+  { href: '/articles', text: 'Developer log' },
+];
+---
+<div id="root-navbar">
+  <template id="mobile-nav-navbar">
+  </template>
+  <navbar class="flex justify-end items-center w-full" transition:persist>
+    <a href="/" class="text-[var(--blue-12)] font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{SITE_TITLE}</a>
+    <div>
+      <button class="lg:hidden text-[var(--blue-12)] font-bold text-xl p-3 rounded-full hover:bg-[var(--blue-4)]" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
+      </button>
+      <div class="hidden lg:block">
+        <div class="flex-row flex gap-12">
+          <ul class="flex gap-6 lg:flex-row flex-col">
+            {links.map(({href, text}) =>
+              <li><HeaderLink activeClass="underline underline-[var(--blue-8)] decoration-[2px]" href={href} class="text-[var(--blue-11)] font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">
+                  {text}
+              </HeaderLink></li>
+            )}
+          </ul>
+          <div class="flex gap-4 flex-col justify-center">
+            <p class="lg:hidden text-[var(--blue-11)] font-bold text-3xl">Let's connect</p>
+
+            <!-- This is a hack because socials cannot be in a string in script tags -->
+            <div id="social-wrapper">
+              <Socials />
+            </div>
+          </div>
         </div>
       </div>
-      <button class="acting-background lg:hidden"></button>
     </div>
-  </div>
-  <script>
-    const toggleOpen = () => {
-      document.querySelector('navbar').classList.toggle('open');
-    }
-    document.getElementById('hamburger-handler').addEventListener('click', () => {
-      toggleOpen();
-    });
+  </navbar>
+</div>
 
-    document.querySelector('.acting-background').addEventListener('click', () => {
-      toggleOpen();
-    });
-  </script>
-</navbar>
-
-
-<style lang="scss">
-  navbar.open #navbar-open-wrapper {
-    position: fixed;
-    inset: 0;
-    display: grid;
-    grid-template-rows: auto 1fr;
-
-    & .acting-background {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-
-    & .navbar-open-body {
-      display: flex;
-      background-color: var(--color-background);
-      padding: 4rem;
-      border-radius: 0.5rem;
-      flex-direction: column;
-      gap: 3rem;
-
-      ul li {
-        width: 100%;
-      }
-    }
+<script is:inline define:vars={{ links }}>
+  // This is a hack because socials cannot be in a string in script tags
+  window.insertTemplate = function() {
+    let social_links = document.getElementById("social-wrapper");
+    let template = document.getElementById("mobile-nav-navbar");
+    template.innerHTML = `
+      <div class="bg-[var(--blue-3)] rounded-lg p-4 mt-4" id="navbar-mobile-links">
+        <ul class="flex flex-col gap-4 mb-6">
+          ${links.map(link => `<li><a href="${link.href}" class="text-[var(--blue-11)] font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">${link.text}</a></li>`).join("")}
+        </ul>
+        ${social_links.innerHTML}
+      </div>
+    `;
   }
-</style>
+</script>
+
+<script>
+
+  function getMobileNavBtn() {
+    return document.getElementById('hamburger-handler')!;
+  }
+
+  const toggleOpen = () => {
+    const existing = document.querySelectorAll("#root-navbar>#navbar-mobile-links");
+
+    if (existing.length != 0) {
+      for (const item of existing) {
+        item.remove();
+      }
+      return;
+    }
+
+    let navbar = document.getElementById("root-navbar")!;
+
+    let templateLinks: HTMLTemplateElement = document.getElementById("mobile-nav-navbar")! as HTMLTemplateElement;
+
+    let instance = templateLinks.content.cloneNode(true);
+
+    navbar.appendChild(instance);
+  }
+
+  function addClickListener() {
+    const btn = getMobileNavBtn();
+    btn.addEventListener("click", toggleOpen);
+  }
+
+  function removeClickListener() {
+    const btn = getMobileNavBtn();
+    btn.removeEventListener("click", toggleOpen);
+  }
+
+  function init() {
+    window.insertTemplate();
+    removeClickListener(); // Ensure any existing listener is removed
+    addClickListener(); // Add the new listener
+  }
+
+  // Initialize on first load
+  init();
+
+
+  // Reinitialize after swapping pages
+  document.addEventListener("astro:after-swap", init);
+</script>

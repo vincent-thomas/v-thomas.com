@@ -2,29 +2,18 @@
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
 import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-
-import Global from "../../components/GlobalDropdownMenu.astro";
-import Social from "../../components/NavSocialLink.astro"
-import FormattedDate from "../../components/FormattedDate.astro";
 import Body from "../../layouts/Body.astro";
 import GoBack from "../../components/GoBack.astro";
 
-import { slide } from 'astro:transitions';
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
 import BlogPost from "../../components/BlogPost.astro";
 
-import Date from "~icons/material-symbols/date-range";
-
 const posts = (await getCollection('article')).filter(post => !!post.data.pubDate).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf(),
 );
 
-const allTags = posts.reduce((old, post) => [...old, ...post.data.tags], []);
-
+const allTags: string[] = posts.reduce((old, current) => {return [...old, ...current.data.tags]}, []);
 ---
 
 <!doctype html>

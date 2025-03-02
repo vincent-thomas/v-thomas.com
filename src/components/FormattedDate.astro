@@ -14,6 +14,6 @@ let dayjsDate = dayjs(date).utc().startOf("day");
 
 ---
 
-<time datetime={dayjsDate}>
+<time datetime={dayjsDate.toString()}>
 	{dayjsDate.format("D MMM YYYY")}
 </time>

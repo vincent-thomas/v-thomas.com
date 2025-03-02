@@ -1,19 +1,13 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Body from "../layouts/Body.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-import Global from "../components/GlobalDropdownMenu.astro";
-import Social from "../components/NavSocialLink.astro"
+import BaseHead from '../components/BaseHead.astro';
 import BlogPost from "../components/BlogPost.astro";
-
-import Body from "../layouts/Body.astro";
-
-import { getCollection } from "astro:content";
 
 import GotoArrow from "~icons/material-symbols/arrow-right-alt-rounded";
 
+import { getCollection } from "astro:content";
 const posts = await getCollection("article");
 ---
 <!DOCTYPE html>
@@ -27,7 +21,7 @@ const posts = await getCollection("article");
       <p class="text-6xl text-[var(--blue-11)]">
         I'm <span class="text-[var(--blue-10)] font-bold"> Vincent Thomas</span>
       </p>
-      <p class="mt-3 text-lg text-[var(--blue-11)]">Student with interest in software engineering who specialises in backend/memory/networking</p>
+      <p class="mt-3 text-lg text-[var(--blue-11)] max-w-[50ch]">Student with interest in software engineering who specialises in backend/memory/networking</p>
     </h1>
 
     <section class="flex flex-col">

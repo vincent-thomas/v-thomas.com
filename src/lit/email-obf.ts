@@ -35,6 +35,7 @@ import Email from "~icons/mdi/email";
 @customElement("email-link")
 export class EmailLink extends LitElement {
   protected render() {
+    // mailto:*
     return html`<social-link
       rawIcon="${Email}"
       href="${atob("bWFpbHRvOnZpbmNlbnRAdi10aG9tYXMuY29t")}"

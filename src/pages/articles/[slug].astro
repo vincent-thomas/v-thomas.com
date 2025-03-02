@@ -16,6 +16,6 @@ const post = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(post);
 ---
 
-<BlogPost {...post.data} minuteRead={Math.ceil(remarkPluginFrontmatter.minuteRead)} lastModified={remarkPluginFrontmatter.lastModified} id={post.id}>
+<BlogPost {...post} minuteRead={Math.ceil(remarkPluginFrontmatter.minuteRead)} lastModified={remarkPluginFrontmatter.lastModified}>
 	<Content />
 </BlogPost>
