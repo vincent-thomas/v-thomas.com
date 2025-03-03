@@ -1,6 +1,4 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
 import '../styles/global.scss';
 import '../styles/tailwind.css';
 import { SITE_TITLE } from '../consts';
@@ -17,11 +15,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image } = Astro.props;
 ---
-
-<script>
-  import "../lit/email-obf";
-  import "../lit/tag-pill";
-</script>
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
@@ -61,6 +54,13 @@ const { title, description, image } = Astro.props;
 <meta property="twitter:description" content={description} />
 {!!image && <meta property="twitter:image" content={new URL(image, Astro.url)} />}
 
-<ClientRouter />
+<script is:inline src="/js/components.js" type="module"></script>
 
+<!--<ClientRouter />-->
 
+<script>
+  const els = document.querySelectorAll("[data-email-href]");
+  for (const el of els) {
+    el.setAttribute("href", atob("bWFpbHRvOnZpbmNlbnRAdi10aG9tYXMuY29t"));
+  }
+</script>

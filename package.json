@@ -3,42 +3,41 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
     "preview": "http-server dist",
-    "astro": "astro"
+
+    "dev": "run-p dev:app dev:components",
+    "dev:app": "astro dev",
+    "dev:components": "pnpm --prefix components run build:watch",
+
+    "build": "run-p build:app build:components",
+    "build:app": "astro build",
+    "build:components": "pnpm --prefix components run build"
   },
   "devDependencies": {
     "@astrojs/cloudflare": "^12.2.3",
     "@astrojs/mdx": "^4.0.8",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
-
     "@iconify-json/gg": "^1.2.2",
     "@iconify-json/material-symbols": "^1.2.14",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.26",
-
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.0.9",
-
     "astro": "^5.3.1",
-
+    "mdast-util-to-string": "^4.0.0",
+    "npm-run-all": "^4.1.5",
+    "reading-time": "^1.5.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-external-links": "^3.0.0",
     "rehype-katex": "^7.0.1",
     "rehype-slugs": "^0.0.5",
-
     "sass": "^1.85.1",
     "tailwindcss": "^4.0.9",
     "typescript": "^5.8.2",
-    "unplugin-icons": "^22.1.0",
-
-    "mdast-util-to-string": "^4.0.0",
-    "reading-time": "^1.5.0"
+    "unplugin-icons": "^22.1.0"
   },
   "dependencies": {
-    "dayjs": "^1.11.13",
-    "lit-html": "^3.2.1"
+    "dayjs": "^1.11.13"
   }
 }

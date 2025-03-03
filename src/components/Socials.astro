@@ -5,8 +5,8 @@ import X from '~icons/simple-icons/x';
 import LinkedIn from '~icons/simple-icons/linkedin';
 ---
 <nav class="flex gap-3">
-  <email-link></email-link>
-  <social-link href="https://v-thomas.com/github" rawIcon={Github} label="My github profile"></social-link>
-  <social-link href="https://v-thomas.com/x" rawIcon={X} label="My X (former twitter) profile"></social-link>
-  <social-link href="https://v-thomas.com/linkedin" rawIcon={LinkedIn} label="My LinkedIn profile"></social-link>
+  <social-link data-email-href="" label="Email me" set:html={Email}></social-link>
+  <social-link href="https://v-thomas.com/github" label="My github profile" set:html={Github}></social-link>
+  <social-link href="https://v-thomas.com/x" label="My X (former twitter) profile" set:html={X}></social-link>
+  <social-link href="https://v-thomas.com/linkedin" label="My LinkedIn profile" set:html={LinkedIn}></social-link>
 </nav>

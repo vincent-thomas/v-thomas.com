@@ -5,10 +5,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Body from "./Body.astro";
 import GoBack from "../components/GoBack.astro";
 
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
+import dayjs from "../utils/dayjs";
 
 export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
 
@@ -31,7 +28,7 @@ const ldData = {
 <html lang="en">
 	<head>
     <BaseHead title={title} description={description} image={heroImage} />
-    <script type="application/ld+json" set:html={JSON.stringify(ldData)}></script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(ldData)}></script>
 	</head>
   <Body>
     <article class="mt-12  flex flex-col gap-7">
