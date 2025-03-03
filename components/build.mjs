@@ -1,12 +1,13 @@
 import { buildSync } from "esbuild";
 
-const banner = `
-// __     _______
-// \ \   / /_   _|
-//  \ \ / /  | |
-//   \ V /   | |
-//    \_/    |_|
-`;
+// Escaping
+const banner = `/**
+  __     _______
+  \\ \\   / /_   _|
+   \\ \\ / /  | |
+    \\ V /   | |
+     \\_/    |_|
+**/`;
 
 buildSync({
   entryPoints: ["./index.ts"],
