@@ -1,5 +1,7 @@
 # build output
 dist/
+
+public/js/components.js
 # generated types
 .astro/
 
