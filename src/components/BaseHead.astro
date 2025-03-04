@@ -28,14 +28,14 @@ const { title, description, image } = Astro.props;
 />
 
 <!-- Font preloads -->
-<link rel="preload" href="/fonts/Inter/Inter-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
-<link rel="preload" href="/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="/fonts/inter.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="/fonts/inter-italic.ttf" as="font" type="font/ttf" crossorigin />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Primary Meta Tags -->
-<title>{title}</title>
+<title class="no-print">{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
@@ -58,8 +58,13 @@ const { title, description, image } = Astro.props;
 
 <script type="module" is:inline>
   const els = document.querySelectorAll("[data-email-href]");
-  console.log(els);
+
+  const data = atob("dmluY2VudEB2LXRob21hcy5jb20=");
   for (const el of els) {
-    el.setAttribute("href", atob("bWFpbHRvOnZpbmNlbnRAdi10aG9tYXMuY29t"));
+    el.setAttribute("href", `mailto:${data}`);
+  }
+  const els2 = document.querySelectorAll("[data-email-inner]");
+  for (const el of els2) {
+    el.textContent = data;
   }
 </script>

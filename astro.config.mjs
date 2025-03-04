@@ -52,8 +52,13 @@ export default defineConfig({
     remarkPlugins: [remarkReadingTime, remarkModifiedTime],
   },
 
+  experimental: {
+    contentIntellisense: true,
+  },
+
   vite: {
     esbuild: { legalComments: "none" },
+
     plugins: [
       Icons({
         compiler: "raw",

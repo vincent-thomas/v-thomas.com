@@ -8,14 +8,19 @@ const links = [
   { href: '/', text: 'Home' },
   { href: '/work', text: 'My work' },
   { href: '/logs', text: 'Developer log' },
-];
+  ];
+
+export type Props = {
+  overrideTitle?: string;
+};
+const {overrideTitle} = Astro.props;
 ---
 <div id="root-navbar">
   <template id="mobile-nav-navbar">
   </template>
   <navbar class="flex justify-end items-center w-full" transition:persist>
-    <a href="/" class="text-[var(--blue-12)] font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{SITE_TITLE}</a>
-    <div>
+  <a href="/" class="text-[var(--blue-12)] font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
+    <div class="no-print">
       <button class="lg:hidden text-[var(--blue-12)] font-bold text-xl p-3 rounded-full hover:bg-[var(--blue-4)]" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
       </button>
       <div class="hidden lg:block">

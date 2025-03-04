@@ -2,12 +2,15 @@
 import Footer from "../components/Footer.astro"
 import Header from "../components/Header.astro"
 
-let props = Astro.props;
+export type Props = {
+  overrideTitle?: string;
+};
+const {overrideTitle, ...props} = Astro.props;
 ---
 
 <body>
-  <main class="w-full mx-auto max-w-[1000px] px-6 py-4 lg:py-10 flex flex-col gap-4">
-    <Header />
+  <main class="w-full mx-auto max-w-[900px] px-6 py-4 lg:py-10 flex flex-col gap-4">
+    <Header overrideTitle={overrideTitle} />
     <div {...props}>
       <slot/>
     </div>

@@ -1,0 +1,26 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import Project from '../../layouts/Project.astro';
+
+export async function getStaticPaths() {
+	const project = await getCollection('project');
+  return project.filter(post => process.env.NODE_ENV == "development" || !post.data.draft).map((post) => ({
+		params: { id: post.id },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'project'>;
+
+const post = Astro.props;
+const url = post.data.repo;
+
+import { marked } from 'marked';
+
+const response = await fetch(`https://raw.githubusercontent.com/${url}/main/README.md`);
+const markdown = await response.text();
+const content = marked.parse(markdown);
+---
+
+<Project {...post}>
+  <Fragment set:html={content} />
+</Project>

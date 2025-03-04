@@ -10,9 +10,12 @@ import LdHead from '../components/LdHead.astro';
 
 export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
 
-const { data: {title, description, pubDate, heroImage, heroImageDescription, tags,furtherReading} , minuteRead, id, lastModified }: Props = Astro.props;
+const { data: {description, pubDate, heroImage, heroImageDescription, tags,furtherReading} , minuteRead, id, lastModified }: Props = Astro.props;
 
 if (!pubDate) throw new Error("Missing pubDate");
+
+let title = id.replaceAll("-", " ");
+title = title.charAt(0).toUpperCase() + title.slice(1);
 ---
 
 <html lang="en">
@@ -20,10 +23,10 @@ if (!pubDate) throw new Error("Missing pubDate");
     <BaseHead title={title} description={description} image={heroImage} />
     <LdHead title={title} description={description} image={heroImage} pubDate={pubDate} />
 	</head>
-  <Body>
+  <Body overrideTitle="VT's dev log">
     <article class="mt-12  flex flex-col gap-7">
       <div class="flex flex-col gap-4">
-        <div class="mb-6">
+        <div class="mb-6 no-print">
           <GoBack onClick="window.history.back()" />
         </div>
         {heroImage && <img width={952} height={554} src={heroImage} alt={heroImageDescription} class="rounded-lg" transition:name={`img-${title.replace(" ", "_")}`}  />}
@@ -61,8 +64,8 @@ if (!pubDate) throw new Error("Missing pubDate");
           </p>
         )}
       </div>
-      <style is:global lang="scss">
-        // KaTeX plugin needs this
+      <style is:global>
+        /*KaTeX plugin needs this*/
         *[aria-hidden="true"] {
           display: none;
         }

@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Body from "./Body.astro";
+import GoBack from "../components/GoBack.astro";
+
+import Github from '~icons/simple-icons/github';
+
+
+export type Props = CollectionEntry<'project'> & { minuteRead: number, lastModified: Date };
+
+const { data, id, lastModified }: Props = Astro.props;
+---
+
+<html lang="en">
+	<head>
+    <BaseHead title={data.title} description={data.description} />
+	</head>
+  <Body overrideTitle="VT's dev log">
+    <article class="mt-12  flex flex-col gap-7">
+      <div class="flex flex-col gap-4">
+        <div class="mb-6 no-print">
+          <GoBack onClick="window.history.back()" />
+        </div>
+        <div class="flex justify-between">
+          <div class="text-gray-400 max-w-[45ch] flex flex-col">
+              <p class="mt-1">
+                Last updated <FormattedDate date={lastModified} />
+              </p>
+          </div>
+        </div>
+      </div>
+      <h1 class="text-[var(--blue-indicator)] font-[800] md:text-4xl text-2xl text-center lg:text-left" transition:name={`post-title-${id}`}>{id}: {data.title}</h1>
+      <div class="flex flex-col gap-4">
+        <p class="text-[var(--gray-11)] text-center lg:text-left">{data.description}</p>
+        <div class="flex gap-4">
+          <a href={`https://github.com/${data.repo}`} class="flex gap-2 items-center text-[var(--gray-12)] rounded-xl px-4 py-2 hover:bg-[var(--blue-5)]">
+            <Fragment set:html={Github} />
+            <span>View on GitHub</span>
+          </a>
+          <a href={`/logs/${data.logPost}`} class="flex gap-2 items-center text-[var(--gray-12)] underline decoration-[var(--blue-10)] decoration-3 mr-4">
+            <span>Read the blogpost</span>
+          </a>
+          <div class="flex flex-wrap max-w-[300px] gap-3 items-center">
+            {data.languages!.map(tag => <tag-pill href={`/logs/tags/${tag}`}>{tag}</tag-pill>)}
+          </div>
+        </div>
+      </div>
+      <hr class="text-[var(--blue-indicator)]" />
+      <div class="prose w-full max-w-[unset] dark:prose-invert">
+        <slot/>
+      </div>
+      <style is:global>
+        /*KaTeX plugin needs this*/
+        *[aria-hidden="true"] {
+          display: none;
+        }
+      </style>
+    </article>
+	</Body>
+</html>

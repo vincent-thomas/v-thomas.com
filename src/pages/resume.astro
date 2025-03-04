@@ -1,0 +1,20 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import BaseHead from '../components/BaseHead.astro';
+import CV from "../components/CV.astro";
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="w-full mx-auto max-w-[900px] px-6 py-4 lg:py-10 flex flex-col gap-4">
+    <Header />
+    <main class="prose dark:prose-invert prose-headings:mt-0 prose-p:mt-0 max-w-none mt-10">
+      <CV />
+    </main>
+  </body>
+</html>
