@@ -44,7 +44,7 @@ import Date from "~icons/material-symbols/date-range";
 					{
 						props.posts.map((post) => {
                 return (
-                  <a class="text-[var(--gray-12)] group last:mb-0 mb-2 block" href={`/articles/${post.id}`}>
+                  <a class="text-[var(--gray-12)] group last:mb-0 mb-2 block" href={`/logs/${post.id}`}>
                     <article class="flex gap-2 items-center hover:bg-[var(--blue-4)] p-1 rounded-lg">
                       <p class="group-hover:underline flex gap-1 items-center"><Fragment set:html={Date} /><FormattedDate date={post.data.pubDate!} /></p>
                       -

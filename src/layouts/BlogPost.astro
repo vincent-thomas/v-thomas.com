@@ -5,30 +5,20 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Body from "./Body.astro";
 import GoBack from "../components/GoBack.astro";
 
-import dayjs from "../utils/dayjs";
+import LdHead from '../components/LdHead.astro';
+
 
 export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
 
 const { data: {title, description, pubDate, heroImage, heroImageDescription, tags,furtherReading} , minuteRead, id, lastModified }: Props = Astro.props;
 
-const ldData = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "image": heroImage,
-  "headline": title,
-  "description": description,
-  "author": {
-    "@type": "Person",
-    "name": "Vincent Thomas"
-  },
-  "datePublished": dayjs( pubDate?.toDateString()).format("YYYY-MM-DD"),
-};
+if (!pubDate) throw new Error("Missing pubDate");
 ---
 
 <html lang="en">
 	<head>
     <BaseHead title={title} description={description} image={heroImage} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(ldData)}></script>
+    <LdHead title={title} description={description} image={heroImage} pubDate={pubDate} />
 	</head>
   <Body>
     <article class="mt-12  flex flex-col gap-7">
@@ -53,7 +43,7 @@ const ldData = {
       <div class="flex lg:flex-row flex-col lg:justify-between items-center gap-4">
         <p class="text-gray-400 max-w-[45ch] text-center lg:text-left">{description}</p>
         <div class="flex flex-wrap max-w-[300px] gap-3 items-center">
-          {tags!.map(tag => <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>)}
+          {tags!.map(tag => <tag-pill href={`/logs/tags/${tag}`}>{tag}</tag-pill>)}
         </div>
       </div>
       <hr class="text-[var(--blue-indicator)]" />

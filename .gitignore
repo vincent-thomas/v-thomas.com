@@ -2,6 +2,7 @@
 dist/
 
 public/js/components.js
+public/css/tailwind.css
 # generated types
 .astro/
 
@@ -25,3 +26,4 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .direnv
+

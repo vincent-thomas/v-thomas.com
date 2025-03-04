@@ -1,0 +1,24 @@
+---
+import dayjs from '../utils/dayjs';
+interface Props {
+	title: string;
+	description: string;
+  image?: string;
+  pubDate: Date;
+}
+
+const { title, description, image, pubDate } = Astro.props;
+const ldData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "image": image,
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Vincent Thomas"
+  },
+  "datePublished": dayjs( pubDate.toDateString()).format("YYYY-MM-DD"),
+};
+---
+<script is:inline type="application/ld+json" set:html={JSON.stringify(ldData)}></script>

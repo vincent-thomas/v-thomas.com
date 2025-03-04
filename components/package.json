@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf ../public/js/components.js && node build.mjs",
-    "build:watch": "nodemon --watch lib --watch build.mjs --exec pnpm run build"
+    "build:watch": "nodemon --ext mjs,ts --watch lib --watch build.mjs --exec pnpm run build"
   },
   "keywords": [],
   "author": "",

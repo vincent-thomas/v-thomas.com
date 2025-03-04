@@ -1,9 +1,8 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*", "./types.d.ts", "./src/**/*.astro"],
+  "include": [".astro/types.d.ts", "./types.d.ts", "./src/**/*", "unimport.d.ts"],
   "exclude": ["dist"],
   "compilerOptions": {
-    "strictNullChecks": true,
+    "strict": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false
   }

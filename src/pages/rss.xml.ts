@@ -13,7 +13,7 @@ export const GET: APIRoute = async (context) => {
     site: z.instanceof(URL).parse(context.site),
     items: posts.map((post) => ({
       ...post.data,
-      link: `/articles/${post.id}/`,
+      link: `/logs/${post.id}/`,
     })),
   });
 };

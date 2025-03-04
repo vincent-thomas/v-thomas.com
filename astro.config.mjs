@@ -4,8 +4,6 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 
-import tailwindcss from "@tailwindcss/vite";
-
 import autolink_headers from "rehype-autolink-headings";
 import autolink_links from "rehype-external-links";
 import add_ids_to_headers from "rehype-slugs";
@@ -57,7 +55,6 @@ export default defineConfig({
   vite: {
     esbuild: { legalComments: "none" },
     plugins: [
-      tailwindcss(),
       Icons({
         compiler: "raw",
       }),

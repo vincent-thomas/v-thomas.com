@@ -26,7 +26,7 @@ const allTags: string[] = posts.reduce((old, current) => {return [...old, ...cur
       <GoBack onClick="window.history.back()" />
       <h1 class="text-[var(--gray-12)] text-3xl md:text-5xl xl:text-7xl font-[800]">VT's dev log</h1>
       <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
-      <div class="flex gap-2">{allTags.map(tag => <tag-pill href={`/articles/tags/${tag}`}>{tag}</tag-pill>)}</div>
+      <div class="flex gap-2">{allTags.map(tag => <tag-pill href={`/logs/tags/${tag}`}>{tag}</tag-pill>)}</div>
     </div>
 		<section>
 			{posts.map((post) => <BlogPost post={post} />)}
