@@ -70,6 +70,7 @@ const { title, description, image } = Astro.props;
 
   document.addEventListener("DOMContentLoaded", ()=> {
     for (const link of document.getElementsByTagName("a")) {
+      if (link.hasAttribute("data-preload-ignore")) continue;
       link.addEventListener("mouseover", () => {
         const href = link.getAttribute("href");
         if (!href) return;
