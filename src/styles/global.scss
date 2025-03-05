@@ -66,11 +66,65 @@ html {
 body {
   background-color: var(--blue-2);
   min-height: 100vh;
+  width: 100%;
+}
+
+hr {
+  margin-block: 1rem;
+  color: var(--blue-10);
+}
+
+.bg-blue1 {
+  background-color: var(--blue-1);
+}
+
+.bg-blue2 {
+  background-color: var(--blue-2);
+}
+
+.bg-blue-element {
+  background-color: var(--blue-3);
+}
+
+.bg-blue-hover:hover {
+  background-color: var(--blue-4);
+}
+
+.bg-blue-element-active:active {
+  background-color: var(--blue-5);
+}
+
+.border-blue-subtle {
+  border-color: var(--blue-6);
+}
+
+.border-blue-element:hover {
+  background-color: var(--blue-7);
+}
+
+.border-blue-hover:hover {
+  background-color: var(--blue-8);
+}
+
+.bg-blue-solid {
+  background-color: var(--blue-9);
+}
+
+.bg-blue-solid-hover:hover {
+  background-color: var(--blue-10);
+}
+
+
+.text-blue2 {
+  color: var(--blue-11);
+}
+
+.text-blue1 {
+  color: var(--blue-12);
 }
 
 html {
   @media (prefers-color-scheme: dark) {
-
     --blue-1: #0e101b;
     --blue-2: #141625;
     --blue-3: #1e2248;
@@ -101,8 +155,6 @@ html {
     --blue-surface: #171b3980;
     --blue-indicator: #6772e5;
     --blue-track: #6772e5;
-
-    --color-background: #111;
 
     --gray-1: #111111;
     --gray-2: #191919;
@@ -186,7 +238,5 @@ html {
 
     --red-5: #FFCDCE;
     --red-11: #CE2C31;
-
-    --color-background: #fff;
   }
 }

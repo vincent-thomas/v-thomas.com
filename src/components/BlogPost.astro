@@ -14,18 +14,72 @@ let title = post.id.replaceAll("-", " ");
 title = title.charAt(0).toUpperCase() + title.slice(1);
 ---
 
-<div class="mb-6 border-b border-[var(--gray-10)] pb-12 last:border-0" transition:name={`post-${post.id}`}>
-  <article>
-    <a href={`/logs/${post.id}`} class="group">
-      <h2 class="text-3xl text-[var(--gray-12)] font-semibold mt-4 group-hover:text-[var(--red-11)] group-hover:underline" transition:name={`post-title-${post.id}`}>{title}</h4>
-      <p class="mt-4 text-[var(--blue-11)] max-w-[55ch]">{post.data.description}</p>
-      <div class="mt-4 flex items-center gap-2 text-[var(--gray-11)]">
-        <Fragment set:html={Date} /> <FormattedDate date={post.data.pubDate!} />
-      </div>
-      <span class="mt-6 group-hover:underline text-[var(--red-11)] mb-4 block">Read more</span>
-    </a>
-    <div class="flex gap-2">
-      {post.data.tags.map(tag => <tag-pill href={`/logs/tags/${tag}`}>{tag}</tag-pill>)}
+<article>
+  <a href={`/logs/${post.id}`}>
+    <h2>{title}</h4>
+    <p>{post.data.description}</p>
+    <div class="date">
+      <Fragment set:html={Date} /> <FormattedDate date={post.data.pubDate!} />
     </div>
-  </article>
-</div>
+    <span class="read-more">Read more</span>
+  </a>
+  <div class="tags">
+    {post.data.tags.map(tag => <tag-pill href={`/logs/tags/${tag}`}>{tag}</tag-pill>)}
+  </div>
+</article>
+<style lang="scss">
+  article {
+    border-bottom: 1px solid var(--gray-10);
+    padding-bottom: 1.5rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    color: var(--gray-12);
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+
+  p {
+    color: var(--gray-11);
+    max-width: 55ch;
+    margin-top: 1rem;
+  }
+
+  .date {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-11);
+  }
+
+  .read-more {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    display: block;
+
+    color: var(--red-11);
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+
+  a:hover {
+    h2 {
+      text-decoration: underline;
+      color: var(--red-11);
+    }
+
+    .read-more {
+      text-decoration: underline;
+    }
+  }
+</style>

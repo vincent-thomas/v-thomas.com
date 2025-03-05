@@ -12,12 +12,19 @@ import rehypeKatex from "rehype-katex";
 import { remarkReadingTime, remarkModifiedTime } from "./remark-plugins.mjs";
 
 import Icons from "unplugin-icons/vite";
-
-export default defineConfig({
+/**
+ * @type {import('astro/dist/types/public/config').AstroUserConfig}
+ */
+const config = {
   site: "https://v-thomas.com",
   integrations: [mdx(), sitemap()],
   prefetch: true,
   devToolbar: { enabled: false },
+
+  build: {
+    assets: "assets",
+    format: "file",
+  },
 
   redirects: {
     "/github": "https://github.com/vincent-thomas",
@@ -65,4 +72,6 @@ export default defineConfig({
       }),
     ],
   },
-});
+};
+
+export default defineConfig(config);

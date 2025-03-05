@@ -3,7 +3,7 @@ import Github from '~icons/simple-icons/github';
 import Email from '~icons/mdi/email';
 import Web from '~icons/mdi/web';
 import LinkedIn from '~icons/simple-icons/linkedin';
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
 	const project = await getCollection('project');
@@ -25,9 +25,9 @@ const projects = await getStaticPaths();
   <div class="flex flex-col my-8 px-3">
     <h2>About me</h2>
     <p>
-    I am a 18 year old male who is currently attending NTI Gymnasiet in Johanneberg, Sweden.
-    I always have a project to work on and I am always looking for new things to learn.
-    I love difficult problems and I am always looking for a challenge.
+      I am a 18 year old male who is currently attending NTI Gymnasiet in Johanneberg, Sweden.
+      I always have a project to work on and I am always looking for new things to learn.
+      I love difficult problems and I am always looking for a challenge.
     </p>
   </div>
   <div class="flex flex-col my-8 px-3">
@@ -39,7 +39,7 @@ const projects = await getStaticPaths();
         -
         <a href={`/projects/${project.id}`}>v-thomas.com/projects/{project.id}</a>
         <span class="ml-auto">
-          {!project.dateFinished ? "Active" : "Inactive"}
+          {!project.data.dateFinished ? "Active" : "Inactive"}
         </span>
       </div>
         <p>{project.data.description.replaceAll("\n", " ").trim()}</p>

@@ -33,7 +33,8 @@ const project = defineCollection({
     dateFinished: z.string().optional(),
     draft: z.boolean().optional(),
     repo: z.string(),
-    logPost: z.string(),
+    license: z.string(),
+    logPost: z.string().optional(),
   }),
 });
 

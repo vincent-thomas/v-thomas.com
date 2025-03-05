@@ -8,6 +8,8 @@ import GoBack from "../../components/GoBack.astro";
 import { getCollection } from 'astro:content';
 
 import BlogPost from "../../components/BlogPost.astro";
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
 
 const posts = (await getCollection('article')).filter(post => !!post.data.pubDate).sort(
   (a, b) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf(),
@@ -22,14 +24,27 @@ const allTags: string[] = posts.reduce((old, current) => {return [...old, ...cur
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <Body>
-    <div class="lg:my-20 my-8 flex flex-col gap-3 items-start">
-      <GoBack onClick="window.history.back()" />
-      <h1 class="text-[var(--gray-12)] text-3xl md:text-5xl xl:text-7xl font-[800]">VT's dev log</h1>
-      <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
-      <div class="flex gap-2">{allTags.map(tag => <tag-pill href={`/logs/tags/${tag}`}>{tag}</tag-pill>)}</div>
-    </div>
-		<section>
-			{posts.map((post) => <BlogPost post={post} />)}
-    </section>
+    <Navbar />
+    <main>
+      <div class="flex flex-col gap-2 items-start">
+        <GoBack onClick="window.history.back()" />
+        <h1 class="mt-8 text-[var(--gray-12)] text-3xl md:text-5xl xl:text-7xl font-[800]">VT's dev log</h1>
+        <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
+        <div class="flex gap-2">{allTags.map(tag => <tag-pill href={`/logs/tags/${tag}`}>{tag}</tag-pill>)}</div>
+      </div>
+      <section>
+        {posts.map((post) => <BlogPost post={post} />)}
+      </section>
+      <Footer />
+    </main>
   </Body>
 </html>
+
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    margin-top: 6rem;
+  }
+</style>

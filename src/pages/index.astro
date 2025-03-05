@@ -4,13 +4,15 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import BaseHead from '../components/BaseHead.astro';
 import BlogPost from "../components/BlogPost.astro";
 
+import Body from "../layouts/Body.astro";
+
 import GotoArrow from "~icons/material-symbols/arrow-right-alt-rounded";
 
 import { getCollection } from "astro:content";
 
 import { take } from "../utils/take"
 import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
+import Navbar from "../components/Navbar.astro";
 
 import CV from "../components/CV.astro";
 
@@ -22,32 +24,102 @@ const posts = take(await getCollection("article"), 3);
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
 
-<body>
-  <main class="w-full mx-auto max-w-[900px] px-6 py-4 lg:py-10 flex flex-col gap-4 no-print">
-    <Header />
-    <div class="flex flex-col gap-36">
-      <h1 class="mt-36">
-        <span class="text-6xl text-[var(--blue-11)]">Hello!</span>
-        <p class="text-6xl text-[var(--blue-11)]">
-          I'm <span class="text-[var(--blue-10)] font-bold"> Vincent Thomas</span>
-        </p>
-        <p class="mt-3 text-lg text-[var(--blue-11)] max-w-[50ch]">Student with interest in software engineering who specialises in backend/memory/networking</p>
-      </h1>
+  <Body>
+    <main class="no-print">
+      <Navbar />
+      <header>
+        <h1>
+          <span class="hello">Hello!</span>
+          <span class="newline">
+            I'm <span class="me"> Vincent Thomas</span>
+          </span>
+        </h1>
+        <p>Student with interest in software engineering who specialises in backend/memory/networking</p>
+      </header>
 
-      <section class="flex flex-col">
-        <h2 class="text-4xl text-[var(--blue-11)] font-semibold mb-6">Latest logs</h2>
+      <section class="posts">
+        <h2 class="title">Latest logs</h2>
         <div>
           {posts.map(post => <BlogPost post={post} />)}
         </div>
-        <a href="/logs" class="text-[var(--red-11)] hover:bg-[var(--red-5)] py-2 px-4 flex gap-2 items-center self-start rounded-lg">
+        <a href="/logs" class="more-posts">
           More posts <Fragment set:html={GotoArrow} />
         </a>
       </section>
+      <Footer />
+    </main>
+    <div class="print">
+      <CV />
     </div>
-    <Footer />
-  </main>
-  <main class="print p-4">
-    <CV />
-  </main>
-</body>
+  </Body>
 </html>
+
+<style>
+  main:not(.print) {
+    display: flex;
+    flex-direction: column;
+    gap: 9rem;
+  }
+
+  header:not(.print) {
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      line-height: 1;
+      .hello {
+        color: var(--blue-11);
+        font-size: 3.75rem;
+      }
+
+      .newline {
+        font-size: 3.75rem;
+        color: var(--blue-11);
+        display: block;
+        .me {
+          color: var(--blue-10);
+          font-weight: 700;
+        }
+      }
+    }
+
+    & > p {
+      font-size: 1.125rem;
+      color: var(--blue-11);
+      max-width: 50ch;
+    }
+  }
+
+  .posts {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      color: var(--blue-11);
+      font-size: 2.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .more-posts {
+      color: var(--red-11);
+
+      display: flex;
+      align-items: center;
+      align-self: flex-start;
+      gap: 0.5rem;
+
+      padding: 0.5rem 1rem;
+      margin-top: 1rem;
+      border-radius: 0.5rem;
+
+      &:hover {
+        background-color: var(--red-5);
+      }
+    }
+  }
+
+  div.print {
+    padding: 1rem;
+  }
+</style>

@@ -19,21 +19,21 @@ const {overrideTitle} = Astro.props;
   <template id="mobile-nav-navbar">
   </template>
   <navbar class="flex justify-end items-center w-full" transition:persist>
-  <a href="/" class="text-[var(--blue-12)] font-bold text-xl px-3 py-1 rounded-lg hover:bg-gray-700 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
+  <a href="/" class="font-bold text-xl px-3 py-1 rounded-lg text-blue1 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
     <div class="no-print">
-      <button class="lg:hidden text-[var(--blue-12)] font-bold text-xl p-3 rounded-full hover:bg-[var(--blue-4)]" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
+      <button class="lg:hidden text-blue1 font-bold text-xl p-3 rounded-full bg-blue-hover" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
       </button>
       <div class="hidden lg:block">
         <div class="flex-row flex gap-12">
           <ul class="flex gap-6 lg:flex-row flex-col">
             {links.map(({href, text}) =>
-              <li><HeaderLink activeClass="underline underline-[var(--blue-8)] decoration-[2px]" href={href} class="text-[var(--blue-11)] font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">
+              <li><HeaderLink activeClass="underline decoration-[2px]" href={href} class="text-blue2 font-semibold px-4 py-3 bg-blue-hover rounded-md block">
                   {text}
               </HeaderLink></li>
             )}
           </ul>
           <div class="flex gap-4 flex-col justify-center">
-            <p class="lg:hidden text-[var(--blue-11)] font-bold text-3xl">Let's connect</p>
+            <p class="lg:hidden text-blue2 font-bold text-3xl">Let's connect</p>
 
             <!-- This is a hack because socials cannot be in a string in script tags -->
             <div id="social-wrapper">
@@ -54,7 +54,7 @@ const {overrideTitle} = Astro.props;
     template.innerHTML = `
       <div class="bg-[var(--blue-3)] rounded-lg p-4 mt-4" id="navbar-mobile-links">
         <ul class="flex flex-col gap-4 mb-6">
-          ${links.map(link => `<li><a href="${link.href}" class="text-[var(--blue-11)] font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">${link.text}</a></li>`).join("")}
+          ${links.map(link => `<li><a href="${link.href}" class="text-blue2 font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">${link.text}</a></li>`).join("")}
         </ul>
         ${social_links.innerHTML}
       </div>

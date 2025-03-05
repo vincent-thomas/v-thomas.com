@@ -8,7 +8,7 @@ export interface Props {
 const {onClick} = Astro.props;
 ---
 
-<button onclick={onClick} transition:name="back-btn">
+<button onclick={onClick}>
   <Fragment set:html={BackArrow} /> Go back
 </button>
 
