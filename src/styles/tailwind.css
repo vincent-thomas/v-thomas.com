@@ -1,2 +1,5 @@
-@import "tailwindcss";
+@layer theme;
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+
 @plugin "@tailwindcss/typography";

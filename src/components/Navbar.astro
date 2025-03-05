@@ -18,7 +18,7 @@ const {overrideTitle} = Astro.props;
 <div id="root-navbar">
   <template id="mobile-nav-navbar">
   </template>
-  <navbar class="flex justify-end items-center w-full" transition:persist>
+  <navbar class="flex justify-between items-center w-full" transition:persist>
   <a href="/" class="font-bold text-xl px-3 py-1 rounded-lg text-blue1 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
     <div class="no-print">
       <button class="lg:hidden text-blue1 font-bold text-xl p-3 rounded-full bg-blue-hover" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
