@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "./FormattedDate.astro";
 
-import Date from "~icons/material-symbols/date-range";
+import Icon from "./Icon.astro";
 
 export interface Props {
   post: CollectionEntry<"article">;
@@ -19,7 +19,8 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
     <h2>{title}</h4>
     <p>{post.data.description}</p>
     <div class="date">
-      <Fragment set:html={Date} /> <FormattedDate date={post.data.pubDate!} />
+      <Icon icon="calendar" size="sm" />
+      <FormattedDate date={post.data.pubDate!} />
     </div>
     <span class="read-more">Read more</span>
   </a>

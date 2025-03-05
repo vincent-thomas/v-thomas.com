@@ -1,5 +1,5 @@
 ---
-import BackArrow from "~icons/material-symbols/arrow-left-alt-rounded";
+import Icon from "./Icon.astro";
 
 export interface Props {
     onClick: string;
@@ -9,7 +9,7 @@ const {onClick} = Astro.props;
 ---
 
 <button onclick={onClick}>
-  <Fragment set:html={BackArrow} /> Go back
+  <Icon icon="arrow-left" size="sm" /> Go back
 </button>
 
 <style>

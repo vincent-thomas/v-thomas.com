@@ -5,9 +5,9 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Body from "./Body.astro";
 import GoBack from "../components/GoBack.astro";
 
-import Github from '~icons/simple-icons/github';
 import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
+import Icon from '../components/Icon.astro';
 
 export type Props = CollectionEntry<'project'> & { lastModified: Date };
 
@@ -35,7 +35,7 @@ const { data, id, lastModified }: Props = Astro.props;
       <p class="description">{data.description}</p>
       <div class="btn-container">
         <a href={`https://github.com/${data.repo}`} class="link">
-          <Fragment set:html={Github} />
+          <Icon icon="github" size="sm" />
           <span>View on GitHub</span>
         </a>
         {!!data.logPost && <a href={`/logs/${data.logPost}`} class="link">

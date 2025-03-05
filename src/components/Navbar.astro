@@ -2,7 +2,7 @@
 import HeaderLink from './HeaderLink.astro';
 import Socials from "./Socials.astro";
 import { SITE_TITLE } from '../consts';
-import Menu from "~icons/gg/menu-right-alt";
+import Icon from './Icon.astro';
 
 const links = [
   { href: '/', text: 'Home' },
@@ -21,7 +21,8 @@ const {overrideTitle} = Astro.props;
   <navbar class="flex justify-between items-center w-full" transition:persist>
   <a href="/" class="font-bold text-xl px-3 py-1 rounded-lg text-blue1 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
     <div class="no-print">
-      <button class="lg:hidden text-blue1 font-bold text-xl p-3 rounded-full bg-blue-hover" id="hamburger-handler" set:html={Menu} aria-label="Open menu">
+      <button class="lg:hidden text-blue1 font-bold text-xl p-3 rounded-full bg-blue-hover" id="hamburger-handler" aria-label="Open menu">
+        <Icon icon="menu-right" />
       </button>
       <div class="hidden lg:block">
         <div class="flex-row flex gap-12">
@@ -104,8 +105,4 @@ const {overrideTitle} = Astro.props;
 
   // Initialize on first load
   init();
-
-
-  // Reinitialize after swapping pages
-  document.addEventListener("astro:after-swap", init);
 </script>

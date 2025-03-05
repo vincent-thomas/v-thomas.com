@@ -2,7 +2,6 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import cloudflare from "@astrojs/cloudflare";
 
 import autolink_headers from "rehype-autolink-headings";
 import autolink_links from "rehype-external-links";
@@ -11,36 +10,20 @@ import rehypeKatex from "rehype-katex";
 
 import { remarkReadingTime, remarkModifiedTime } from "./remark-plugins.mjs";
 
-import Icons from "unplugin-icons/vite";
 /**
  * @type {import('astro/dist/types/public/config').AstroUserConfig}
  */
 const config = {
   site: "https://v-thomas.com",
   integrations: [mdx(), sitemap()],
-  prefetch: true,
   devToolbar: { enabled: false },
 
   build: {
     assets: "assets",
   },
 
-  redirects: {
-    "/github": "https://github.com/vincent-thomas",
-    "/linkedin": "https://www.linkedin.com/in/vincent-thomas-08577b333/",
-    "/x": "https://x.com/vincenttho1337",
-  },
-
-  adapter:
-    process.env.NODE_ENV !== "production"
-      ? undefined
-      : cloudflare({
-          imageService: "compile",
-          platformProxy: { enabled: false },
-        }),
-
   output: "static",
-  scopedStyleStrategy: "attribute",
+  scopedStyleStrategy: "where",
   trailingSlash: "never",
 
   markdown: {
@@ -60,16 +43,11 @@ const config = {
 
   experimental: {
     contentIntellisense: true,
+    responsiveImages: true,
   },
 
   vite: {
     esbuild: { legalComments: "none" },
-
-    plugins: [
-      Icons({
-        compiler: "raw",
-      }),
-    ],
   },
 };
 

@@ -1,7 +1,7 @@
 ---
 title: 'Making a multithreaded rust async runtime'
 description: "Many people don't know how async runtimes (for example tokio) works. The goal of this article is explaining how one works and making one efficient."
-heroImage: '/article-img/making-async-runtime.svg'
+heroImage: '/img/article-img/making-async-runtime.svg'
 heroImageDescription: Diagram of the 'liten' rust async runtime.
 pubDate: 1 Mar 2025
 tags:

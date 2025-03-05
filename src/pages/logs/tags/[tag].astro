@@ -26,8 +26,8 @@ import Body from "../../../layouts/Body.astro";
 import GoBack from "../../../components/GoBack.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
 
-import Date from "~icons/material-symbols/date-range";
 import Navbar from '../../../components/Navbar.astro';
+import Icon from '../../../components/Icon.astro';
 ---
 
 <!doctype html>
@@ -50,7 +50,7 @@ import Navbar from '../../../components/Navbar.astro';
           <a class="text-[var(--gray-12)] group last:mb-0 mb-2 block" href={`/logs/${post.id}`}>
             <article class="flex gap-2 items-center hover:bg-[var(--blue-4)] p-1 rounded-lg">
               <p class="group-hover:underline flex gap-1 items-center">
-                <Fragment set:html={Date} />
+                <Icon icon="calendar" size="sm" />
                 <FormattedDate date={post.data.pubDate!} />
               </p>
               -

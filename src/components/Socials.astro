@@ -1,15 +1,14 @@
 ---
-import Github from '~icons/simple-icons/github';
-import Email from '~icons/mdi/email';
-import X from '~icons/simple-icons/x';
-import LinkedIn from '~icons/simple-icons/linkedin';
+import Icon from "../components/Icon.astro";
+
+// Icons are quite uneven in sizes.
 ---
 
-<nav>
-  <social-link data-email-href="" label="Email me" set:html={Email}></social-link>
-  <social-link href="https://v-thomas.com/github" label="My github profile" set:html={Github}></social-link>
-  <social-link href="https://v-thomas.com/x" label="My X (former twitter) profile" set:html={X}></social-link>
-  <social-link href="https://v-thomas.com/linkedin" label="My LinkedIn profile" set:html={LinkedIn}></social-link>
+<nav class="flex items-center">
+  <social-link data-email-href="" label="Email me"><Icon icon="mail" size="md" /></social-link>
+  <social-link href="https://v-thomas.com/github" label="My github profile"><Icon icon="github" size="md" /></social-link>
+  <social-link href="https://v-thomas.com/x" label="My X (former twitter) profile"><Icon icon="x" size="sm" /></social-link>
+  <social-link href="https://v-thomas.com/linkedin" label="My LinkedIn profile"><Icon icon="linkedin" size="sm" /></social-link>
 </nav>
 
 <style>

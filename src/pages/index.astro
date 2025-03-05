@@ -6,8 +6,6 @@ import BlogPost from "../components/BlogPost.astro";
 
 import Body from "../layouts/Body.astro";
 
-import GotoArrow from "~icons/material-symbols/arrow-right-alt-rounded";
-
 import { getCollection } from "astro:content";
 
 import { take } from "../utils/take"
@@ -15,6 +13,8 @@ import Footer from "../components/Footer.astro";
 import Navbar from "../components/Navbar.astro";
 
 import CV from "../components/CV.astro";
+
+import Icon from "../components/Icon.astro"
 
 const posts = take(await getCollection("article"), 3);
 ---
@@ -43,7 +43,7 @@ const posts = take(await getCollection("article"), 3);
           {posts.map(post => <BlogPost post={post} />)}
         </div>
         <a href="/logs" class="more-posts">
-          More posts <Fragment set:html={GotoArrow} />
+          More posts <Icon icon="arrow-right" />
         </a>
       </section>
       <Footer />
