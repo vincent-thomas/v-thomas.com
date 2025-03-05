@@ -19,9 +19,9 @@ const {overrideTitle} = Astro.props;
   <template id="mobile-nav-navbar">
   </template>
   <navbar class="flex justify-between items-center w-full" transition:persist>
-  <a href="/" class="font-bold text-xl px-3 py-1 rounded-lg text-blue1 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
+    <a href="/" class="font-bold text-xl px-3 py-1 rounded-lg text-blue1 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
     <div class="no-print">
-      <button class="lg:hidden text-blue1 font-bold text-xl p-3 rounded-full bg-blue-hover" id="hamburger-handler" aria-label="Open menu">
+      <button class="lg:hidden text-blue1 font-bold text-xl p-3 rounded-full bg-blue-hover" id="hamburger-handler" aria-label="Open menu" data-action="click:nice">
         <Icon icon="menu-right" />
       </button>
       <div class="hidden lg:block">
@@ -49,7 +49,6 @@ const {overrideTitle} = Astro.props;
 
 <script is:inline define:vars={{ links }}>
   // This is a hack because socials cannot be in a string in script tags
-  window.insertTemplate = function() {
     let social_links = document.getElementById("social-wrapper");
     let template = document.getElementById("mobile-nav-navbar");
     template.innerHTML = `
@@ -60,15 +59,12 @@ const {overrideTitle} = Astro.props;
         ${social_links.innerHTML}
       </div>
     `;
-  }
 </script>
 
 <script>
-  function getMobileNavBtn() {
-    return document.getElementById('hamburger-handler')!;
-  }
+  const handler = document.querySelector("#hamburger-handler");
 
-  const toggleOpen = () => {
+  handler?.addEventListener("click", () => {
     const existing = document.querySelectorAll("#root-navbar>#navbar-mobile-links");
 
     if (existing.length != 0) {
@@ -79,30 +75,9 @@ const {overrideTitle} = Astro.props;
     }
 
     let navbar = document.getElementById("root-navbar")!;
-
     let templateLinks: HTMLTemplateElement = document.getElementById("mobile-nav-navbar")! as HTMLTemplateElement;
-
     let instance = templateLinks.content.cloneNode(true);
 
     navbar.appendChild(instance);
-  }
-
-  function addClickListener() {
-    const btn = getMobileNavBtn();
-    btn.addEventListener("click", toggleOpen);
-  }
-
-  function removeClickListener() {
-    const btn = getMobileNavBtn();
-    btn.removeEventListener("click", toggleOpen);
-  }
-
-  function init() {
-    window.insertTemplate();
-    removeClickListener(); // Ensure any existing listener is removed
-    addClickListener(); // Add the new listener
-  }
-
-  // Initialize on first load
-  init();
+  });
 </script>

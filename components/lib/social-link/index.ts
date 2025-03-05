@@ -4,17 +4,12 @@ import { customElement, property } from "lit/decorators.js";
 @customElement("social-link")
 export class SocialLink extends LitElement {
   static styles = css`
-    a {
+    span {
       color: var(--gray-11);
       transition: all 0.2s ease;
     }
-    a:hover {
+    span:hover {
       color: var(--gray-12);
-    }
-
-    svg {
-      width: 30px;
-      height: 30px;
     }
   `;
 
@@ -22,8 +17,8 @@ export class SocialLink extends LitElement {
   @property() label?: string;
 
   render() {
-    return html`<a href=${this.href} aria-label=${this.label}>
+    return html`<span href=${this.href} aria-label=${this.label}>
       <slot />
-    </a>`;
+    </span>`;
   }
 }

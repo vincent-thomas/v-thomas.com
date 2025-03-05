@@ -6,7 +6,7 @@ description:
       It has a main scheduler that maintains a global queue, in which the worker threads can steal work from and each others queues.
       It implements a event loop for asynchronously listening to events, and soon a clock.
 date: 4 Feb 2025
-languages: [rust]
+tags: [rust]
 logPost: making-a-multithreaded-rust-async-runtime
 draft: true
 repo: liten-rs/liten

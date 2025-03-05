@@ -4,7 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 @customElement("tag-pill")
 export class TagPill extends LitElement {
   static styles = css`
-    a {
+    span {
       color: var(--blue-12);
       text-decoration: none;
 
@@ -19,10 +19,7 @@ export class TagPill extends LitElement {
     }
   `;
 
-  @property()
-  href?: string;
-
   render() {
-    return html`<a href=${this.href}><slot /></a>`;
+    return html`<span><slot /></span>`;
   }
 }

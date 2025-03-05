@@ -4,18 +4,17 @@
   "version": "0.0.1",
   "scripts": {
     "preview": "http-server dist",
-    "dev": "run-p dev:app dev:styles dev:components",
+    "dev": "run-p dev:*",
     "dev:styles": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/tailwind.css --watch",
     "dev:app": "astro dev",
     "dev:components": "pnpm --prefix components run build:watch",
-    "build": "run-p build:app build:styles build:components",
+    "build": "run-p build:*",
     "build:app": "astro build",
     "build:styles": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/tailwind.css",
     "build:components": "pnpm --prefix components run build"
   },
   "devDependencies": {
     "@astrojs/mdx": "^4.0.8",
-    "@astrojs/node": "^9.1.2",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
     "@tailwindcss/cli": "^4.0.9",
