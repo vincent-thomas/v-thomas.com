@@ -23,7 +23,6 @@ const config = {
 
   build: {
     assets: "assets",
-    format: "file",
   },
 
   redirects: {

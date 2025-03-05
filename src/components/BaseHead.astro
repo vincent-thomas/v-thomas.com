@@ -2,7 +2,6 @@
 import '../styles/global.scss';
 import { SITE_TITLE } from '../consts';
 
-
 interface Props {
 	title: string;
 	description: string;
@@ -55,6 +54,7 @@ const { title, description, image } = Astro.props;
 
 <script is:inline src="/js/components.js" type="module"></script>
 <link rel="stylesheet" href="/css/tailwind.css" />
+<link rel="stylesheet" href="/css/preflight.css" />
 
 <script type="module" is:inline>
   const els = document.querySelectorAll("[data-email-href]");
