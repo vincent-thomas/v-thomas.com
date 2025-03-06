@@ -68,9 +68,20 @@ const { title, description, image } = Astro.props;
     el.textContent = data;
   }
 
-  document.addEventListener("DOMContentLoaded", ()=> {
+  const prefixes = ["tel", "mailto"];
+
+  document.addEventListener("DOMContentLoaded", () => {
     for (const link of document.getElementsByTagName("a")) {
       if (link.hasAttribute("data-preload-ignore")) continue;
+      if (link.getAttribute("href")?.startsWith("#")) continue;
+
+      // External source checking
+      if (link.getAttribute("href")?.includes("://")) continue;
+      if (!link.getAttribute("href")?.startsWith("/") && link.getAttribute("href")?.startsWith("//")) continue;
+      for (const prefix in prefixes) {
+        if (link.getAttribute("href")?.startsWith(`${prefix}:`)) continue;
+      }
+
       link.addEventListener("mouseover", () => {
         const href = link.getAttribute("href");
         if (!href) return;
