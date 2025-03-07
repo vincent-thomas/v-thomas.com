@@ -6,10 +6,12 @@
     "preview": "http-server dist",
     "dev": "run-p dev:*",
     "dev:styles": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/tailwind.css --watch",
+    "dev:scss": "pnpm run build:scss --watch",
     "dev:app": "astro dev",
     "dev:components": "pnpm --prefix components run build:watch",
     "build": "run-p build:*",
     "build:app": "astro build",
+    "build:scss": "dart-sass ./src/static/scss:./public/css/styles.css --style=compressed",
     "build:styles": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/tailwind.css",
     "build:components": "pnpm --prefix components run build"
   },
@@ -17,6 +19,8 @@
     "@astrojs/mdx": "^4.0.8",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
+    "@builder.io/qwik": "^1.12.1",
+    "@qwikdev/astro": "^0.7.10",
     "@tailwindcss/cli": "^4.0.9",
     "@tailwindcss/typography": "^0.5.16",
     "astro": "^5.3.1",
@@ -33,6 +37,8 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "@astrojs/node": "^9.1.2",
+    "astro-icon": "^1.1.5",
     "dayjs": "^1.11.13"
   }
 }

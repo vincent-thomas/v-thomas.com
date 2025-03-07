@@ -1,0 +1,28 @@
+---
+import { marked } from 'marked';
+
+export interface Props {
+  owner: string;
+  repo: string;
+  }
+
+  const {owner, repo} = Astro.props;
+
+if (owner === undefined || repo === undefined) {
+  throw new Error('owner and repo are required');
+}
+
+if (owner.includes('/') || repo.includes('/')) {
+  throw new Error('owner and repo cannot contain /');
+}
+
+if (owner.trim() != owner || repo.trim() != repo) {
+  throw new Error('owner and repo cannot contain leading or trailing whitespace');
+}
+
+const response = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/main/README.md`);
+const markdown = await response.text();
+const content = marked.parse(markdown);
+---
+
+<Fragment set:html={content} />

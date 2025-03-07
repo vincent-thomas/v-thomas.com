@@ -2,7 +2,7 @@
 import HeaderLink from './HeaderLink.astro';
 import Socials from "./Socials.astro";
 import { SITE_TITLE } from '../consts';
-import Icon from './Icon.astro';
+import { Icon } from 'astro-icon/components';
 
 const links = [
   { href: '/', text: 'Home' },
@@ -22,7 +22,7 @@ const {overrideTitle} = Astro.props;
     <a href="/" class="font-bold text-xl px-3 py-1 rounded-lg text-blue1 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
     <div class="no-print">
       <button class="lg:hidden text-blue1 font-bold text-xl p-3 rounded-full bg-blue-hover" id="hamburger-handler" aria-label="Open menu" data-action="click:nice">
-        <Icon icon="menu-right" />
+        <Icon name="menu-right" />
       </button>
       <div class="hidden lg:block">
         <div class="flex-row flex gap-12">

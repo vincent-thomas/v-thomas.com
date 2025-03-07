@@ -1,0 +1,35 @@
+---
+//import { css, LitElement, html } from "lit";
+//import { customElement, property } from "lit/decorators.js";
+//
+//@customElement("tag-pill")
+//export class TagPill extends LitElement {
+//  static styles = css`
+//  `;
+//
+//  render() {
+//    return html`<span><slot /></span>`;
+//  }
+//  }
+
+export interface Props extends HTMLAnchorElement {
+href: string;
+label: string
+}
+
+const {href, label, ...props} = Astro.props;
+---
+
+<a {...props} href={href} aria-label={label}>
+  <slot />
+</a>
+
+<style lang="scss">
+    a {
+      color: var(--gray-11);
+      transition: all 0.2s ease;
+    }
+    a:hover {
+      color: var(--gray-12);
+    }
+</style>

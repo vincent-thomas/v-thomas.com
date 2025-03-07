@@ -10,7 +10,8 @@ import { getCollection } from 'astro:content';
 import BlogPost from "../../components/BlogPost.astro";
 import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
-import Icon from '../../components/Icon.astro';
+import { Icon } from 'astro-icon/components';
+import TagPill from '../../components/TagPill.astro';
 
 const posts = (await getCollection('article')).filter(post => !!post.data.pubDate).sort(
   (a, b) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf(),
@@ -33,7 +34,7 @@ const allTags: string[] = posts.reduce((old, current) => {return [...old, ...cur
         </div>
         <h1 class="mt-8 text-[var(--gray-12)] text-3xl md:text-5xl xl:text-7xl font-[800]">VT's dev log</h1>
         <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
-        <div class="flex gap-2">{allTags.map(tag => <a href={`/logs/tags/${tag}`}><tag-pill>{tag}</tag-pill></a>)}</div>
+        <div class="flex gap-2">{allTags.map(tag => <a href={`/logs/tags/${tag}`}><TagPill>{tag}</TagPill></a>)}</div>
       </div>
       <section>
         {posts.map((post) => <BlogPost post={post} />)}

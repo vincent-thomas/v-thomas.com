@@ -2,7 +2,8 @@
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "./FormattedDate.astro";
 
-import Icon from "./Icon.astro";
+import { Icon } from "astro-icon/components";
+import TagPill from "./TagPill.astro";
 
 export interface Props {
   post: CollectionEntry<"article">;
@@ -19,13 +20,13 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
     <h2>{title}</h4>
     <p>{post.data.description}</p>
     <div class="date">
-      <Icon icon="calendar" size="sm" />
+      <Icon name="calendar" size="20px" />
       <FormattedDate date={post.data.pubDate!} />
     </div>
     <span class="read-more">Read more</span>
   </a>
   <div class="tags">
-    {post.data.tags.map(tag => <a href={`/logs/tags/${tag}`}><tag-pill>{tag}</tag-pill></a>)}
+    {post.data.tags.map(tag => <a href={`/logs/tags/${tag}`}><TagPill>{tag}</TagPill></a>)}
   </div>
 </article>
 <style lang="scss">

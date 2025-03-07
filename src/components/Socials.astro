@@ -1,19 +1,24 @@
 ---
-import Icon from "../components/Icon.astro";
+import { Icon } from "astro-icon/components";
+import SocialLink from "./SocialLink.astro";
 
 // Icons are quite uneven in sizes.
 ---
 
 <nav class="flex items-center">
-  <a data-preload-ignore data-email-href=""><social-link label="Email me"><Icon icon="mail" size="md" /></social-link></a>
-  <a href="https://v-thomas.com/github"><social-link label="My github profile"><Icon icon="github" size="md" /></social-link></a>
-  <a href="https://v-thomas.com/x"><social-link label="My X (former twitter) profile"><Icon icon="x" size="sm" /></social-link></a>
-  <a href="https://v-thomas.com/linkedin"><social-link label="My LinkedIn profile"><Icon icon="linkedin" size="sm" /></social-link></a>
+  <SocialLink href="" data-email-href="" label="Email me"><Icon name="mail" size="24px" /></SocialLink>
+  <SocialLink href="https://v-thomas.com/github" label="My github profile"><Icon name="github" size="24px" /></SocialLink>
+  <SocialLink href="https://v-thomas.com/x" label="My X (former twitter) profile"><Icon name="x" size="24px" /></SocialLink>
+  <SocialLink href="https://v-thomas.com/linkedin" label="My LinkedIn profile"><Icon name="linkedin" size="24px" /></SocialLink>
 </nav>
 
-<style>
+<style lang="scss">
   nav {
     display: flex;
     gap: 0.75rem;
+  }
+
+  [data-icon] {
+    color: inherit;
   }
 </style>

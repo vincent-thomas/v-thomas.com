@@ -1,5 +1,5 @@
 ---
-import Icon from "./Icon.astro";
+import { Icon } from "astro-icon/components";
 
 export interface Props {
     onClick: string;
@@ -9,7 +9,7 @@ const {onClick} = Astro.props;
 ---
 
 <button onclick={onClick}>
-  <Icon icon="arrow-left" size="sm" /> Go back
+  <Icon name="arrow-left" size="20px" /> Go back
 </button>
 
 <style>

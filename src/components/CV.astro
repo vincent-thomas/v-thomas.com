@@ -1,5 +1,5 @@
 ---
-import Icon from "../components/Icon.astro";
+import { Icon } from "astro-icon/components";
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -13,10 +13,10 @@ const projects = await getStaticPaths();
   <header class="w-full flex flex-col items-center gap-4">
     <h1 class="font-bold print:text-2xl">VINCENT THOMAS</h1>
     <div class="flex gap-3 text-sm">
-      <div class="flex gap-2"><Icon icon="mail" size="sm" /><span data-email-inner=""></span></div>
-      <div class="flex gap-2"><Icon icon="linkedin" size="sm" />v-thomas.com/linkedin</div>
-      <div class="flex gap-2"><Icon icon="github" size="sm" />v-thomas.com/github</div>
-      <div class="flex gap-2"><Icon icon="web" />v-thomas.com</div>
+      <div class="flex gap-2"><Icon name="mail" size="20px" /><span data-email-inner=""></span></div>
+      <div class="flex gap-2"><Icon name="linkedin" size="20px" />v-thomas.com/linkedin</div>
+      <div class="flex gap-2"><Icon name="github" size="20px" />v-thomas.com/github</div>
+      <div class="flex gap-2"><Icon name="web" />v-thomas.com</div>
     </div>
   </header>
   <div class="flex flex-col my-8 px-3">

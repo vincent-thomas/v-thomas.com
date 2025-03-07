@@ -27,7 +27,7 @@ import GoBack from "../../../components/GoBack.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
 
 import Navbar from '../../../components/Navbar.astro';
-import Icon from '../../../components/Icon.astro';
+import { Icon } from 'astro-icon/components';
 ---
 
 <!doctype html>
@@ -50,7 +50,7 @@ import Icon from '../../../components/Icon.astro';
           <a class="text-[var(--gray-12)] group last:mb-0 mb-2 block" href={`/logs/${post.id}`}>
             <article class="flex gap-2 items-center hover:bg-[var(--blue-4)] p-1 rounded-lg">
               <p class="group-hover:underline flex gap-1 items-center">
-                <Icon icon="calendar" size="sm" />
+                <Icon name="calendar" size="20px" />
                 <FormattedDate date={post.data.pubDate!} />
               </p>
               -

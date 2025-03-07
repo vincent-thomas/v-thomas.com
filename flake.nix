@@ -29,6 +29,7 @@
             pnpm_10
             nodejs_22
             http-server
+            dart-sass
           ];
 
         };

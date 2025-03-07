@@ -8,6 +8,7 @@ import GoBack from "../components/GoBack.astro";
 import LdHead from '../components/LdHead.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import TagPill from '../components/TagPill.astro';
 
 
 export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
@@ -49,7 +50,7 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
       <div class="flex lg:flex-row flex-col justify-between lg:items-end gap-4">
         <p class="text-gray-400 max-w-[45ch] text-left">{description}</p>
         <div class="flex flex-wrap max-w-[300px] gap-3 items-center no-print">
-          {tags!.map(tag => <a href={`/logs/tags/${tag}`}><tag-pill>{tag}</tag-pill></a>)}
+          {tags!.map(tag => <a href={`/logs/tags/${tag}`}><TagPill>{tag}</TagPill></a>)}
         </div>
       </div>
       <hr class="no-print" />

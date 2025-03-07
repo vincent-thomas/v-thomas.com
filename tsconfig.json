@@ -4,6 +4,8 @@
   "compilerOptions": {
     "strict": true,
     "experimentalDecorators": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@builder.io/qwik"
   }
 }

@@ -2,7 +2,7 @@
 dist/
 
 public/js/components.js
-public/css/tailwind.css
+public/css
 # generated types
 .astro/
 

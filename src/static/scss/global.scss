@@ -1,0 +1,124 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-italic.ttf')
+    format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+
+  font-optical-sizing: auto;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter.ttf')
+    format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+
+  font-optical-sizing: auto;
+}
+
+
+.sr-only {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px 1px 1px 1px);
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+button {
+  cursor: pointer;
+}
+
+.print {
+  font-family: sans-serif !important;
+  display: none !important;
+}
+
+@media print {
+  .no-print, .no-print * {
+    display: none !important;
+  }
+
+  .print {
+    display: block !important;
+  }
+  @page {
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+}
+
+html {
+  --default-font-family: "Inter";
+  font-family: var(--default-font-family), sans-serif !important;
+}
+
+body {
+  background-color: var(--blue-2);
+  min-height: 100vh;
+  width: 100%;
+}
+
+hr {
+  margin-block: 1rem;
+  color: var(--blue-10);
+}
+
+.bg-blue1 {
+  background-color: var(--blue-1);
+}
+
+.bg-blue2 {
+  background-color: var(--blue-2);
+}
+
+.bg-blue-element {
+  background-color: var(--blue-3);
+}
+
+.bg-blue-hover:hover {
+  background-color: var(--blue-4);
+}
+
+.bg-blue-element-active:active {
+  background-color: var(--blue-5);
+}
+
+.border-blue-subtle {
+  border-color: var(--blue-6);
+}
+
+.border-blue-element:hover {
+  background-color: var(--blue-7);
+}
+
+.border-blue-hover:hover {
+  background-color: var(--blue-8);
+}
+
+.bg-blue-solid {
+  background-color: var(--blue-9);
+}
+
+.bg-blue-solid-hover:hover {
+  background-color: var(--blue-10);
+}
+
+
+.text-blue2 {
+  color: var(--blue-11);
+}
+
+.text-blue1 {
+  color: var(--blue-12);
+}

@@ -1,5 +1,4 @@
 ---
-import '../styles/global.scss';
 import { SITE_TITLE } from '../consts';
 
 interface Props {
@@ -11,7 +10,6 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image } = Astro.props;
-
 ---
 
 <!-- Global Metadata -->
@@ -52,44 +50,8 @@ const { title, description, image } = Astro.props;
 <meta property="twitter:description" content={description} />
 {!!image && <meta property="twitter:image" content={new URL(image, Astro.url)} />}
 
-<script is:inline src="/js/components.js" type="module"></script>
+<link rel="stylesheet" href="/css/theme.css" />
 <link rel="stylesheet" href="/css/tailwind.css" />
 <link rel="stylesheet" href="/css/preflight.css" />
-
-<script>
-  const els = document.querySelectorAll("[data-email-href]");
-
-  const data = atob("dmluY2VudEB2LXRob21hcy5jb20=");
-  for (const el of els) {
-    el.setAttribute("href", `mailto:${data}`);
-  }
-  const els2 = document.querySelectorAll("[data-email-inner]");
-  for (const el of els2) {
-    el.textContent = data;
-  }
-
-  const prefixes = ["tel", "mailto"];
-
-  document.addEventListener("DOMContentLoaded", () => {
-    for (const link of document.getElementsByTagName("a")) {
-      if (link.hasAttribute("data-preload-ignore")) continue;
-      if (link.getAttribute("href")?.startsWith("#")) continue;
-
-      // External source checking
-      if (link.getAttribute("href")?.includes("://")) continue;
-      if (!link.getAttribute("href")?.startsWith("/") && link.getAttribute("href")?.startsWith("//")) continue;
-      for (const prefix in prefixes) {
-        if (link.getAttribute("href")?.startsWith(`${prefix}:`)) continue;
-      }
-
-      link.addEventListener("mouseover", () => {
-        const href = link.getAttribute("href");
-        if (!href) return;
-        const prefetch = document.createElement("link");
-        prefetch.rel = "prefetch";
-        prefetch.href = href;
-        document.head.appendChild(prefetch);
-      }, { once: true });
-    }
-  });
-</script>
+<link rel="stylesheet" href="/css/global.css" />
+<script src="../static/js/preload-loader.ts"></script>
