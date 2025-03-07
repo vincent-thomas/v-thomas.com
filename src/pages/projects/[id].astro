@@ -16,6 +16,8 @@ const post = Astro.props;
 const url = post.data.repo;
 
 const [owner, repo] = url.split('/');
+
+export const prerender = true;
 ---
 
 <Project {...post}>

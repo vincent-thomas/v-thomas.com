@@ -1,19 +1,22 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import Body from "./Body.astro";
-import GoBack from "../components/GoBack.astro";
+import BaseHead from '../../components/BaseHead.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Body from "../Body.astro";
+import GoBack from "../../components/GoBack.astro";
 
-import LdHead from '../components/LdHead.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import TagPill from '../components/TagPill.astro';
+import LdHead from '../../components/LdHead.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import TagPill from '../../components/TagPill.astro';
+import { Image } from 'astro:assets';
+
+import {onlyDarkImage, onlyLightImage} from "./blogpost.css"
 
 
 export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
 
-const { data: {description, pubDate, heroImage, heroImageDescription, tags,furtherReading} , minuteRead, id, lastModified }: Props = Astro.props;
+const { data: {description, pubDate, heroImage, heroImageDescription, tags,furtherReading} , minuteRead, id, lastModified } = Astro.props as Props;
 
 if (!pubDate) throw new Error("Missing pubDate");
 
@@ -23,17 +26,20 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
 
 <html lang="en">
 	<head>
-    <BaseHead title={title} description={description} image={heroImage} />
-    <LdHead title={title} description={description} image={heroImage} pubDate={pubDate} />
+    <BaseHead title={title} description={description} image={heroImage?.dark.src} />
+    <LdHead title={title} description={description} image={heroImage?.dark.src} pubDate={pubDate} />
 	</head>
   <Body>
     <Navbar overrideTitle="VT's dev log" />
     <article class="mt-12  flex flex-col gap-7">
       <div class="flex flex-col gap-4">
         <div class="mb-6 no-print">
-          <GoBack onClick="window.history.back()" />
+          <GoBack href="/logs" overrideText='All posts' />
         </div>
-        {heroImage && <img width={952} height={554} src={heroImage} alt={heroImageDescription} class="rounded-lg" transition:name={`img-${title.replace(" ", "_")}`}  />}
+        {heroImage && (
+          <Image widths={[852, 600, 400]} src={heroImage.dark} loading="eager" alt={heroImageDescription} class:list={["rounded-lg", onlyDarkImage]}  />
+          <Image widths={[852, 600, 400]} src={heroImage.light} loading="eager" alt={heroImageDescription} class:list={["rounded-lg", onlyLightImage]}  />
+        )}
         <div class="flex justify-between">
           <div class="text-gray-400 max-w-[45ch] flex flex-col">
             <p>{pubDate ? <>Published <FormattedDate date={pubDate} /></> : "Private draft"}</p>
@@ -50,7 +56,7 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
       <div class="flex lg:flex-row flex-col justify-between lg:items-end gap-4">
         <p class="text-gray-400 max-w-[45ch] text-left">{description}</p>
         <div class="flex flex-wrap max-w-[300px] gap-3 items-center no-print">
-          {tags!.map(tag => <a href={`/logs/tags/${tag}`}><TagPill>{tag}</TagPill></a>)}
+          {tags.map(tag => <TagPill href={`/logs/tags/${tag}`}>{tag}</TagPill>)}
         </div>
       </div>
       <hr class="no-print" />

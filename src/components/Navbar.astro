@@ -1,8 +1,9 @@
 ---
-import HeaderLink from './HeaderLink.astro';
 import Socials from "./Socials.astro";
 import { SITE_TITLE } from '../consts';
 import { Icon } from 'astro-icon/components';
+import { button } from '../static/cssts/button.css';
+import {isPathActive} from "../utils/isPathaActive";
 
 const links = [
   { href: '/', text: 'Home' },
@@ -13,11 +14,12 @@ const links = [
 export type Props = {
   overrideTitle?: string;
 };
+
 const {overrideTitle} = Astro.props;
+
 ---
+
 <div id="root-navbar">
-  <template id="mobile-nav-navbar">
-  </template>
   <navbar class="flex justify-between items-center w-full" transition:persist>
     <a href="/" class="font-bold text-xl px-3 py-1 rounded-lg text-blue1 mr-auto">{!!overrideTitle ? overrideTitle : SITE_TITLE}</a>
     <div class="no-print">
@@ -28,56 +30,46 @@ const {overrideTitle} = Astro.props;
         <div class="flex-row flex gap-12">
           <ul class="flex gap-6 lg:flex-row flex-col">
             {links.map(({href, text}) =>
-              <li><HeaderLink activeClass="underline decoration-[2px]" href={href} class="text-blue2 font-semibold px-4 py-3 bg-blue-hover rounded-md block">
+            <li>
+              <a
+                href={href}
+                class:list={{
+                [button({underline: true})]: isPathActive(Astro.url.pathname, href),
+                  [button({underline: false})]: !isPathActive(Astro.url.pathname, href)
+                }}>
                   {text}
-              </HeaderLink></li>
+              </a>
+            </li>
             )}
           </ul>
           <div class="flex gap-4 flex-col justify-center">
             <p class="lg:hidden text-blue2 font-bold text-3xl">Let's connect</p>
-
-            <!-- This is a hack because socials cannot be in a string in script tags -->
-            <div id="social-wrapper">
-              <Socials />
-            </div>
+            <Socials />
           </div>
         </div>
       </div>
     </div>
   </navbar>
+  <div class="hidden bg-[var(--blue-3)] rounded-lg p-4 mt-4" id="navbar-mobile-links">
+    <ul class="flex flex-col gap-4 mb-6">
+      {links.map(link => <li><a href={link.href} class="text-blue2 font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">{link.text}</a></li>)}
+    </ul>
+    <Socials />
+  </div>
 </div>
-
-<script is:inline define:vars={{ links }}>
-  // This is a hack because socials cannot be in a string in script tags
-    let social_links = document.getElementById("social-wrapper");
-    let template = document.getElementById("mobile-nav-navbar");
-    template.innerHTML = `
-      <div class="bg-[var(--blue-3)] rounded-lg p-4 mt-4" id="navbar-mobile-links">
-        <ul class="flex flex-col gap-4 mb-6">
-          ${links.map(link => `<li><a href="${link.href}" class="text-blue2 font-semibold px-4 py-3 hover:bg-[var(--blue-4)] rounded-md block">${link.text}</a></li>`).join("")}
-        </ul>
-        ${social_links.innerHTML}
-      </div>
-    `;
-</script>
 
 <script>
   const handler = document.querySelector("#hamburger-handler");
 
   handler?.addEventListener("click", () => {
-    const existing = document.querySelectorAll("#root-navbar>#navbar-mobile-links");
+    const existing = document.querySelector("#root-navbar>#navbar-mobile-links")!;
 
-    if (existing.length != 0) {
-      for (const item of existing) {
-        item.remove();
-      }
-      return;
-    }
+    existing.classList.toggle("hidden");
 
-    let navbar = document.getElementById("root-navbar")!;
-    let templateLinks: HTMLTemplateElement = document.getElementById("mobile-nav-navbar")! as HTMLTemplateElement;
-    let instance = templateLinks.content.cloneNode(true);
-
-    navbar.appendChild(instance);
+    //let navbar = document.getElementById("root-navbar")!;
+    //let templateLinks: HTMLTemplateElement = document.getElementById("mobile-nav-navbar")! as HTMLTemplateElement;
+    //let instance = templateLinks.content.cloneNode(true);
+    //
+    //navbar.appendChild(instance);
   });
 </script>

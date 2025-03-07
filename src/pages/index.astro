@@ -2,21 +2,19 @@
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 import BaseHead from '../components/BaseHead.astro';
-import BlogPost from "../components/BlogPost.astro";
 
 import Body from "../layouts/Body.astro";
 
-import { getCollection } from "astro:content";
-
-import { take } from "../utils/take"
 import Footer from "../components/Footer.astro";
 import Navbar from "../components/Navbar.astro";
 
 import CV from "../components/CV.astro";
 
 import { Icon } from "astro-icon/components";
+import { button } from '../static/cssts/button.css';
+import Logs from "../server-islands/posts.astro";
 
-const posts = take(await getCollection("article"), 3);
+export const prerender = true;
 ---
 
 <!DOCTYPE html>
@@ -40,12 +38,11 @@ const posts = take(await getCollection("article"), 3);
 
       <section class="posts">
         <h2 class="title">Latest logs</h2>
-        <div>
-          {posts.map(post => <BlogPost post={post} />)}
-        </div>
-        <a href="/logs" class="more-posts">
+        <Logs limit={3} server:defer />
+        <a href="/logs" class:list={[button({accent: "red"}), "self-end"]}>
           More posts <Icon name="arrow-right" />
         </a>
+        </div>
       </section>
       <Footer />
     </main>

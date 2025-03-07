@@ -1,24 +1,23 @@
 ---
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../../consts';
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { type CollectionEntry } from 'astro:content';
+import { notFound } from '../../../utils/redirect';
 
-import {listTags} from "../../../utils/reordertaggedArticles";
+import { getLogsFromTag } from "../../../utils/logs";
 
-export async function getStaticPaths() {
-	const posts = (await getCollection('article')).filter(post => process.env.NODE_ENV == "development" || !!post.data.pubDate);
+const tag = Astro.params.tag as string;
+const logs = await getLogsFromTag(tag);
 
-  const result = listTags(posts);
-
-  return Object.keys(result).map((tag) => {
-    return {
-      params: { tag },
-      props: {posts: [...result[tag]], tag},
-	  }
-  });
+if (logs.length === 0) {
+  return notFound();
 }
+
 type Props = {posts: CollectionEntry<'article'>[], tag: string};
 
-const props = Astro.props;
+const props = {
+  posts: logs,
+  tag,
+};
 
 import BaseHead from '../../../components/BaseHead.astro';
 
@@ -38,7 +37,7 @@ import { Icon } from 'astro-icon/components';
   <Body>
     <Navbar />
     <div class="lg:my-20 my-8 flex flex-col gap-3 items-start">
-      <GoBack onClick="window.history.back()" />
+      <GoBack href="/logs/tags" />
       <h1 class="text-[var(--gray-12)] text-3xl md:text-4xl xl:text-5xl font-[800]">VT's dev log `{props.tag}`</h1>
       <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
     </div>

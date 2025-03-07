@@ -1,4 +1,7 @@
 ---
+import { HTMLAttributes } from 'astro/types';
+
+
 //import { css, LitElement, html } from "lit";
 //import { customElement, property } from "lit/decorators.js";
 //
@@ -12,9 +15,9 @@
 //  }
 //  }
 
-export interface Props extends HTMLAnchorElement {
-href: string;
-label: string
+export interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  label: string
 }
 
 const {href, label, ...props} = Astro.props;

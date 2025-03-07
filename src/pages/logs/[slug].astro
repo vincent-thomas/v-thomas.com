@@ -1,21 +1,18 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import BlogPost from '../../layouts/logpost';
 import { render } from 'astro:content';
+import { getLog } from '../../utils/logs';
+import { notFound } from '../../utils/redirect';
 
-export async function getStaticPaths() {
-	const posts = await getCollection('article');
-  return posts.filter(post => process.env.NODE_ENV == "development" || !!post.data.pubDate).map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
+const log = await getLog(Astro.params.slug as string);
+
+if (log === null) {
+  return notFound();
 }
-type Props = CollectionEntry<'article'>;
 
-const post = Astro.props;
-const { Content, remarkPluginFrontmatter } = await render(post);
+const { Content, remarkPluginFrontmatter } = await render(log);
 ---
 
-<BlogPost {...post} minuteRead={Math.ceil(remarkPluginFrontmatter.minuteRead)} lastModified={remarkPluginFrontmatter.lastModified}>
+<BlogPost {...log} minuteRead={Math.ceil(remarkPluginFrontmatter.minuteRead)} lastModified={remarkPluginFrontmatter.lastModified}>
 	<Content />
 </BlogPost>

@@ -26,7 +26,7 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
     <span class="read-more">Read more</span>
   </a>
   <div class="tags">
-    {post.data.tags.map(tag => <a href={`/logs/tags/${tag}`}><TagPill>{tag}</TagPill></a>)}
+    {post.data.tags.map(tag => <TagPill href={`/logs/tags/${tag}`}>{tag}</TagPill>)}
   </div>
 </article>
 <style lang="scss">

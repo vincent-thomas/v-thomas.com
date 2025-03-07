@@ -1,7 +1,16 @@
-<span><slot /></span>
+---
+import { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'a'> {
+  href: string;
+};
+
+const props: Props = Astro.props;
+---
+<a {...props}><slot /></a>
 
 <style>
-  span {
+  a {
     color: var(--blue-12);
     text-decoration: none;
 

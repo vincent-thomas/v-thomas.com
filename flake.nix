@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils = {
       url = "github:numtide/flake-utils";
-      inputs.nixpkgs.follows = "nixkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -29,9 +29,9 @@
             pnpm_10
             nodejs_22
             http-server
-            dart-sass
-          ];
 
+            flyctl
+          ];
         };
       }
     );

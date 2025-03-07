@@ -1,0 +1,18 @@
+---
+import {getLogs} from "../utils/logs"
+import {take} from "../utils/take";
+import BlogPost from "../components/BlogPost.astro";
+
+export type Props = {
+  limit?: number;
+};
+
+let posts = await getLogs();
+
+if (Astro.props.limit) {
+  posts = take(posts, Astro.props.limit);
+}
+---
+<div>
+  {posts.map(post => <BlogPost post={post} />)}
+</div>

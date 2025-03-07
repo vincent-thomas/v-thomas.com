@@ -3,21 +3,12 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
 import BaseHead from '../../components/BaseHead.astro';
 import Body from "../../layouts/Body.astro";
-import GoBack from "../../components/GoBack.astro";
 
-import { getCollection } from 'astro:content';
-
-import BlogPost from "../../components/BlogPost.astro";
 import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
 import { Icon } from 'astro-icon/components';
-import TagPill from '../../components/TagPill.astro';
-
-const posts = (await getCollection('article')).filter(post => !!post.data.pubDate).sort(
-  (a, b) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf(),
-);
-
-const allTags: string[] = posts.reduce((old, current) => {return [...old, ...current.data.tags]}, []);
+import {button} from "../../static/cssts/button.css";
+import Logs from "../../server-islands/posts.astro";
 ---
 
 <!doctype html>
@@ -29,15 +20,12 @@ const allTags: string[] = posts.reduce((old, current) => {return [...old, ...cur
     <Navbar />
     <main>
       <div class="flex flex-col gap-2 items-start">
-        <div class="flex justify-between w-full items-center">
-          <GoBack onClick="window.history.back()" />
-        </div>
         <h1 class="mt-8 text-[var(--gray-12)] text-3xl md:text-5xl xl:text-7xl font-[800]">VT's dev log</h1>
         <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
-        <div class="flex gap-2">{allTags.map(tag => <a href={`/logs/tags/${tag}`}><TagPill>{tag}</TagPill></a>)}</div>
+        <a href="/logs/tags" class={button({underline: true})}>All tags <Icon name="arrow-right" /></a>
       </div>
       <section>
-        {posts.map((post) => <BlogPost post={post} />)}
+        <Logs />
       </section>
       <Footer />
     </main>
@@ -45,18 +33,6 @@ const allTags: string[] = posts.reduce((old, current) => {return [...old, ...cur
 </html>
 
 <style>
-  .search-form {
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-
-    input {
-      outline: none;
-      font-size: 1.2rem;
-      color: var(--blue-12);
-    }
-  }
   main {
     display: flex;
     flex-direction: column;

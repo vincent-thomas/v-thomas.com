@@ -7,6 +7,8 @@ export async function getStaticPaths() {
   return project.filter(post => process.env.NODE_ENV == "development" || !!post.data.date).map((post) => post);
 }
 
+export type Props = {};
+
 const projects = await getStaticPaths();
 ---
 <div>

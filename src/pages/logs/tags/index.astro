@@ -1,0 +1,33 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../../consts';
+import BaseHead from '../../../components/BaseHead.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Body from "../../../layouts/Body.astro";
+
+import TagPill from "../../../components/TagPill.astro";
+import GoBack from "../../../components/GoBack.astro";
+
+import { getLogs } from "../../../utils/logs";
+
+const logs = await getLogs();
+const tags: string[] = logs.flatMap((log) => log.data.tags);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <Body>
+    <Navbar />
+    <div class="lg:my-20 my-8 flex flex-col gap-3 items-start">
+      <GoBack href="/" />
+      <h1 class="text-[var(--gray-12)] text-3xl md:text-4xl xl:text-5xl font-[800]">VT's dev log</h1>
+      <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
+    </div>
+		<section>
+      {tags.map((tag) => <TagPill set:text={tag} href={`/logs/tags/${tag}`} />)}
+    </section>
+  </Body>
+</html>
+

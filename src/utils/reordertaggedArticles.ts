@@ -1,4 +1,10 @@
-export function listTags<T>(articles: T[]) {
+interface RequiredData {
+  data: {
+    tags: string[];
+  };
+}
+
+export function listTags<T extends RequiredData>(articles: T[]) {
   const tags: Record<string, Set<T>> = {};
   articles.forEach((article) => {
     article.data.tags.forEach((tag) => {

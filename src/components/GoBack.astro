@@ -1,35 +1,16 @@
 ---
 import { Icon } from "astro-icon/components";
+import { button } from "../static/cssts/button.css";
+import { HTMLAttributes } from "astro/types";
 
-export interface Props {
-    onClick: string;
+export interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  overrideText?: string;
 }
 
-const {onClick} = Astro.props;
+const {href, class: classList, overrideText, ...props} = Astro.props;
 ---
 
-<button onclick={onClick}>
-  <Icon name="arrow-left" size="20px" /> Go back
-</button>
-
-<style>
-    button {
-      color: var(--gray-11);
-
-      padding: 0.75rem 1rem;
-      border: none;
-      border-radius: 0.5rem;
-      display: inline-flex;
-      gap: 0.75rem;
-      align-items: center;
-      cursor: pointer;
-      background-color: unset;
-
-      font-family: var(--font-family);
-      font-size: 14px;
-
-      &:hover {
-        background-color: var(--blue-5);
-      }
-    }
-</style>
+<a href={href} class:list={[button(), classList]} {...props}>
+  <Icon name="arrow-left" size="20px" /> {overrideText || "Go back"}
+</a>
