@@ -28,6 +28,7 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
 	<head>
     <BaseHead title={title} description={description} image={heroImage?.dark.src} />
     <LdHead title={title} description={description} image={heroImage?.dark.src} pubDate={pubDate} />
+    <link rel="stylesheet" href="/css/article.css" />
 	</head>
   <Body>
     <Navbar overrideTitle="VT's dev log" />
@@ -60,7 +61,7 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
         </div>
       </div>
       <hr class="no-print" />
-      <div class="prose w-full max-w-[unset] dark:prose-invert">
+      <div class="my-content">
         <slot/>
         {!!furtherReading && (
           <h2 id="further-reading"><a href="#further-reading">Further reading</a></h2>

@@ -1,12 +1,10 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import mdx from "@astrojs/mdx";
+import markdoc from "@astrojs/markdoc";
 import sitemap from "@astrojs/sitemap";
-import cloudflare from "@astrojs/cloudflare";
+import node from "@astrojs/node";
 
-import autolink_headers from "rehype-autolink-headings";
 import autolink_links from "rehype-external-links";
-import add_ids_to_headers from "rehype-slugs";
 import rehypeKatex from "rehype-katex";
 
 import icon from "astro-icon";
@@ -19,7 +17,7 @@ import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
  */
 const config = {
   site: "https://v-thomas.com",
-  integrations: [mdx(), sitemap(), icon()],
+  integrations: [markdoc(), sitemap(), icon()],
   devToolbar: { enabled: false },
 
   build: {
@@ -27,10 +25,10 @@ const config = {
   },
 
   output: "server",
-  adapter: cloudflare({
-    imageService: "compile",
-    platformProxy: { enabled: false },
-  }),
+  adapter: node({ mode: "standalone" }),
+  server: {
+    host: "0.0.0.0",
+  },
 
   scopedStyleStrategy: "where",
 
@@ -43,14 +41,14 @@ const config = {
 
   markdown: {
     rehypePlugins: [
-      add_ids_to_headers,
-      [autolink_headers, { behavior: "wrap" }],
-      [
-        autolink_links,
-        {
-          content: { type: "text", value: " 🔗" },
-        },
-      ],
+      //add_ids_to_headers,
+      //[autolink_headers, { behavior: "wrap" }],
+      //[
+      //  autolink_links,
+      //  {
+      //    content: { type: "text", value: " 🔗" },
+      //  },
+      //],
       rehypeKatex,
     ],
     remarkPlugins: [remarkReadingTime, remarkModifiedTime],
@@ -63,9 +61,6 @@ const config = {
 
   vite: {
     esbuild: { legalComments: "none" },
-    server: {
-      origin: "http://localhost:3001",
-    },
     plugins: [
       vanillaExtractPlugin({
         identifiers: ({ hash }) => `v${hash}`,

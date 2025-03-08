@@ -28,14 +28,14 @@ const {overrideTitle} = Astro.props;
       </button>
       <div class="hidden lg:block">
         <div class="flex-row flex gap-12">
-          <ul class="flex gap-6 lg:flex-row flex-col">
+          <ul class="flex gap-6 lg:flex-row flex-col items-center">
             {links.map(({href, text}) =>
             <li>
               <a
                 href={href}
                 class:list={{
-                [button({underline: true})]: isPathActive(Astro.url.pathname, href),
-                  [button({underline: false})]: !isPathActive(Astro.url.pathname, href)
+                [button({underline: true })]: isPathActive(Astro.url.pathname, href),
+                [button({underline: false })]: !isPathActive(Astro.url.pathname, href)
                 }}>
                   {text}
               </a>

@@ -1,0 +1,98 @@
+.my-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  {
+    color: var(--blue-11);
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  h6 {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--gray-12);
+    margin-block: 1.5rem;
+  }
+
+  li {
+    color: var(--gray-12);
+    list-style-type: disc;
+    margin-left: 2rem;
+    margin-bottom: 0.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  pre {
+    padding: 0.8rem;
+
+    @media screen and (min-width: 900px) {
+      padding: 1.2rem;
+    }
+  }
+
+  a:not(.ignore-link) {
+    --space-y: 2px;
+    --space-x: 3px;
+    color: var(--blue-11);
+    font-weight: 600;
+
+    position: relative;
+
+    &:hover {
+      color: var(--gray-a12);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background-color: var(--blue-11);
+      transition: all 0.1s ease-in-out;
+      z-index: -1;
+
+    }
+
+    &:hover::before {
+      width: calc(100% + 2 * var(--space-x));
+      left: calc(var(--space-x) * -1);
+
+      height: calc(100% + 2 * var(--space-y));
+      bottom: calc(var(--space-y) * -1);
+    }
+  }
+}

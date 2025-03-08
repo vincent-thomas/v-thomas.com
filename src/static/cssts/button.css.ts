@@ -1,25 +1,42 @@
 import { recipe } from "@vanilla-extract/recipes";
 import { createVar } from "@vanilla-extract/css";
 
-const decoration = createVar();
+const spacingY = createVar();
+const spacingX = createVar();
 
 export const button = recipe({
+  defaultVariants: {
+    size: "default",
+    underline: false,
+    accent: "blue",
+  },
   base: {
+    paddingInline: spacingX,
+    paddingBlock: spacingY,
+
     display: "inline-flex",
     alignItems: "center",
     gap: "0.5rem",
 
-    transition: "background-color 0.1s ease, border-radius 0.1s ease 0.025s",
-
-    borderRadius: "2.5rem",
-
     fontWeight: 600,
 
-    textDecoration: decoration,
-    textDecorationThickness: "2px",
+    position: "relative",
 
-    ":hover": {
-      borderRadius: "0%",
+    "::before": {
+      transition: "all 0.1s ease-in-out",
+      zIndex: -1,
+      content: '""',
+      position: "absolute",
+    },
+
+    selectors: {
+      "&:hover::before": {
+        width: `100%`,
+        left: `0`,
+
+        height: `100%`,
+        bottom: `0`,
+      },
     },
   },
 
@@ -28,45 +45,59 @@ export const button = recipe({
       blue: {
         color: "var(--blue-11)",
         ":hover": {
-          color: "var(--blue-12)",
-          backgroundColor: "var(--blue-8)",
+          color: "var(--gray-a12)",
+        },
+        ":before": {
+          backgroundColor: "var(--blue-11)",
         },
       },
       red: {
         color: "var(--red-11)",
         ":hover": {
-          color: "var(--red-12)",
-          backgroundColor: "var(--red-8)",
+          color: "var(--red-a12)",
+        },
+        ":before": {
+          backgroundColor: "var(--red-11)",
         },
       },
     },
     size: {
+      sm: {
+        vars: {
+          [spacingX]: ".4rem",
+          [spacingY]: ".2rem",
+        },
+      },
       default: {
-        padding: "0.4rem 0.7rem",
+        vars: {
+          [spacingX]: ".5rem",
+          [spacingY]: ".3rem",
+        },
       },
     },
 
     underline: {
       true: {
-        vars: {
-          [decoration]: "underline",
-        },
-        ":hover": {
-          vars: {
-            [decoration]: "none",
-          },
+        "::before": {
+          width: `calc(100% - (2 * ${spacingX}))`,
+          bottom: spacingY,
+          left: spacingX,
+          height: "2px",
         },
       },
       false: {
-        vars: {
-          [decoration]: "none",
+        selectors: {
+          "&:hover::before": {
+            transform: "translate(0,-50%)",
+          },
+        },
+        "::before": {
+          width: 0,
+          left: "50%",
+          top: "50%",
+          height: "0px",
         },
       },
     },
-  },
-  defaultVariants: {
-    size: "default",
-    underline: false,
-    accent: "blue",
   },
 });

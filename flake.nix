@@ -30,6 +30,7 @@
             nodejs_22
             http-server
 
+            dart-sass
             flyctl
           ];
         };
