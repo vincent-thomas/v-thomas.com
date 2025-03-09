@@ -2,6 +2,7 @@
   "include": [".astro/types.d.ts", "./types.d.ts", "./src/**/*", "unimport.d.ts"],
   "exclude": ["dist"],
   "compilerOptions": {
+    "lib": ["es2021"],
     "strict": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
