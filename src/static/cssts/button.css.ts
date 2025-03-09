@@ -54,7 +54,7 @@ export const button = recipe({
       red: {
         color: "var(--red-11)",
         ":hover": {
-          color: "var(--red-a12)",
+          color: "var(--gray-a12)",
         },
         ":before": {
           backgroundColor: "var(--red-11)",

@@ -12,7 +12,6 @@ COPY . .
 
 # Build the Astro app
 RUN nix develop --extra-experimental-features "nix-command flakes" --command pnpm build
-
 RUN nix develop --extra-experimental-features "nix-command flakes" --command pnpm install --prod=true
 
 # Final stage: Production image

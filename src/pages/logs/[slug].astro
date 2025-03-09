@@ -1,14 +1,23 @@
 ---
+import type { GetStaticPaths } from "astro";
 import BlogPost from '../../layouts/logpost';
 import { render } from 'astro:content';
-import { getLog } from '../../utils/logs';
-import { notFound } from '../../utils/redirect';
+import { getLogs } from '../../utils/logs';
+import { CollectionEntry } from "astro:content";
 
-const log = await getLog(Astro.params.slug as string);
+export const prerender = true;
+export const getStaticPaths = (async () => {
+  const logs = await getLogs();
 
-if (log === null) {
-  return notFound();
-}
+  return logs.map((log) => ({
+    params: { slug: log.id },
+    props: log
+  }));
+  }) satisfies GetStaticPaths;
+
+export type Props = CollectionEntry<'article'>;
+
+const log = Astro.props as Props;
 
 const { Content, remarkPluginFrontmatter } = await render(log);
 ---

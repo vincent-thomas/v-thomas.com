@@ -1,23 +1,31 @@
 ---
+import type { GetStaticPaths } from "astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../../consts';
-import { type CollectionEntry } from 'astro:content';
-import { notFound } from '../../../utils/redirect';
 
-import { getLogsFromTag } from "../../../utils/logs";
+import { getAllTags, getLogsFromTag } from "../../../utils/logs";
 
-const tag = Astro.params.tag as string;
-const logs = await getLogsFromTag(tag);
 
-if (logs.length === 0) {
-  return notFound();
-}
+export const prerender = true;
+export const getStaticPaths = (async () => {
+  const arr = [];
 
-type Props = {posts: CollectionEntry<'article'>[], tag: string};
+  const tags = await getAllTags();
+  for (const tag of tags) {
+    arr.push({
+      params: { tag },
+      props: {
+        tag,
+        posts: await getLogsFromTag(tag)
+      }
+    })
+  }
 
-const props = {
-  posts: logs,
-  tag,
-};
+  return arr;
+}) satisfies GetStaticPaths;
+
+export type Props = Awaited<ReturnType<typeof getStaticPaths>>[number]["props"];
+
+const props = Astro.props as Props;
 
 import BaseHead from '../../../components/BaseHead.astro';
 
@@ -25,7 +33,7 @@ import Body from "../../../layouts/Body.astro";
 import GoBack from "../../../components/GoBack.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
 
-import Navbar from '../../../components/Navbar.astro';
+import { Navbar } from '../../../components/Navbar';
 import { Icon } from 'astro-icon/components';
 ---
 

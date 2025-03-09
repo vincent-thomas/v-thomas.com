@@ -4,9 +4,6 @@ import markdoc from "@astrojs/markdoc";
 import sitemap from "@astrojs/sitemap";
 import node from "@astrojs/node";
 
-import autolink_links from "rehype-external-links";
-import rehypeKatex from "rehype-katex";
-
 import icon from "astro-icon";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 
@@ -40,23 +37,13 @@ const config = {
   },
 
   markdown: {
-    rehypePlugins: [
-      //add_ids_to_headers,
-      //[autolink_headers, { behavior: "wrap" }],
-      //[
-      //  autolink_links,
-      //  {
-      //    content: { type: "text", value: " 🔗" },
-      //  },
-      //],
-      rehypeKatex,
-    ],
     remarkPlugins: [remarkReadingTime, remarkModifiedTime],
   },
 
   experimental: {
     contentIntellisense: true,
     responsiveImages: true,
+    svg: true,
   },
 
   vite: {

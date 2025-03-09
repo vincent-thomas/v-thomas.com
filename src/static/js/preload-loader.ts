@@ -1,4 +1,4 @@
-const data = atob("dmluY2VudEB2LXRob21hcy5jb20=");
+const data = window.atob("dmluY2VudEB2LXRob21hcy5jb20=");
 
 document
   .querySelectorAll("[data-email-href]")

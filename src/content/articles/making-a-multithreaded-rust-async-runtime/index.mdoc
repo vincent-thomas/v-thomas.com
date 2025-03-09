@@ -1,10 +1,9 @@
 ---
-title: 'Making a multithreaded rust async runtime'
-description: "Many people don't know how async runtimes (for example tokio) works. The goal of this article is explaining how one works and making one efficient."
+description: "Many people don't know how async runtimes (for example tokio) works. The goal of this article is explaining how one works and what goes into making one efficient."
 heroImage:
-  light: ./liten-graph-white.png
-  dark: ./liten-graph-black.png
-heroImageDescription: Diagram of the 'liten' rust async runtime.
+  light: ./assets/liten-graph-white.png
+  dark:  ./assets/liten-graph-black.png
+  alt: Diagram of the 'liten' rust async runtime.
 pubDate: 1 Mar 2025
 tags:
   - rust
@@ -13,22 +12,28 @@ tags:
 furtherReading:
   - url: https://tokio.rs/blog/2019-10-scheduler
     title: Making the Tokio scheduler 10x faster
-
+  - url: https://www.shuttle.dev/blog/2024/02/29/async-rust
+    title: Async Rust in a Nutshell
 ---
 
 # Background
-Rust is very interesting to me. It allows for more control of the controlflow than any other language in my opinion. It does this in many different ways.
-One of these ways is with the `Option<T>` and `Result<T, E>` [tagged unions](https://en.wikipedia.org/wiki/Tagged_union). Options prevent null-values and Results embraces the error-as-values instead of using Exeptions (thank god).
-Whilst already brilliant, Rust takes this idea and applies this further in another area in its language, a much more complex area, it's asyncronous functionality.
-Rust has async syntax builtin, but not an async runtime builtin. What I'm refering to, is that a function can be colored `async`, but the `fn main()` _cannot_ be made `async`.
+Rust is very interesting to me. It allows for more control of the controlflow than any other language. It does this in many different ways.
+One of these ways is with the `Option<T>` and `Result<T, E>` [tagged unions](https://en.wikipedia.org/wiki/Tagged_union). `Option` prevents [the billion dollar mistake](https://hinchman-amanda.medium.com/null-pointer-references-the-billion-dollar-mistake-1e616534d485) and `Result` embraces the error-as-values instead of using Exceptions (thank god).
 
-This means that it's impossible (without correct implementation) to run a async function in the main function. This is where async runtimes come into play. If an application wishes to run Futures, one needs to implement a way to handle async functions = Futures.
+Rust takes the same idea and applies it at a much more complex area, it's asyncronous functionality, and does so very well.
+Rust has async syntax builtin, but not an async runtime builtin. What I'm refering to, is that a function can be colored `async`, but the `fn main()` _cannot_ run an `async` function.
+This means that it's impossible (without correct implementation) to run a async function in the main function.
+This is where async runtimes come into play. If an application wishes to run Futures (async functions), one needs to implement a way to execute `Future`s.
 
 ---
 
-# Implementing an async runtime
+{% math %}
+ I_i=\frac{x}{\sqrt{2}}
+{% /math %}
 
-There are essentially no limits on how the implementation looks like for an async runtime. But first, lets have a look at the [Future](https://doc.rust-lang.org/stable/std/future/trait.Future.html) signature:
+# What is an async runtime??
+
+A future is just a trait, like any other, with syntax support from the rust compiler:
 ```rust
 // Simplified version of std::future::Future trait (as of 1.83)
 pub trait Future {
@@ -37,35 +42,62 @@ pub trait Future {
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>;
 }
 ```
-A `async fn` is essentially syntax-sugaring for a function returning a Future.
-Futures are lazily evaluated, which means that the caller must "poll" until completion for it to complete and the caller to get access to the return value.
 
-The only job an async runtime does is polling `Future`s. It is a very simple problem, with a potentially quite hard solution.
+A `Future` can be thought as a lazy-evaluated javascript promise. A `Future` doesn't do anything unless `Future::poll`'ed. The future poll method returns either a `Poll::Ready(/* value */)` or `Poll::Pending`.
 
+When a future returns a `Poll::Pending`, it tells the runtime that the future cannot make any more progress (in that moment).
+When the future returns Pending it's the implementor's responsibility to store the Waker contained in the Context struct and to call [Waker::wake()](https://doc.rust-lang.org/stable/std/task/trait.Wake.html#tymethod.wake) when progress can be made.
+This tells the async runtime that this `Future` might be able to make progress by polling it again. Eventually the `Future` returns `Pending::Ready(/*value*/)`, where the async syntax automatically unwraps the value.
+
+The point of this mental model is only allocating CPU-time to items that actually need it.
+This type of thinking isn't about performance. Asynchronous has never been about performance.
+It's about waiting as little as possible and only allocating CPU to tasks that has utility for CPU.
+
+The only job for a async runtime is calling the poll method on `Future`'s as efficiently as possible.
+# Implementing an async runtime
+
+There are essentially no limits on how the implementation looks like for an async runtime.
+As we know the only job an async runtime does is polling `Future`s. It is a very simple problem, with a potentially quite hard solution.
 
 The point of async rust is _efficiency_. For example, if an application is listening on TCP, there is really no reason to block until a request comes. We only need to process the TCP connection, when one has arrived.
 In `std`, the TCP listener blocks until a request has been made, but with async we can make the TcpListener not do any work until it needs to, leaving precious CPU time to other async tasks/futures.
 
-We can expand async rusts capabilities by adding green threads. These are threads in which it's lifecycle is not managed by the OS (brings overhead, such as startup times and more), but by the async runtime, making them very light and cheap. A prime example of this is [`tokio::task`s](https://docs.rs/tokio/latest/tokio/task/index.html).
+We can expand async rusts capabilities by adding green threads. These are threads in which it's lifecycle is not managed by the OS (brings overhead, such as startup times and more), but by the async runtime, making them very light and cheap. A prime example of this is [`tokio::task`](https://docs.rs/tokio/latest/tokio/task/index.html).
 
-Rust's async model is all about making as much as possible run on one thread. This doesn't mean that our runtime cannot be run on multiple threads.
-
-## Designing our own async runtime
+## Requirements
 Let's list some requirements before touching code or discussing any implementations:
 - Multithreaded
 - Green-thread support
-- As efficient as possible (more on this later)
+- As efficient as possible
 
-When talking about a green threads and multithreading, we are adhearing to the [`M:N` model](https://en.wikipedia.org/wiki/Thread_(computing)#M:N_(hybrid_threading)), which is `M` number of green-threads on `N` number of OS-threads.
-The standard amount of OS-threads is one per CPU-core, creating any more than that will make the CPU schedule the threads anyways.
+Async is all about concurrency. The easiest way of implementing this is green threads, which can be implemented in various ways, but it's essentially all about [mapping X amount of green threads onto X amount of CPUs](https://en.wikipedia.org/wiki/Thread_(computing)#M:N_(hybrid_threading)).
+In our case, there isn't any restrictions put on our workload so we should have the same amount of OS threads as we have CPU cores. Any more than this and the CPU will just schedule our threads any way, which is not desired behavior.
+
+For our runtime to be multithreaded we need a scheduler and workerthreads. The schedulers job is to poll the parent `Future` which in turn initiates any tasks or asynchronous functionality.
+The worker threads are spawned by the scheduler, and it's their job to execute any tasks. Worker threads can be implemented in two main ways. A pull model or push model.
+
+### Approach 1: Pull-based model
+In a pull model, the workers have total control over retreiving tasks and they prioritise themselves where to get them from. This allows for further optimisation.
+In this model the scheduler does very little since the workers have almost total control.
+Because the workers are very seperate from the scheduler, we can allow the workers to communicate with each other. If the workers are allowed remote state of each other, we can implement [work stealing](https://en.wikipedia.org/wiki/Work_stealing).
+Work stealing allows a worker threads to steal tasks from other workers local queue. This levels pressure and makes sure that all workers are approximately an equal amount of workload.
+
+![Async scheduler pull based model](./assets/rust-async-pull-model.png)
+
+### Approach 2: Push-based model
+
+In a push model, the scheduler have total control over sending tasks to the workers, but the scheduler also needs to assure that all the workers get similar load and can do very little if a unbalance in load occurs. It is much more difficult to optimise and the scheduler has many more roles.
+
+![Async scheduler push based model](./assets/rust-async-push-model.png)
+
+For these reasons we are going to use a pull-based runtime.
+
+---
+
+## Designing our pull-based runtime
 
 In this system, we will have one global FIFO queue and one local FIFO queue for every workerthread.
-The individual workers will prefer pulling from it's own queue and then take from the global queue.
-But this take has a fatal flaw. Lets say that thread 1 has 3 tasks and finishes all of them and thread 2 has 50 tasks and takes 2 seconds on each task.
-There is a major imbalance between amount of tasks. We can implement [Work stealing](https://en.wikipedia.org/wiki/Work_stealing) to solve this issue.
-Work stealing is allowing a worker threads to steal tasks from other workers local queue.
-This levels pressure and makes sure that all workers are approximately an equal amount of workload.
-
+The individual workers will prefer pulling from it's own queue and then take from the global queue, to prevent stale tasks. If the global queue is empty, then try to steal from other workers.
 We can implement this priority of fetching tasks with this function:
 ```rust
 impl Worker {
@@ -108,7 +140,9 @@ impl Worker {
   }
 }
 ```
+_Snippet taken from [my runtime 'liten's worker task fetching mechanism](https://github.com/liten-rs/liten/blob/main/liten/src/runtime/scheduler/worker/worker.rs#L98-L134)_.
 
+The queues contain green threads. In Rust's case it's a `Future` submitted by the user. The user supplies a Future and the runtime wrapps that in another future and once the user-submitted Future is ready, the value gets sent in a oneshot channel to the JoinHandle.
 Once a task has been retreived, we allow little CPU time for that specific task. tasks Poll return decides what to do with it:
 - Task returns `Poll::Pending`: Put it aside in a "cold" hashmap. This is to prevent the tasks in the "hot" queue to be polled unecessarily. Once the Future calls the waker, we put it back in the queue.
 - Task returns `Poll::Ready`: Simply ignore, the future is a wrapper for the real future with the value, so nothing needs to be done here.
@@ -159,6 +193,15 @@ impl Worker {
 }
 ```
 
-Now we have a very basic multithreaded, work-stealing async runtime! It's missing features such as a IO-event loop and a timer but the core of a runtime is this.
+**Here the worker puts tasks in and out of the local queue and into/out of a "cold queue". Why bother?**
 
-These snippets are taken from my own async runtime [`liten`](https://github.com/liten-rs/liten) which already has these extra parts mentioned and even more features planned.
+Well part of the reason is that it makes the implementation of the Waker very simple. The only thing the waker needs to do is to move the "parked" task into the hot queue, and the worker will pick it up and poll.
+
+But the real reason is this. Theres two types of Futures, futures that will return Pending and Futures that are ready to be polled.
+If we know that a Future has returned Pending and wake has not been called, there should be no reason to call poll because the future hasn't made progress yet. So we can store it to the side until wake has been called.
+The whole point of the async mental model is to only give CPU to code that needs it. So as an optimisation, the tasks that has returned Poll::Pending are put to the side,
+because we know that they can't make progress, so why loop over the queue and poll futures that are pending?
+
+Now we have a very basic multithreaded, work-stealing async runtime! It's missing features such as a IO-event loop and a timer but the core of a runtime is this. The interesting thing about this pull-based model is that the amount of worker threads can be scaled up or down entirely dynamically.
+
+These snippets are taken from my own async runtime [`liten`](https://github.com/liten-rs/liten) which already has these extra parts mentioned and even more features planned. Please star the repo if you find this sort of thing interesting!

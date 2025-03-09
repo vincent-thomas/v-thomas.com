@@ -40,3 +40,9 @@ export async function getLogsFromTag(
 
   return articles.filter((post) => post.data.tags.includes(tag));
 }
+
+export async function getAllTags(): Promise<string[]> {
+  const articles = await getLogs();
+
+  return articles.flatMap((post) => post.data.tags);
+}

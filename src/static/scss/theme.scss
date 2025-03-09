@@ -1,5 +1,11 @@
 html {
   @media (prefers-color-scheme: dark) {
+    *::selection {
+      background-color: var(--red-11);
+      color: var(--gray-a12);
+    }
+
+
     .shiki,
     .shiki span {
       color: var(--shiki-dark) !important;
@@ -91,8 +97,8 @@ html {
     --blue-8: #87a5ef;
     --blue-9: #3d63dd;
     --blue-10: #3657c3;
-    --blue-11: #395bc7;
-    --blue-12: #1d2e5c;
+    --blue-11: #0D74CE;
+    --blue-12: #113264;
 
     --blue-a1: #00008002;
     --blue-a2: #0040ff08;
@@ -105,7 +111,7 @@ html {
     --blue-a9: #0032d2c2;
     --blue-a10: #002ab3c9;
     --blue-a11: #002cb7c6;
-    --blue-a12: #001347e2;
+    --blue-a12: #C2E6FF;
 
     --blue-contrast: #fff;
     --blue-surface: #f5f8ffcc;
@@ -136,7 +142,7 @@ html {
     --gray-a9: #00051d74;
     --gray-a10: #00051b7f;
     --gray-a11: #0002119d;
-    --gray-a12: #000107e1;
+    --gray-a12: #EEEEEE;
 
     --gray-contrast: #FFFFFF;
     --gray-surface: #ffffffcc;

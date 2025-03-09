@@ -6,13 +6,13 @@ import BaseHead from '../components/BaseHead.astro';
 import Body from "../layouts/Body.astro";
 
 import Footer from "../components/Footer.astro";
-import Navbar from "../components/Navbar.astro";
+import { Navbar } from "../components/Navbar";
 
-import CV from "../components/CV.astro";
+import {CV} from "../components/Cv";
 
 import { Icon } from "astro-icon/components";
 import { button } from '../static/cssts/button.css';
-import Logs from "../server-islands/posts.astro";
+import Logs from "../components/posts.astro";
 
 export const prerender = true;
 ---
@@ -38,7 +38,7 @@ export const prerender = true;
 
       <section class="posts">
         <h2 class="title">Latest logs</h2>
-        <Logs limit={3} server:defer />
+        <Logs limit={3} />
         <a href="/logs" class:list={[button({accent: "red"}), "self-end"]}>
           More posts <Icon name="arrow-right" />
         </a>

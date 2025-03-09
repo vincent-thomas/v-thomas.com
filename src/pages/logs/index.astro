@@ -4,11 +4,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import BaseHead from '../../components/BaseHead.astro';
 import Body from "../../layouts/Body.astro";
 
-import Navbar from '../../components/Navbar.astro';
+import {Navbar} from '../../components/Navbar';
 import Footer from '../../components/Footer.astro';
 import { Icon } from 'astro-icon/components';
 import {button} from "../../static/cssts/button.css";
-import Logs from "../../server-islands/posts.astro";
+import Logs from "../../components/posts.astro";
+
+export const prerender = true;
 ---
 
 <!doctype html>

@@ -6,23 +6,36 @@ import Body from "../Body.astro";
 import GoBack from "../../components/GoBack.astro";
 
 import LdHead from '../../components/LdHead.astro';
-import Navbar from '../../components/Navbar.astro';
+import {Navbar} from '../../components/Navbar';
 import Footer from '../../components/Footer.astro';
 import TagPill from '../../components/TagPill.astro';
+import Heading from "../../markdoc/nodes/Heading.astro";
 import { Image } from 'astro:assets';
 
-import {onlyDarkImage, onlyLightImage} from "./blogpost.css"
+import {blogHeroImage} from "./blogpost.css"
 
 
 export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
 
-const { data: {description, pubDate, heroImage, heroImageDescription, tags,furtherReading} , minuteRead, id, lastModified } = Astro.props as Props;
+const { data: {description, pubDate, heroImage, tags,furtherReading} , minuteRead, id, lastModified } = Astro.props as Props;
 
 if (!pubDate) throw new Error("Missing pubDate");
 
 let title = id.replaceAll("-", " ");
 title = title.charAt(0).toUpperCase() + title.slice(1);
 ---
+
+<style lang="scss">
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: calc(7 * 0.25rem);
+  }
+
+  #goback-btn-wrapper {
+    margin-block: calc(12 * 0.25rem);
+  }
+</style>
 
 <html lang="en">
 	<head>
@@ -32,14 +45,14 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
 	</head>
   <Body>
     <Navbar overrideTitle="VT's dev log" />
-    <article class="mt-12  flex flex-col gap-7">
+    <div id="goback-btn-wrapper" class="no-print">
+      <GoBack href="/logs" overrideText='All posts' />
+    </div>
+    <article>
       <div class="flex flex-col gap-4">
-        <div class="mb-6 no-print">
-          <GoBack href="/logs" overrideText='All posts' />
-        </div>
         {heroImage && (
-          <Image widths={[852, 600, 400]} src={heroImage.dark} loading="eager" alt={heroImageDescription} class:list={["rounded-lg", onlyDarkImage]}  />
-          <Image widths={[852, 600, 400]} src={heroImage.light} loading="eager" alt={heroImageDescription} class:list={["rounded-lg", onlyLightImage]}  />
+          <Image widths={[852, 600, 400]} src={heroImage.dark} loading="eager" alt={heroImage.alt} class={blogHeroImage({forTheme: "dark"})}  />
+          <Image widths={[852, 600, 400]} src={heroImage.light} loading="eager" alt={heroImage.alt} class={blogHeroImage({forTheme: "light"})}  />
         )}
         <div class="flex justify-between">
           <div class="text-gray-400 max-w-[45ch] flex flex-col">
@@ -64,12 +77,12 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
       <div class="my-content">
         <slot/>
         {!!furtherReading && (
-          <h2 id="further-reading"><a href="#further-reading">Further reading</a></h2>
+          <Heading level={2} id="further-reading">Further reading</Heading>
           <p>
             These articles allow for further reading of the same topic, and may be relevant:
             <ul>
               {furtherReading.map(({url, title}) => (
-                  <li><a href={url} target="_blank">{title}</a></li>
+                <li><a href={url} target="_blank">{title}</a></li>
               ))}
             </ul>
           </p>

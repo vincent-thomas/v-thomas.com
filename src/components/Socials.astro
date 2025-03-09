@@ -1,11 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
 import SocialLink from "./SocialLink.astro";
-
-// Icons are quite uneven in sizes.
 ---
 
-<nav class="flex items-center">
+<nav>
   <SocialLink href="" data-email-href="" label="Email me"><Icon name="mail" size="24px" /></SocialLink>
   <SocialLink href="https://v-thomas.com/github" label="My github profile"><Icon name="github" size="24px" /></SocialLink>
   <SocialLink href="https://v-thomas.com/x" label="My X (former twitter) profile"><Icon name="x" size="24px" /></SocialLink>
@@ -15,6 +13,7 @@ import SocialLink from "./SocialLink.astro";
 <style lang="scss">
   nav {
     display: flex;
+    align-items: center;
     gap: 0.75rem;
   }
 

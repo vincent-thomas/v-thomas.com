@@ -1,8 +1,9 @@
 ---
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import BaseHead from '../components/BaseHead.astro';
-import CV from "../components/CV.astro";
-import Navbar from '../components/Navbar.astro';
+import {CV} from "../components/Cv";
+import { Navbar } from '../components/Navbar';
+import Body from '../layouts/Body.astro';
 
 export const prerender = true;
 ---
@@ -11,11 +12,12 @@ export const prerender = true;
 <html lang="en">
 	<head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <link rel="stylesheet" href="/css/article.css" />
   </head>
-  <body class="w-full mx-auto max-w-[900px] px-6 py-4 lg:py-10 flex flex-col gap-4">
+  <Body>
     <Navbar />
-    <main class="prose dark:prose-invert prose-headings:mt-0 prose-p:mt-0 max-w-none mt-10">
+    <main class="my-content">
       <CV />
     </main>
-  </body>
+  </Body>
 </html>

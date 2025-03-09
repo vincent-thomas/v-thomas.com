@@ -1,0 +1,32 @@
+---
+import katex from "katex";
+
+export type Props = {
+  children: string[];
+};
+
+let text = await Astro.slots.render("default");
+
+if (text.startsWith("<p>") && text.endsWith("</p>")) {
+  text = text.slice(3, -4);
+}
+
+const katexOut = katex.renderToString(text, {
+  throwOnError: true,
+  displayMode: true,
+  output: "mathml"
+});
+---
+
+<Fragment set:html={katexOut} />
+
+<style is:global>
+  math {
+    color: var(--gray-12);
+    background-color: var(--gray-1);
+
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+    user-select: none;
+  }
+</style>

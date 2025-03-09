@@ -22,17 +22,26 @@
         pkgs = import nixpkgs {
           inherit system;
         };
+
+        buildDeps = with pkgs; [
+          pnpm_10
+          nodejs_22
+          dart-sass
+        ];
       in
       {
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            pnpm_10
-            nodejs_22
-            http-server
-
-            dart-sass
-            flyctl
-          ];
+        devShells = {
+          docker = pkgs.mkShell {
+            buildInputs = buildDeps;
+          };
+          default = pkgs.mkShell {
+            buildInputs =
+              buildDeps
+              ++ (with pkgs; [
+                http-server
+                flyctl
+              ]);
+          };
         };
       }
     );

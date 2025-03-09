@@ -1,0 +1,113 @@
+
+---
+import { Icon } from "astro-icon/components";
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+	const project = await getCollection('project');
+  return project.filter(post => process.env.NODE_ENV == "development" || !post.data.draft).map((post) => post);
+}
+
+export type Props = {};
+
+const projects = await getStaticPaths();
+---
+<div>
+  <header>
+    <h1 id="me">VINCENT THOMAS</h1>
+    <div id="top-links" class="text-sm">
+      <div><Icon name="mail" size="20px" /><span data-email-inner=""></span></div>
+      <div><Icon name="linkedin" size="20px" />v-thomas.com/linkedin</div>
+      <div><Icon name="github" size="20px" />v-thomas.com/github</div>
+      <div><Icon name="web" />v-thomas.com</div>
+    </div>
+  </header>
+  <section>
+    <h2>About me</h2>
+    <p>
+      I am a 18 year old male who is currently attending NTI Gymnasiet in Johanneberg, Sweden.
+      I always have a project to work on and I am always looking for new things to learn.
+      I love difficult problems and I am always looking for a challenge.
+    </p>
+  </section>
+  <section>
+    <h2>Projects</h2>
+    {projects.map(project => (
+    <div class="flex flex-col gap-2 mb-4 last:mb-0">
+      <div class="flex gap-2 justify-start">
+        <strong class="project-title">{project.data.title}</strong>
+        <span class="project-title">-</span>
+
+        <a href={`/projects/${project.id}`}>v-thomas.com/projects/{project.id}</a>
+        <span class="ml-auto">
+          {!project.data.dateFinished ? "Active" : "Inactive"}
+        </span>
+      </div>
+        <p>{project.data.description.replaceAll("\n", " ").trim()}</p>
+      </div>
+    ))}
+  </section>
+</div>
+
+<style>
+    h2 {
+      border-bottom: 1px solid black;
+    }
+  section {
+    display: flex;
+    flex-direction: column;
+    padding-block: 0.5rem;
+
+
+
+    p {
+      margin-top: 0 !important;
+    }
+  }
+
+  .project-title {
+    color: var(--gray-12);
+  }
+
+  header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    #me {
+      font-weight: 700;
+      @media print {
+        font-size: 1.5rem;
+      }
+    }
+
+    #top-links {
+      display: flex;
+      flex-wrap: wrap;
+      color: var(--blue-12);
+
+      gap: 0.75rem;
+
+      & > div {
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+  }
+
+
+  h2 {
+    width: 100%;
+
+    font-weight: bold;
+
+    border-bottom: 1px solid var(--blue-indicator);
+    margin-bottom: 0.5rem;
+  }
+  h3 {
+
+    font-weight: bold;
+  }
+</style>

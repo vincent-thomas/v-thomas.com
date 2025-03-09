@@ -21,6 +21,7 @@
 }
 
 
+
 .sr-only {
 	border: 0;
 	padding: 0;
@@ -59,8 +60,7 @@ button {
 }
 
 html {
-  --default-font-family: "Inter";
-  font-family: var(--default-font-family), sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 body {

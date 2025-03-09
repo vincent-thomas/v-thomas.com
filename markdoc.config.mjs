@@ -5,7 +5,11 @@ export default defineMarkdocConfig({
   nodes: {
     image: {
       ...nodes.image,
-      render: component("./src/components-markdoc/Img.astro"),
+      attributes: {
+        ...nodes.image.attributes,
+        __optimizedSrc: { type: "Object" },
+      },
+      render: component("./src/markdoc/nodes/Img.astro"),
     },
     document: {
       ...nodes.document,
@@ -13,18 +17,35 @@ export default defineMarkdocConfig({
     },
     hr: {
       ...nodes.hr,
-      render: component("./src/components-markdoc/Hr.astro"),
+      render: component("./src/markdoc/nodes/Hr.astro"),
     },
     heading: {
       ...nodes.heading,
-      render: component("./src/components-markdoc/Heading.astro"),
+      render: component("./src/markdoc/nodes/Heading.astro"),
     },
   },
+  tags: {
+    callout: {
+      render: component("./src/markdoc/tags/Callout/Callout.astro"),
+      attributes: {
+        type: {
+          type: String,
+          default: "note",
+          matches: ["note", "tip", "caution", "warning"],
+          errorLevel: "critical",
+        },
+      },
+    },
+    math: {
+      render: component("./src/markdoc/tags/Math.astro"),
+      children: [],
+    },
+  },
+
   extends: [
     shiki({
       theme: {
         name: "radix-theme",
-
         colors: {
           "editor.foreground": "var(--gray-12)",
           "editor.background": "var(--gray-1)",

@@ -1,16 +1,25 @@
-import { style } from "@vanilla-extract/css";
-export const onlyDarkImage = style({
-  "@media": {
-    "(prefers-color-scheme: light)": {
-      display: "none",
-    },
-  },
-});
+import { recipe } from "@vanilla-extract/recipes";
 
-export const onlyLightImage = style({
-  "@media": {
-    "(prefers-color-scheme: dark)": {
-      display: "none",
+export const blogHeroImage = recipe({
+  base: {
+    borderRadius: "0.5rem",
+  },
+  variants: {
+    forTheme: {
+      dark: {
+        "@media": {
+          "(prefers-color-scheme: light)": {
+            display: "none",
+          },
+        },
+      },
+      light: {
+        "@media": {
+          "(prefers-color-scheme: dark)": {
+            display: "none",
+          },
+        },
+      },
     },
   },
 });
