@@ -7,6 +7,7 @@ app = 'v-thomas-com'
 primary_region = 'arn'
 
 [build]
+  dockerfile = 'Dockerfile'
 
 [http_service]
   internal_port = 4321

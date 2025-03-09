@@ -52,6 +52,12 @@ export const prerender = true;
   </Body>
 </html>
 
+<script>
+  if (window.location.hash === "#resume") {
+    window.print();
+  }
+</script>
+
 <style>
   main:not(.print) {
     display: flex;
