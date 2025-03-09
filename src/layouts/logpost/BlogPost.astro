@@ -40,6 +40,8 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
 <html lang="en">
 	<head>
     <BaseHead title={title} description={description} image={heroImage?.dark.src} />
+
+    {/* @ts-ignore throwing error if this fails IN PROD */}
     {process.env.NODE_ENV==="production" && <LdHead title={title} description={description} image={heroImage?.dark.src} pubDate={pubDate} />}
     <link rel="stylesheet" href="/css/article.css" />
 	</head>

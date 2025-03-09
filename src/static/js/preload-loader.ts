@@ -18,7 +18,10 @@ function preloadWithSpeculation() {
         source: "document",
         eagerness: "eager",
         where: {
-          href_matches: "/*",
+          and: [
+            { href_matches: "/*" },
+            { not: { selector_matches: "[rel~=nofollow]" } },
+          ],
         },
       },
     ],
@@ -26,7 +29,7 @@ function preloadWithSpeculation() {
 
   tag.textContent = JSON.stringify(rules);
 
-  document.body.append(tag);
+  document.head.append(tag);
 }
 
 const data = window.atob("dmluY2VudEB2LXRob21hcy5jb20=");
@@ -41,8 +44,8 @@ document.querySelectorAll("[data-email-inner]").forEach((el) => {
 
 function preloadWithLinks() {
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("a").forEach((link) => {
-      if (isAHrefValid(link)) return;
+    document.querySelectorAll('a:not([rel="nofollow"])').forEach((link) => {
+      if (isAHrefValid(link as HTMLAnchorElement)) return;
       link.addEventListener(
         "mouseover",
         () => {
@@ -64,7 +67,7 @@ function isAHrefValid(tag: HTMLAnchorElement): boolean {
   const prefixes = ["tel", "mailto"];
   if (href == null) return false;
 
-  if (tag.hasAttribute("data-preload-ignore")) return false;
+  if (tag.hasAttribute("")) return false;
   if (href.startsWith("#")) return false;
 
   // External source checking

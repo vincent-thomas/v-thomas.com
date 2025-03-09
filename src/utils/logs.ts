@@ -23,11 +23,18 @@ export async function getLog(
 }
 
 export async function getLogs(): Promise<CollectionEntry<"article">[]> {
-  const articles = await getCollection("article");
+  let articles = await getCollection("article");
 
-  return articles
-    .filter((post) => validateArticle(post))
-    .sort((a, b) => b.data.pubDate?.valueOf() - a.data.pubDate?.valueOf());
+  articles = articles.filter((post) => validateArticle(post));
+
+  if (process.env.NODE_ENV === "production") {
+    return articles.sort(
+      // @ts-ignore
+      (a, b) => b.data.pubDate?.valueOf() - a.data.pubDate?.valueOf(),
+    );
+  } else {
+    return articles;
+  }
 }
 
 export async function getLogsFromTag(

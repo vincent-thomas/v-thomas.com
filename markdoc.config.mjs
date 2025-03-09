@@ -1,4 +1,10 @@
-import { defineMarkdocConfig, nodes, component } from "@astrojs/markdoc/config";
+// @ts-check
+import {
+  defineMarkdocConfig,
+  nodes,
+  component,
+  Markdoc,
+} from "@astrojs/markdoc/config";
 import shiki from "@astrojs/markdoc/shiki";
 
 export default defineMarkdocConfig({
@@ -22,6 +28,18 @@ export default defineMarkdocConfig({
     heading: {
       ...nodes.heading,
       render: component("./src/markdoc/nodes/Heading.astro"),
+    },
+    link: {
+      ...nodes.link,
+      transform: (node, config) => {
+        const attributes = node.transformAttributes(config);
+        const children = node.transformChildren(config);
+        return new Markdoc.Tag(
+          "a",
+          { ...attributes, rel: "nofollow" },
+          children,
+        );
+      },
     },
   },
   tags: {
