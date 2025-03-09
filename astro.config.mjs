@@ -44,6 +44,7 @@ const config = {
     contentIntellisense: true,
     responsiveImages: true,
     svg: true,
+    clientPrerender: true,
   },
 
   vite: {

@@ -1,0 +1,95 @@
+---
+description: "Navigation in a single-page-app is second to none, because there is no need to refresh the page. This article describes how a normal website can achieve the same feel with just one html-tag"
+tags:
+  - web
+---
+
+Single Page Applications (SPAs) have raised the bar for UX in terms of navigation between web pages.
+Unlike traditional websites that reload the entire page when navigating, SPAs only load content dynamically, creating a seamless flow.
+But what if you could replicate this SPA-like navigation on a regular website — and do it with minimal code?
+
+Chrome's **experimental** [Speculation Rules API](https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API) makes this possible by telling the browser to prerender pages referenced in `<a>` tags (behavior is customizable).
+This can be specified in many different ways. But this article will do it with javascript. Why? Because we want backwards compatability.
+
+When the browser doesn't support this API (every browser that's not chrome), we need a fallback, a way to choose between two methods.
+The prefered method will be the Speculation Rules API and can be added to a javascript `script` tag. Here's an example implementation:
+
+```js
+function preloadWithSpeculation() {
+  const tag = document.createElement("script");
+
+  tag.type = "speculationrules";
+
+  const rules = {
+    prerender: [
+      {
+        source: "document",
+        eagerness: "eager",
+        where: {
+          href_matches: "/*",
+        },
+      },
+    ],
+  };
+  tag.textContent = JSON.stringify(rules);
+  document.head.append(tag);
+}
+```
+This function injects a script tag that looks like this:
+```html
+<script type="speculationrules">
+  {
+    "prerender": [
+      {
+        "source": "document",
+        "eagerness": "eager",
+        "where": {
+          "href_matches": "/*"
+        }
+      }
+    ]
+  }
+</script>
+```
+
+With this configuration Chrome will prerender any page that's referenced with the href attribute in `<a>`, that's starts with / (local pages).
+This might not be what you want but this is what fitted my use-case.
+
+Next we need a implementation that can preload links without using anything experimental. In this article we will use `<link rel="preload">` tags. We will instruct the browser to preload a page on hover of any `a` tag:
+```js
+function preloadWithLinks() {
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("a").forEach((link) => {
+      // isAHrefValid: function to determine if link
+      //   is non-external and to an actual webpage (not "mailto:" for example).
+      if (isAHrefValid(link)) return;
+      link.addEventListener(
+        "mouseover",
+        () => {
+          const href = link.getAttribute("href");
+          if (!href) return;
+          const prefetch = document.createElement("link");
+          prefetch.rel = "prefetch";
+          prefetch.href = href;
+          document.head.appendChild(prefetch);
+        },
+        { once: true },
+      );
+    });
+  });
+}
+```
+
+Now we need a way to choose implementation based on if the browser supports the Speculative Rules API:
+```js
+if (
+  HTMLScriptElement.supports &&
+  HTMLScriptElement.supports("speculationrules")
+) {
+  preloadWithSpeculation();
+} else {
+  preloadWithLinks();
+}
+```
+
+And we are done! These snippets where taken from this websites [`preload-loader.ts`](https://github.com/vincent-thomas/v-thomas.com/blob/main/src/static/js/preload-loader.ts).
