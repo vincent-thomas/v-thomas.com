@@ -3,16 +3,15 @@ description: "Navigation in a single-page-app is second to none, because there i
 tags:
   - web
 ---
-
-Single Page Applications (SPAs) have raised the bar for UX in terms of navigation between web pages.
+Single Page Applications (SPAs) have raised the bar of UX in terms of navigation between web pages.
 Unlike traditional websites that reload the entire page when navigating, SPAs only load content dynamically, creating a seamless flow.
 But what if you could replicate this SPA-like navigation on a regular website — and do it with minimal code?
 
-Chrome's **experimental** [Speculation Rules API](https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API) makes this possible by telling the browser to prerender pages referenced in `<a>` tags (behavior is customizable).
-This can be specified in many different ways. But this article will do it with javascript. Why? Because we want backwards compatability.
+Chrome's **experimental** [Speculation Rules API](https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API) makes this possible by telling the browser to prerender pages referenced in `<a>` tags (behaviour is customisable).
+This can be specified in many different ways. But this article will do it with JavaScript. Why? Because we want backwards compatibility.
 
 When the browser doesn't support this API (every browser that's not chrome), we need a fallback, a way to choose between two methods.
-The prefered method will be the Speculation Rules API and can be added to a javascript `script` tag. Here's an example implementation:
+The preferred method will be the Speculation Rules API and can be added to a JavaScript `script` tag. Here's an example implementation:
 
 ```js
 function preloadWithSpeculation() {

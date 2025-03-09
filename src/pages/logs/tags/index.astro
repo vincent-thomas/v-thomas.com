@@ -11,6 +11,8 @@ import { getLogs } from "../../../utils/logs";
 
 const logs = await getLogs();
 const tags: string[] = logs.flatMap((log) => log.data.tags);
+
+export const prerender = true;
 ---
 
 <!doctype html>

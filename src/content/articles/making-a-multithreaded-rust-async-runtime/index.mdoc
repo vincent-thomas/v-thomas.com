@@ -75,7 +75,7 @@ The worker threads are spawned by the scheduler, and it's their job to execute a
 ### Approach 1: Pull-based model
 In a pull model, the workers have total control over retreiving tasks and they prioritise themselves where to get them from. This allows for further optimisation.
 In this model the scheduler does very little since the workers have almost total control.
-Because the workers are very seperate from the scheduler, we can allow the workers to communicate with each other. If the workers are allowed remote state of each other, we can implement [work stealing](https://en.wikipedia.org/wiki/Work_stealing).
+Because the workers are very separate from the scheduler, we can allow the workers to communicate with each other. If the workers are allowed remote state of each other, we can implement [work stealing](https://en.wikipedia.org/wiki/Work_stealing).
 Work stealing allows a worker threads to steal tasks from other workers local queue. This levels pressure and makes sure that all workers are approximately an equal amount of workload.
 
 ![Async scheduler pull based model](./assets/rust-async-pull-model.png)
@@ -95,6 +95,7 @@ For these reasons we are going to use a pull-based runtime.
 In this system, we will have one global FIFO queue and one local FIFO queue for every workerthread.
 The individual workers will prefer pulling from it's own queue and then take from the global queue, to prevent stale tasks. If the global queue is empty, then try to steal from other workers.
 We can implement this priority of fetching tasks with this function:
+
 ```rust
 impl Worker {
   fn fetch_task(&self) -> Option<ArcTask> {
@@ -136,9 +137,10 @@ impl Worker {
   }
 }
 ```
+
 _Snippet taken from [my runtime 'liten's worker task fetching mechanism](https://github.com/liten-rs/liten/blob/main/liten/src/runtime/scheduler/worker/worker.rs#L98-L134)_.
 
-The queues contain green threads. In Rust's case it's a `Future` submitted by the user. The user supplies a Future and the runtime wrapps that in another future and once the user-submitted Future is ready, the value gets sent in a oneshot channel to the JoinHandle.
+The queues contain green threads. In Rust's case it's a `Future` submitted by the user. The user supplies a Future and the runtime wraps that in another future and once the user-submitted Future is ready, the value gets sent in a oneshot channel to the JoinHandle.
 Once a task has been retreived, we allow little CPU time for that specific task. tasks Poll return decides what to do with it:
 - Task returns `Poll::Pending`: Put it aside in a "cold" hashmap. This is to prevent the tasks in the "hot" queue to be polled unecessarily. Once the Future calls the waker, we put it back in the queue.
 - Task returns `Poll::Ready`: Simply ignore, the future is a wrapper for the real future with the value, so nothing needs to be done here.
