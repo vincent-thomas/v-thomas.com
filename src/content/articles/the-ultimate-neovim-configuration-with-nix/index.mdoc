@@ -1,0 +1,84 @@
+---
+description: ""
+tags:
+  - neovim
+  - nix
+  - DX
+furtherReading:
+  - url: https://github.com/nix-community/kickstart-nix.nvim
+    title: Starter configuration that this article is based on.
+---
+
+# Neovim is the best editor. Period.
+
+__*based*__
+
+Except it's package managers. They're are a mess. There's about 400 of them and it's always a shinier and better one one needs to switch to. There is another way. That other way is with nix.
+
+Nix is a programming language and a package manager (and some more).
+Nix can be used to package software, isolate developer environments and configure **an entire operating system**.
+But let's not get ahead of our selves, and start focusing on creating packages.
+
+It turns out that nix can be paired with a neovim config making it possible to create a portable, reproducable and fully custom neovim config with great DX.
+So lets get started. A nix project always has a `flake.nix` file at the root of the project.
+
+`What is a flake.nix?`. The absolute simplest definition of a `flake.nix` file is: A file that defines inputs and outputs.
+Inputs can be a git repo, zipped package, or another nix flake.
+Outputs needs to follow a specific schema (These are not all of them):
+* `pakages` All the packages defined in the flake.
+* `devShell` All the developer environment definitions.
+* `formatter` Yes, nix has formatter support (can be specified by extension).
+
+This schema allows for a vast, hugely underrated ecosystem for general devtools, for example,
+[`git-hooks.nix`](https://github.com/cachix/git-hooks.nix),
+[`treefmt-nix`](https://github.com/numtide/treefmt-nix),
+[`sops-nix`](https://github.com/Mic92/sops-nix)
+
+This is the manifest file for the project, where the project developer environments, package definitions are specified:
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
+    let
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+    in
+    flake-utils.lib.eachSystem supportedSystems (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+        };
+      in
+      {
+        packages = {};
+
+        devShell = pkgs.mkShell {
+          shellHook =''
+            ln -fs ${pkgs.nvim-luarc-json} .luarc.json
+          '';
+        };
+      }
+    )
+}
+```
+
+This file defines outputs for all of the `supportedSystems` with empty definition of `packages`
+and a devShell where, upon bootstrap, a .luarc.json automatically is created file using a package from the nix standard library called `nvim-luarc-json`.
+The inputs define a input from the "nix standard library" and is assigned as "nixpkgs" (convention, and don't worry it's absolutely not unstable it's just labeled as such).
+another input assigned to the name `flake-utils` is brought in to handle the looping over the array (probably not needed).
+
+
