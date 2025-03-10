@@ -1,3 +1,12 @@
+const data = window.atob("dmluY2VudEB2LXRob21hcy5jb20=");
+document
+  .querySelectorAll("[data-email-href]")
+  .forEach((el) => el.setAttribute("href", `mailto:${data}`));
+
+document.querySelectorAll("[data-email-inner]").forEach((el) => {
+  el.textContent = data;
+});
+
 if (
   HTMLScriptElement.supports &&
   HTMLScriptElement.supports("speculationrules")
@@ -9,10 +18,8 @@ if (
 
 function preloadWithSpeculation() {
   const tag = document.createElement("script");
-
   tag.type = "speculationrules";
-
-  const rules = {
+  tag.textContent = JSON.stringify({
     prerender: [
       {
         source: "document",
@@ -25,37 +32,26 @@ function preloadWithSpeculation() {
         },
       },
     ],
-  };
-
-  tag.textContent = JSON.stringify(rules);
-
+  });
   document.head.append(tag);
 }
 
-const data = window.atob("dmluY2VudEB2LXRob21hcy5jb20=");
-
-document
-  .querySelectorAll("[data-email-href]")
-  .forEach((el) => el.setAttribute("href", `mailto:${data}`));
-
-document.querySelectorAll("[data-email-inner]").forEach((el) => {
-  el.textContent = data;
-});
-
 function preloadWithLinks() {
+  const onLinkHover = (link: HTMLAnchorElement) => {
+    const href = link.getAttribute("href");
+    if (!href) return;
+    const prefetch = document.createElement("link");
+    prefetch.rel = "prefetch";
+    prefetch.href = href;
+    document.head.appendChild(prefetch);
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('a:not([rel="nofollow"])').forEach((link) => {
       if (isAHrefValid(link as HTMLAnchorElement)) return;
       link.addEventListener(
         "mouseover",
-        () => {
-          const href = link.getAttribute("href");
-          if (!href) return;
-          const prefetch = document.createElement("link");
-          prefetch.rel = "prefetch";
-          prefetch.href = href;
-          document.head.appendChild(prefetch);
-        },
+        onLinkHover.bind(null, link as HTMLAnchorElement),
         { once: true },
       );
     });
@@ -82,6 +78,5 @@ function isAHrefValid(tag: HTMLAnchorElement): boolean {
   }
 
   if (exit) return false;
-
   return true;
 }
