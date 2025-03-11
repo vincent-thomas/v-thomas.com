@@ -110,16 +110,18 @@ export const prerender = true;
     position: relative;
     z-index: 3;
 
-    &::before {
-      --size: 1000px;
-      content: "";
-      position: absolute;
-      bottom: calc(-1 * var(--size) / 1.5);
-      left: calc(-1 * var(--size) / 4);
-      width: var(--size);
-      height: var(--size);
-      filter: opacity(0.6);
-      background: radial-gradient(var(--size) circle, var(--blue-3) 0, transparent 50%);
+    @media screen and (min-width: 1024px) {
+      &::before {
+        --size: 1000px;
+        content: "";
+        position: absolute;
+        bottom: calc(-1 * var(--size) / 1.5);
+        left: calc(-1 * var(--size) / 4);
+        width: var(--size);
+        height: var(--size);
+        filter: opacity(0.6);
+        background: radial-gradient(var(--size) circle, var(--blue-3) 0, transparent 50%);
+      }
     }
   }
 
