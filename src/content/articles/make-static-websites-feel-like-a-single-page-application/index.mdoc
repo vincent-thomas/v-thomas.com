@@ -10,7 +10,6 @@ But what if you could replicate this SPA-like navigation on a regular website â€
 
 Chrome's **experimental** [Speculation Rules API](https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API) makes this possible by telling the browser to prerender pages referenced in `<a>` tags (behaviour is customisable).
 This can be specified in many different ways. But this article will do it with JavaScript. Why? Because we want backwards compatibility.
-
 When the browser doesn't support this API (every browser that's not chrome), we need a fallback, a way to choose between two methods.
 The preferred method will be the Speculation Rules API and can be added to a JavaScript `script` tag. Here's an example implementation:
 
@@ -52,10 +51,13 @@ This function injects a script tag that looks like this:
 </script>
 ```
 
-With this configuration Chrome will prerender any page that's referenced with the href attribute in `<a>`, that's starts with / (local pages).
+With this configuration Chrome will prerender any page that's referenced with the href attribute in `<a>`, that's starts with / (pages on this website).
 This might not be what you want but this is what fitted my use-case.
 
-Next we need a implementation that can preload links without using anything experimental. In this article we will use `<link rel="preload">` tags. We will instruct the browser to preload a page on hover of any `a` tag:
+Next we need a implementation that can preload links without using anything experimental.
+In this article we will use `<link rel="preload">` tags, which is a standard way to preload (but not render) the webpage specified by the `href` attribute.
+We will instruct the browser to preload a page on hover of any `a` tag:
+
 ```js
 function preloadWithLinks() {
   document.addEventListener("DOMContentLoaded", () => {

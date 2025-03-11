@@ -13,6 +13,6 @@ if (Astro.props.limit) {
   posts = take(posts, Astro.props.limit);
 }
 ---
-<div>
+<div style={{ position: "relative", zIndex: 9999 }}>
   {posts.map(post => <BlogPost post={post} />)}
 </div>
