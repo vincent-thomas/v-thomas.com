@@ -1,13 +1,18 @@
 import { recipe } from "@vanilla-extract/recipes";
-import { createVar } from "@vanilla-extract/css";
+import { createVar, style } from "@vanilla-extract/css";
 
 const spacingY = createVar();
 const spacingX = createVar();
 
+const textColor = createVar();
+const textInverseColor = createVar();
+const bgColor = createVar();
+const borderColor = createVar();
+
 export const button = recipe({
   defaultVariants: {
     size: "default",
-    underline: false,
+    variant: "default",
     accent: "blue",
   },
   base: {
@@ -21,43 +26,24 @@ export const button = recipe({
     fontWeight: 600,
 
     position: "relative",
-
-    "::before": {
-      transition: "all 0.1s ease-in-out",
-      zIndex: -1,
-      content: '""',
-      position: "absolute",
-    },
-
-    selectors: {
-      "&:hover::before": {
-        width: `100%`,
-        left: `0`,
-
-        height: `100%`,
-        bottom: `0`,
-      },
-    },
   },
 
   variants: {
     accent: {
       blue: {
-        color: "var(--blue-11)",
-        ":hover": {
-          color: "var(--gray-a12)",
-        },
-        ":before": {
-          backgroundColor: "var(--blue-11)",
+        vars: {
+          [textColor]: "var(--blue-11)",
+          [textInverseColor]: "var(--gray-a12)",
+          [bgColor]: "var(--blue-3)",
+          [borderColor]: "var(--blue-6)",
         },
       },
       red: {
-        color: "var(--red-11)",
-        ":hover": {
-          color: "var(--gray-a12)",
-        },
-        ":before": {
-          backgroundColor: "var(--red-11)",
+        vars: {
+          [textColor]: "var(--red-11)",
+          [textInverseColor]: "var(--gray-a12)",
+          [bgColor]: "var(--red-3)",
+          [borderColor]: "var(--red-6)",
         },
       },
     },
@@ -70,32 +56,55 @@ export const button = recipe({
       },
       default: {
         vars: {
-          [spacingX]: ".5rem",
+          [spacingX]: ".75rem",
           [spacingY]: ".3rem",
         },
       },
     },
+    variant: {
+      default: {
+        color: textColor,
+        borderRadius: "0.25rem",
+        ":hover": {
+          backgroundColor: bgColor,
+        },
+      },
+      subtle: {
+        color: textColor,
+        borderRadius: "0.25rem",
+        ":hover": {
+          backgroundColor: bgColor,
+          outline: `1px solid ${borderColor}`,
+        },
+      },
 
-    underline: {
-      true: {
+      // TODO define blue-inverse
+      underline: {
+        color: textColor,
+        ":hover": {
+          color: textInverseColor,
+        },
         "::before": {
+          transition: "all 0.1s ease-in-out",
+          content: '""',
+          zIndex: -1,
+          position: "absolute",
+
           width: `calc(100% - (2 * ${spacingX}))`,
           bottom: spacingY,
           left: spacingX,
           height: "2px",
+          backgroundColor: textColor,
         },
-      },
-      false: {
+
         selectors: {
           "&:hover::before": {
-            transform: "translate(0,-50%)",
+            width: `100%`,
+            left: `0`,
+
+            height: `100%`,
+            bottom: `0`,
           },
-        },
-        "::before": {
-          width: 0,
-          left: "50%",
-          top: "50%",
-          height: "0px",
         },
       },
     },

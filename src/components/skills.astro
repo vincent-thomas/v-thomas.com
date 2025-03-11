@@ -14,10 +14,18 @@ import Sass from "../static/img/sass.png";
 import Node from "../static/img/nodejs.png";
 import ActixWeb from "../static/img/actix-web.png";
 import Jest from "../static/img/jestjs.png";
-import AWS from "../static/img/aws.png";
+import Aws from "../static/img/aws.png";
+import { ImageMetadata } from "astro";
 
 
-const frontendRow = [
+interface Skill {
+  name: string;
+  Icon: ImageMetadata;
+  link: string;
+  style?: Record<string, string>;
+}
+
+const frontendRow: Skill[] = [
   {
     name: "Typescript",
     Icon: Typescript,
@@ -55,7 +63,7 @@ const frontendRow = [
   },
 ];
 
-const backendRow = [
+const backendRow: Skill[] = [
   {
     name: "Rust",
     Icon: Rust,
@@ -92,14 +100,14 @@ const backendRow = [
   {
     name: "AWS",
     link: "https://aws.amazon.com/",
-    Icon: AWS
+    Icon: Aws
   },
 ];
 ---
 
 <div class="slide-root">
   <ul class="slide" style={{"--animation-direction": "forwards"}}>
-    {[...frontendRow, ...frontendRow].map((item) => (
+    {[...frontendRow, ...frontendRow].map(item => (
       <li class="item">
         <a target="_blank" href={item.link}>
           <Image src={item.Icon} alt={`Logo of ${item.name}`} height={32} style={item?.style ? item.style : undefined} />
@@ -109,7 +117,7 @@ const backendRow = [
       ))}
   </ul>
   <ul class="slide" style={{"--animation-direction": "reverse"}}>
-    {[...backendRow, ...backendRow].map((item, i) => (
+    {[...backendRow, ...backendRow].map(item => (
       <li class="item">
         <a target="_blank" href={item.link}>
           <Image src={item.Icon} alt={`Logo of ${item.name}`} height={32} style={item?.style ? item.style : undefined} />

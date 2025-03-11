@@ -1,0 +1,16 @@
+src/static/img/lit2.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/React.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/PostgreSQL_logo.3colors.120x120.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/ts-logo-128.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/actix-web.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/astro.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/nix-snowflake-colours.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/lit.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/rust-logo-64x64.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/sass.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/Vitejs-logo.svg.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/aws.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/JavaScript-logo.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/jestjs.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/120px-PostgreSQL_logo.1color_blue.300x300.png filter=lfs diff=lfs merge=lfs -text
+src/static/img/nodejs.png filter=lfs diff=lfs merge=lfs -text
