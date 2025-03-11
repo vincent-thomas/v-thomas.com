@@ -58,6 +58,14 @@ export default defineMarkdocConfig({
       render: component("./src/markdoc/tags/Math.astro"),
       children: [],
     },
+
+    details: {
+      render: component("./src/markdoc/tags/Details/Details.astro"),
+    },
+
+    summary: {
+      render: component("./src/markdoc/tags/Details/Summary.astro"),
+    },
   },
 
   extends: [

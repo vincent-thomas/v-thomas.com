@@ -28,6 +28,7 @@ function preloadWithSpeculation() {
           and: [
             { href_matches: "/*" },
             { not: { selector_matches: "[rel~=nofollow]" } },
+            { not: { selector_matches: "[target=_blank]" } },
           ],
         },
       },

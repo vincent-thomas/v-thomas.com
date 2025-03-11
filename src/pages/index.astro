@@ -7,6 +7,7 @@ import Body from "../layouts/Body.astro";
 
 import Footer from "../components/Footer.astro";
 import { Navbar } from "../components/Navbar";
+import { Image } from "astro:assets";
 
 import {CV} from "../components/Cv";
 
@@ -15,6 +16,107 @@ import { button } from '../static/cssts/button.css';
 import Logs from "../components/posts.astro";
 
 export const prerender = true;
+
+import Typescript from "../static/img/ts-logo-128.png";
+import Rust from "../static/img/rust-logo-64x64.png";
+import React from "../static/img/React.png";
+import Postgrees from "../static/img/PostgreSQL_logo.3colors.120x120.png";
+import Nix from "../static/img/nix-snowflake-colours.png";
+import Javascript from "../static/img/JavaScript-logo.png";
+import Vite from "../static/img/Vitejs-logo.svg.png";
+import Lit from "../static/img/lit2.png";
+import AstroIcon from "../static/img/astro.png";
+import Sass from "../static/img/sass.png";
+import Node from "../static/img/nodejs.png";
+import ActixWeb from "../static/img/actix-web.png";
+import Jest from "../static/img/jestjs.png";
+import AWS from "../static/img/aws.png";
+
+
+const frontendRow = [
+  {
+    name: "Typescript",
+    Icon: Typescript,
+    link: "https://www.typescriptlang.org/"
+  },
+  {
+    name: "React",
+    Icon: React,
+    link: "https://reactjs.org/"
+  },
+  {
+    name: "Nix",
+    Icon: Nix,
+    link: "https://nixos.org/"
+  },
+  {
+    name: "Javascript",
+    Icon: Javascript,
+    link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+  },
+  {
+    name: "Vite",
+    Icon: Vite,
+    link: "https://vitejs.dev/"
+  },
+  {
+    name: "Lit",
+    Icon: Lit,
+    link: "https://lit.dev/"
+  },
+  {
+    name: "Astro",
+    Icon: AstroIcon,
+    link: "https://astro.build/"
+  },
+  {
+    name: "Sass",
+    Icon: Sass,
+    link: "https://sass-lang.com/"
+  },
+];
+
+const backendRow = [
+  {
+    name: "Rust",
+    Icon: Rust,
+    link: "https://www.rust-lang.org/"
+  },
+  {
+    name: "Postgres",
+    Icon: Postgrees,
+    link: "https://www.postgresql.org/"
+  },
+  {
+    name: "Nix",
+    Icon: Nix,
+    link: "https://nixos.org/"
+  },
+  {
+    name: "actix-web",
+    Icon: ActixWeb,
+    link: "https://actix.rs/",
+    style: {
+      filter: "brightness(0) invert(1)"
+    }
+  },
+  {
+    name: "Nodejs",
+    link: "https://nodejs.org/",
+    Icon: Node
+  },
+  {
+    name: "Jest",
+    link: "https://jestjs.io/",
+    Icon: Jest
+  },
+  {
+    name: "AWS",
+    link: "https://aws.amazon.com/",
+    Icon: AWS
+  },
+];
+
 ---
 
 <!DOCTYPE html>
@@ -35,6 +137,32 @@ export const prerender = true;
         </h1>
         <p>Student with interest in software engineering who specialises in backend/memory/networking</p>
       </header>
+
+      <div>
+        <h2 class="title">Skills</h2>
+        <div class="slide-root">
+          <ul class="slide" style={{"--animation-direction": "forwards"}}>
+            {[...frontendRow, ...frontendRow].map((item, i) => (
+              <li class="item">
+                <a target="_blank" href={item.link}>
+                  <Image src={item.Icon} alt={`Logo of ${item.name}`} height={32} style={item?.style ? item.style : undefined} />
+                  <span>{item.name}</span>
+                </a>
+              </li>
+              ))}
+          </ul>
+          <ul class="slide" style={{"--animation-direction": "reverse"}}>
+            {[...backendRow, ...backendRow].map((item, i) => (
+              <li class="item">
+                <a target="_blank" href={item.link}>
+                  <Image src={item.Icon} alt={`Logo of ${item.name}`} height={32} style={item?.style ? item.style : undefined} />
+                  <span>{item.name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
       <section class="posts">
         <h2 class="title">Latest logs</h2>
@@ -58,7 +186,70 @@ export const prerender = true;
   }
 </script>
 
-<style>
+<style lang="scss">
+  $spacing: 0.75rem;
+
+  @keyframes scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .slide-root {
+
+    --speed: 10s;
+
+    @media screen and (min-width: 500px) {
+      --speed: 30s;
+    }
+
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing;
+
+    --mask-size: 20px;
+    mask: linear-gradient(90deg, transparent, black var(--mask-size), black calc(100% - var(--mask-size)), transparent);
+
+    ul {
+      width: max-content;
+      animation: scroll var(--speed) linear infinite var(--animation-direction);
+      display: flex;
+      gap: $spacing;
+      flex-wrap: nowrap;
+
+      &:hover {
+        animation-play-state: paused;
+      }
+      li {
+        & span {
+          display: none;
+        }
+        @media screen and (min-width: 500px) {
+          width: 180px;
+          & span {
+            display: unset;
+          }
+        }
+        & > a {
+          display: flex;
+          padding-inline: 0.5rem;
+          padding-block: 0.5rem;
+          gap: 1rem;
+          border: 1px solid var(--blue-6);
+          border-radius: 0.5rem;
+          background-color: var(--blue-3);
+          align-items: center;
+          justify-content: flex-start;
+          color: var(--blue-11);
+          &:hover {
+            background-color: var(--blue-5);
+          }
+        }
+      }
+    }
+  }
+
   main:not(.print) {
     display: flex;
     flex-direction: column;
@@ -94,16 +285,16 @@ export const prerender = true;
     }
   }
 
+  .title {
+    color: var(--blue-11);
+    font-size: 2.25rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
   .posts {
     display: flex;
     flex-direction: column;
-
-    .title {
-      color: var(--blue-11);
-      font-size: 2.25rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
 
     .more-posts {
       color: var(--red-11);
@@ -114,7 +305,6 @@ export const prerender = true;
       gap: 0.5rem;
 
       padding: 0.5rem 1rem;
-      margin-top: 1rem;
       border-radius: 0.5rem;
 
       &:hover {
