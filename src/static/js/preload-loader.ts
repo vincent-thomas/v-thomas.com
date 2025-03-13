@@ -23,7 +23,7 @@ function preloadWithSpeculation() {
     prerender: [
       {
         source: "document",
-        eagerness: "eager",
+        eagerness: "moderate",
         where: {
           and: [
             { href_matches: "/*" },
