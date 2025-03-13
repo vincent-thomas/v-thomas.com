@@ -1,8 +1,0 @@
-{
-  "include": ["lib/**/*.ts"],
-  "compilerOptions": {
-    "strictNullChecks": true,
-    "experimentalDecorators": true,
-    "useDefineForClassFields": false
-  }
-}
