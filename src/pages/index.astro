@@ -47,7 +47,7 @@ export const prerender = true;
       <section class="posts">
         <h2 class="title">Latest logs</h2>
         <Logs limit={3} />
-        <a href="/logs" class:list={[button({accent: "red"}), "self-end"]}>
+        <a href="/logs" class:list={[button({accent: "blue", variant: "subtle"}), "self-end"]}>
           More posts <Icon name="arrow-right" />
         </a>
         </div>
@@ -108,8 +108,6 @@ export const prerender = true;
     font-weight: 600;
     margin-bottom: 2rem;
     position: relative;
-    z-index: 3;
-
     @media screen and (min-width: 1024px) {
       &::before {
         --size: 1000px;
@@ -121,6 +119,8 @@ export const prerender = true;
         height: var(--size);
         filter: opacity(0.6);
         background: radial-gradient(var(--size) circle, var(--blue-3) 0, transparent 50%);
+
+        z-index: -1;
       }
     }
   }
@@ -128,6 +128,7 @@ export const prerender = true;
   .posts {
     display: flex;
     flex-direction: column;
+    position: relative;
 
     .more-posts {
       color: var(--red-11);
@@ -142,6 +143,22 @@ export const prerender = true;
 
       &:hover {
         background-color: var(--red-5);
+      }
+    }
+
+    @media screen and (min-width: 1024px) {
+      &::after {
+        --size: 1000px;
+        content: "";
+        position: absolute;
+        bottom: calc(-1 * var(--size) / 2.5);
+        right: calc(-1 * var(--size) / 3);
+        width: var(--size);
+        height: var(--size);
+        filter: opacity(0.6);
+        background: radial-gradient(var(--size) circle, var(--blue-3) 0, transparent 50%);
+
+        z-index: -1;
       }
     }
   }

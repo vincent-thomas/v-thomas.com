@@ -57,7 +57,7 @@ export const button = recipe({
       default: {
         vars: {
           [spacingX]: ".75rem",
-          [spacingY]: ".3rem",
+          [spacingY]: ".4rem",
         },
       },
     },

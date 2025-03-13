@@ -32,10 +32,7 @@ const {overrideTitle} = Astro.props;
             <li>
               <a
                 href={href}
-                class:list={{
-                  [button({ variant: "underline" })]: isPathActive(Astro.url.pathname, href),
-                  [button({ variant: "subtle" })]: !isPathActive(Astro.url.pathname, href)
-                }}>{text}</a>
+                class={button({ accent: "blue", variant: "subtle" })}>{text}</a>
             </li>
             )}
           </ul>

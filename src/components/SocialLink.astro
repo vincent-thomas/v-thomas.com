@@ -1,20 +1,6 @@
 ---
 import { HTMLAttributes } from 'astro/types';
 
-
-//import { css, LitElement, html } from "lit";
-//import { customElement, property } from "lit/decorators.js";
-//
-//@customElement("tag-pill")
-//export class TagPill extends LitElement {
-//  static styles = css`
-//  `;
-//
-//  render() {
-//    return html`<span><slot /></span>`;
-//  }
-//  }
-
 export interface Props extends HTMLAttributes<'a'> {
   href: string;
   label: string
@@ -28,11 +14,12 @@ const {href, label, ...props} = Astro.props as Props;
 </a>
 
 <style lang="scss">
-    a {
-      color: var(--gray-11);
-      transition: all 0.2s ease;
+  a {
+    color: var(--blue-11);
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: var(--blue-12);
     }
-    a:hover {
-      color: var(--gray-12);
-    }
+  }
 </style>
