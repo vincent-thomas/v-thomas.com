@@ -1,14 +1,18 @@
 ---
 export type Props = { level: number, id: string };
-import { Icon } from "astro-icon/components";
+import Link from "../../icons/link.svg";
 
 const {level, id} = Astro.props as Props;
 
 const headerProps = {id, class:"header"};
+
+if (level < 1 || level > 6) throw new Error("Invalid Heading");
 ---
 
 <div class="outer">
-  <a class="ignore-link cursor-pointer" href={`#${id}`}><Icon name="link" size="24px" /></a>
+  <a class="ignore-link cursor-pointer" href={`#${id}`}>
+    <Link size="24px" />
+  </a>
   {level === 1 && <h1 {...headerProps}><slot /></h1>}
   {level === 2 && <h2 {...headerProps}><slot /></h2>}
   {level === 3 && <h3 {...headerProps}><slot /></h3>}
@@ -22,6 +26,14 @@ const headerProps = {id, class:"header"};
     visibility: hidden;
     transform: rotate(-45deg);
     color: var(--gray-11);
+
+    svg {
+      color: var(--gray-11);
+
+      &:hover {
+        color: var(--blue-11);
+      }
+    }
   }
 
   .outer {
@@ -29,10 +41,6 @@ const headerProps = {id, class:"header"};
     display: flex;
     align-items: center;
     gap: 0.75rem;
-
-    &:hover .header {
-      color: var(--red-11);
-    }
 
     @media screen and (min-width: 1000px) {
       &:hover a {

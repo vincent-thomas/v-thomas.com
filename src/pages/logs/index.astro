@@ -21,11 +21,11 @@ export const prerender = true;
   <Body>
     <Navbar />
     <main>
-      <div class="flex flex-col gap-2 items-start">
-        <h1 class="mt-8 text-[var(--gray-12)] text-3xl md:text-5xl xl:text-7xl font-[800]">VT's dev log</h1>
-        <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
+      <header>
+        <h1>VT's dev log</h1>
+        <p>Mostly focused on quite low level software-engineering stuff.</p>
         <a href="/logs/tags" class={button({variant: "underline"})}>All tags <Icon name="arrow-right" /></a>
-      </div>
+      </header>
       <section>
         <Logs />
       </section>
@@ -35,6 +35,25 @@ export const prerender = true;
 </html>
 
 <style>
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  p {
+    color: var(--gray-11);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    margin-top: 2rem;
+    color: var(--gray-12);
+    font-size: 2rem;
+    font-weight: 800
+  }
+
   main {
     display: flex;
     flex-direction: column;

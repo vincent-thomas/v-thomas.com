@@ -15,6 +15,17 @@ const tags: string[] = logs.flatMap((log) => log.data.tags);
 export const prerender = true;
 ---
 
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+
+    margin-block: 4rem;
+  }
+</style>
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -22,11 +33,11 @@ export const prerender = true;
   </head>
   <Body>
     <Navbar />
-    <div class="lg:my-20 my-8 flex flex-col gap-3 items-start">
+    <main>
       <GoBack href="/" />
       <h1 class="text-[var(--gray-12)] text-3xl md:text-4xl xl:text-5xl font-[800]">VT's dev log</h1>
       <p class="text-[var(--gray-11)] mb-2">Mostly focused on quite low level software-engineering stuff.</p>
-    </div>
+    </main>
 		<section>
       {tags.map((tag) => <TagPill set:text={tag} href={`/logs/tags/${tag}`} />)}
     </section>

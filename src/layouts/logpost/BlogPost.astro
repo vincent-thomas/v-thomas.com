@@ -35,6 +35,49 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
   #goback-btn-wrapper {
     margin-block: calc(12 * 0.25rem);
   }
+
+  .article .header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+
+      .minute-read {
+        color: var(--gray-11);
+      }
+    }
+
+  }
+  h1 {
+    color: var(--blue-10);
+    font-weight: 800;
+    text-align: left;
+    font-size: 2.25rem;
+  }
+
+  .under-title-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .description {
+    color: var(--gray-11);
+    max-width: 45ch;
+    text-align: left;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 300px;
+    gap: 0.75rem;
+    align-items: center;
+
+  }
 </style>
 
 <html lang="en">
@@ -51,12 +94,12 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
       <GoBack href="/logs" overrideText='All posts' />
     </div>
     <article>
-      <div class="flex flex-col gap-4">
+      <div class="header">
         {heroImage && (
           <Image widths={[852, 600, 400]} src={heroImage.dark} loading="eager" alt={heroImage.alt} class={blogHeroImage({forTheme: "dark"})}  />
           <Image widths={[852, 600, 400]} src={heroImage.light} loading="eager" alt={heroImage.alt} class={blogHeroImage({forTheme: "light"})}  />
         )}
-        <div class="flex justify-between">
+        <div class="header-bar">
           <div class="text-gray-400 max-w-[45ch] flex flex-col">
             <p>{pubDate ? <>Published <FormattedDate date={pubDate} /></> : "Private draft"}</p>
             {pubDate != lastModified && (
@@ -65,13 +108,13 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
               </p>
             )}
           </div>
-          <span class="text-gray-400">{minuteRead} minute read</span>
+          <span class="minute-read">{minuteRead} minute read</span>
         </div>
       </div>
-      <h1 class="text-[var(--blue-indicator)] font-[800] md:text-5xl text-2xl text-left">{title}</h1>
-      <div class="flex lg:flex-row flex-col justify-between lg:items-end gap-4">
-        <p class="text-gray-400 max-w-[45ch] text-left">{description}</p>
-        <div class="flex flex-wrap max-w-[300px] gap-3 items-center no-print">
+      <h1>{title}</h1>
+      <div class="under-title-bar">
+        <p class="description">{description}</p>
+        <div class="tags no-print">
           {tags.map(tag => <TagPill href={`/logs/tags/${tag}`}>{tag}</TagPill>)}
         </div>
       </div>
