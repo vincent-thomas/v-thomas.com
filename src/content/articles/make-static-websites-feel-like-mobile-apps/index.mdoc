@@ -4,14 +4,13 @@ tags:
   - web
 ---
 
-Single Page Applications (SPAs) have raised the bar of UX in terms of navigation between web pages.
-Unlike traditional websites that reload the entire page when navigating, SPAs loads content dynamically, creating seamless navigation.
-But what if you could replicate this SPA-like navigation on a regular website — and do it with minimal code?
+Mobile apps raised the bar of UX in terms of navigation between pages.
+Unlike traditional websites that reload the entire page when navigating, apps loads content dynamically, creating seamless navigation.
+But what if you could replicate this seamless app navigation on a regular website — and do it with minimal code?
 
 Chrome's **experimental** [Speculation Rules API](https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API) makes this possible by telling the browser to prerender pages referenced in `<a>` tags (behaviour is customisable).
-This can be specified in many different ways. But this article will do it with JavaScript. Why? Because we want backwards compatibility.
-When the browser doesn't support this API (every browser that's not chrome), we need a fallback, a way to choose between two methods.
-The preferred method will be the Speculation Rules API and can be added to a JavaScript `script` tag. Here's an example implementation:
+This behavior is configured by a `<script>` tag with a specific json format. This article will inject the script tag at runtime, because we want a fallback behavior if the browser doesn't support this experimental API.
+Here's an example implementation of the Speculation Rules API:
 
 ```js
 function preloadWithSpeculation() {
@@ -23,7 +22,7 @@ function preloadWithSpeculation() {
     prerender: [
       {
         source: "document",
-        eagerness: "eager",
+        eagerness: "moderate",
         where: {
           href_matches: "/*",
         },
@@ -34,6 +33,7 @@ function preloadWithSpeculation() {
   document.head.append(tag);
 }
 ```
+
 This function injects a script tag that looks like this:
 ```html
 <script type="speculationrules">
@@ -41,7 +41,7 @@ This function injects a script tag that looks like this:
     "prerender": [
       {
         "source": "document",
-        "eagerness": "eager",
+        "eagerness": "moderate",
         "where": {
           "href_matches": "/*"
         }
@@ -54,7 +54,7 @@ This function injects a script tag that looks like this:
 With this configuration Chrome will prerender any page that's referenced with the href attribute in `<a>`, that's starts with / (pages on this website).
 This might not be what you want but this is what fitted my use-case.
 
-Next we need a implementation that can preload links without using anything experimental.
+Next we need a implementation that can preload links without using any experimental API.
 In this article we will use `<link rel="preload">` tags, which is a standard way to preload (but not render) the webpage specified by the `href` attribute.
 We will instruct the browser to preload a page on hover of any `a` tag:
 

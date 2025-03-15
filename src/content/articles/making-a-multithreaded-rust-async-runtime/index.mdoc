@@ -138,7 +138,7 @@ impl Worker {
 }
 ```
 
-_Snippet taken from [my runtime 'liten's worker task fetching mechanism](https://github.com/liten-rs/liten/blob/main/liten/src/runtime/scheduler/worker/worker.rs#L98-L134)_.
+_Snippet taken from [my runtime 'liten's worker task fetching mechanism](https://github.com/liten-rs/liten/blob/0faf37cb53c72903318c8cff31f494a1ca62950b/liten/src/runtime/scheduler/worker/worker.rs#L57-L93)_.
 
 The queues contain green threads. In Rust's case it's a `Future` submitted by the user. The user supplies a Future and the runtime wraps that in another future and once the user-submitted Future is ready, the value gets sent in a oneshot channel to the JoinHandle.
 Once a task has been retreived, we allow little CPU time for that specific task. tasks Poll return decides what to do with it:
