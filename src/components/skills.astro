@@ -17,7 +17,6 @@ import Jest from "../static/img/jestjs.png";
 import Aws from "../static/img/aws.png";
 import { ImageMetadata } from "astro";
 
-
 interface Skill {
   name: string;
   Icon: ImageMetadata;
@@ -103,6 +102,10 @@ const backendRow: Skill[] = [
     Icon: Aws
   },
 ];
+
+import {strictEqual} from "node:assert";
+strictEqual(backendRow.length, frontendRow.length);
+
 ---
 
 <div class="slide-root">

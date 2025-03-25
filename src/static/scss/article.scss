@@ -1,9 +1,9 @@
-.my-content :where(p):not(:where([class~=content-ignore],[class~=content-ignore] *)) {
+.my-content :where(p):not(:where([class~=content-p-ignore],[class~=content-p-ignore] *)) {
   color: var(--gray-12);
   margin-block: 1.5rem;
 }
 
-.my-content :where(li):not(:where([class~=content-ignore],[class~=content-ignore] *)) {
+.my-content :where(li):not(:where([class~=content-li-ignore],[class~=content-li-ignore] *)) {
   color: var(--gray-12);
   list-style-type: disc;
   margin-left: 2rem;
@@ -13,7 +13,7 @@
   }
 }
 
-.my-content :where(pre):not(:where([class~=content-ignore],[class~=content-ignore] *)) {
+.my-content :where(pre):not(:where([class~=content-pre-ignore],[class~=content-pre-ignore] *)) {
   padding: 0.8rem;
 
   @media screen and (min-width: 900px) {
@@ -21,7 +21,7 @@
   }
 }
 
-.my-content :where(a):not(:where([class~=content-ignore],[class~=content-ignore] *)) {
+.my-content :where(a):not(:where([class~=content-a-ignore],[class~=content-a-ignore] *)) {
   color: var(--blue-11);
   font-weight: 600;
 

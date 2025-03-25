@@ -1,5 +1,5 @@
 import { recipe } from "@vanilla-extract/recipes";
-import { createVar, style } from "@vanilla-extract/css";
+import { createVar } from "@vanilla-extract/css";
 
 const spacingY = createVar();
 const spacingX = createVar();

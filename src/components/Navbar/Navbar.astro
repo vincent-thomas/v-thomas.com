@@ -3,12 +3,6 @@ import Socials from "../Socials.astro";
 import { SITE_TITLE } from '../../consts';
 import { Icon } from 'astro-icon/components';
 import { button } from '../../static/cssts/button.css';
-import {isPathActive} from "../../utils/isPathaActive";
-
-const links = [
-  { href: '/', text: 'Home' },
-  { href: '/logs', text: 'Developer log' },
-  ];
 
 export type Props = {
   overrideTitle?: string;
@@ -16,6 +10,10 @@ export type Props = {
 
 const {overrideTitle} = Astro.props;
 
+const links = [
+  { href: '/', text: 'Home' },
+  { href: '/logs', text: 'Developer log' },
+];
 ---
 
 <div id="root-navbar">
