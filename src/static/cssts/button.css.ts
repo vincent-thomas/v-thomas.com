@@ -48,6 +48,12 @@ export const button = recipe({
       },
     },
     size: {
+      no: {
+        vars: {
+          [spacingX]: "0",
+          [spacingY]: "0",
+        },
+      },
       sm: {
         vars: {
           [spacingX]: ".4rem",
@@ -67,6 +73,22 @@ export const button = recipe({
         borderRadius: "0.25rem",
         ":hover": {
           backgroundColor: bgColor,
+        },
+      },
+
+      link: {
+        color: textColor,
+        position: "relative",
+        "::before": {
+          transition: "all 0.1s ease-in-out",
+          content: '""',
+          position: "absolute",
+
+          width: `calc(100% - (2 * ${spacingX}))`,
+          bottom: spacingY,
+          left: spacingX,
+          height: "2px",
+          backgroundColor: textColor,
         },
       },
       subtle: {

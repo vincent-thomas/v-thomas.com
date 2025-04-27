@@ -15,6 +15,8 @@ const article = defineCollection({
           .optional(),
         tags: z.array(z.string()),
 
+        partOfSeries: z.string().optional(),
+
         furtherReading: z
           .array(
             z.object({

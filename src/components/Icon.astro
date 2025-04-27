@@ -1,7 +1,9 @@
 ---
 export interface Props {
+  id?: string;
   icon: string;
   size?: "sm" | "md" | "lg";
+  color?: string;
 }
 
 function addAttributesToInnerHTMLString(innerHTML: string, attributes: Record<string, string>) {
@@ -19,13 +21,19 @@ const sizePx = {
   lg: "32px",
 }[size];
 
-const { default: _default } = await import(`../icons/${icon}.svg?raw`);
-
-const innerHTML = addAttributesToInnerHTMLString(_default, {
+const props: Record<string, string> = {
   ...attrs,
   height: sizePx,
   width: sizePx,
-});
+}
+
+if (!attrs.color) {
+  const style = `color: ${attrs.color};`;
+  props["style"] = style;
+}
+
+const { default: _default } = await import(`../icons/${icon}.svg?raw`);
+const innerHTML = addAttributesToInnerHTMLString(_default, props);
 ---
 
   <Fragment set:html={innerHTML} />

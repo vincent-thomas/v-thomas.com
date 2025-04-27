@@ -50,3 +50,11 @@ export async function getAllTags(): Promise<string[]> {
 
   return articles.flatMap((post) => post.data.tags);
 }
+
+export async function getLogsFromSeries(
+  serie: string,
+): Promise<CollectionEntry<"article">[]> {
+  const articles = await getLogs();
+  const inSeries = articles.filter((post) => post.data?.partOfSeries === serie);
+  return inSeries;
+}

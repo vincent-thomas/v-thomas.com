@@ -11,18 +11,27 @@ import Footer from '../../components/Footer.astro';
 import TagPill from '../../components/TagPill.astro';
 import Heading from "../../markdoc/nodes/Heading.astro";
 import { Image } from 'astro:assets';
+import {getLogsFromSeries} from "../../utils/logs";
+import SeriesComponent from "../../components/Series.astro";
 
 import {blogHeroImage} from "./blogpost.css"
 
 
 export type Props = CollectionEntry<'article'> & { minuteRead: number, lastModified: Date };
 
-const { data: {description, pubDate, heroImage, tags, furtherReading}, id, lastModified } = Astro.props as Props;
+const { data: {description, pubDate, heroImage, tags, furtherReading, partOfSeries}, id, lastModified } = Astro.props as Props;
 
 if (!pubDate && process.env.NODE_ENV === "production") throw new Error("Missing pubDate");
 
 let title = id.replaceAll("-", " ");
 title = title.charAt(0).toUpperCase() + title.slice(1);
+
+let series: {series: CollectionEntry<"article">[], currentLogIndex: number} | null = null;
+
+if (!!partOfSeries) {
+  const logs = await getLogsFromSeries(partOfSeries);
+  series = {series: logs, currentLogIndex: logs.findIndex(log => log.id === id)};
+}
 ---
 
 <style lang="scss">
@@ -43,8 +52,7 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
 
     .header-bar {
       display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
       color: var(--gray-11);
     }
   }
@@ -92,19 +100,24 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
     </div>
     <article>
       <div class="header">
-        {heroImage && (
-          <Image widths={[852, 600, 400]} src={heroImage.dark} loading="eager" alt={heroImage.alt} class={blogHeroImage({forTheme: "dark"})}  />
-          <Image widths={[852, 600, 400]} src={heroImage.light} loading="eager" alt={heroImage.alt} class={blogHeroImage({forTheme: "light"})}  />
-        )}
         <div class="header-bar">
+          <div class="flex flex-col gap-1">
             <p>{pubDate ? <>Published <FormattedDate date={pubDate} /></> : "Private draft"}</p>
             {pubDate != lastModified && (
               <p class="mt-1">
                 Last updated <FormattedDate date={lastModified} />
               </p>
             )}
+          </div>
         </div>
       </div>
+        {heroImage && (
+          <figure class="flex flex-col gap-2">
+            <Image widths={[852, 600, 400]} src={heroImage.dark} loading="eager" alt={heroImage.alt} class={blogHeroImage({forTheme: "dark"})}  />
+            <Image widths={[852, 600, 400]} src={heroImage.light} loading="eager" alt={heroImage.alt} class={blogHeroImage({forTheme: "light"})}  />
+            <figcaption class="self-end text-[var(--gray-11)] mr-4">{heroImage.alt}</figcaption>
+          </figure>
+        )}
       <h1>{title}</h1>
       <div class="under-title-bar">
         <p class="description">{description}</p>
@@ -113,6 +126,7 @@ title = title.charAt(0).toUpperCase() + title.slice(1);
         </div>
       </div>
       <hr class="no-print" />
+      {!!series && <SeriesComponent series={series.series} currentIndex={series.currentLogIndex} />}
       <div class="my-content">
         <slot/>
         {!!furtherReading && (
