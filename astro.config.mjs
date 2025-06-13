@@ -32,7 +32,7 @@ const config = {
   // Redirects
   redirects: {
     "/x": "https://x.com/vincenttho1337",
-    "/linkedin": "https://www.linkedin.com/in/vincent-thomas-08577b333/",
+    "/linkedin": "https://www.linkedin.com/in/vt06/",
     "/github": "https://github.com/vincent-thomas",
   },
 
@@ -44,7 +44,6 @@ const config = {
     contentIntellisense: true,
     responsiveImages: true,
     svg: true,
-    clientPrerender: true,
   },
 
   vite: {
