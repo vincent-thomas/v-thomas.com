@@ -18,7 +18,7 @@ The module creates a `v-thomas-com` Worker and attaches `new.v-thomas.com` as it
 
 Cloudflare creates the custom domain's DNS record and TLS certificate. The hostname must belong to an active zone in the same account and must not already have a CNAME record.
 
-Worker preview URLs are enabled. Pull requests from branches in this repository upload an isolated version with a stable `pr-<number>` preview alias; they do not change the production deployment. Pushes to `main` first ensure the Worker exists, deploy the production Astro build with Wrangler, and then apply the remaining Terraform infrastructure. This ordering ensures the Worker has a deployment before Terraform attaches its custom domain.
+Worker preview URLs are enabled, while the production `workers.dev` route is disabled. Pull requests from branches in this repository upload an isolated version with a stable `pr-<number>` preview alias; they do not change the production deployment. Pushes to `main` first ensure the Worker exists, deploy the production Astro build with Wrangler, and then apply the remaining Terraform infrastructure. This ordering ensures the Worker has a deployment before Terraform attaches its custom domain and makes Terraform authoritative for the final routing configuration.
 
 The GitHub repository must define:
 
