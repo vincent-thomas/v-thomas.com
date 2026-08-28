@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import portrait from '../assets/me.jpeg';
 import '../styles/global.css';
 
 const tagline = 'infrastructure for long-horizon agents @ vers.sh';
@@ -34,11 +36,24 @@ const lastUpdated = '2026-08-28';
 
       <main>
         <section class="hero">
-          <h1><span class="hash">#</span><span>Vincent Thomas</span></h1>
+          <div class="hero-intro">
+            <div class="hero-copy">
+              <h1><span class="hash">#</span><span>Vincent Thomas</span></h1>
 
-          <p class="tagline" data-tagline={tagline} data-link={linkText}>
-            <span data-typed>{before}</span><a href="https://vers.sh" data-typed-link>{linkText}</a><span class="cursor"></span>
-          </p>
+              <p class="tagline" data-tagline={tagline} data-link={linkText}>
+                <span data-typed>{before}</span><a href="https://vers.sh" data-typed-link>{linkText}</a><span class="cursor"></span>
+              </p>
+            </div>
+
+            <Image
+              class="portrait"
+              src={portrait}
+              alt="Vincent Thomas giving a thumbs up"
+              width={304}
+              height={368}
+              quality={85}
+            />
+          </div>
 
           <p class="quote">
             An agent that runs for a minute is a demo. One that runs for a week is an

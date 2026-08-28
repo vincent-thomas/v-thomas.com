@@ -67,6 +67,22 @@ a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 main { display: grid; gap: 76px; padding-top: 88px; }
 section { display: grid; gap: 22px; }
 .hero { gap: 20px; }
+.hero-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 152px;
+  align-items: center;
+  gap: 32px;
+}
+.hero-copy { display: grid; gap: 20px; min-width: 0; }
+.portrait {
+  display: block;
+  width: 152px;
+  height: 184px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  object-fit: cover;
+  object-position: center 64%;
+}
 
 /* h1 */
 h1 {
@@ -180,6 +196,8 @@ footer {
 
 @media (max-width: 640px) {
   body { font-size: 18px; padding: 0 20px 90px; }
-  h1 { font-size: 38px; }
+  h1 { font-size: 34px; }
   main { gap: 60px; padding-top: 64px; }
+  .hero-intro { grid-template-columns: minmax(0, 1fr) 96px; gap: 16px; }
+  .portrait { width: 96px; height: 128px; }
 }
