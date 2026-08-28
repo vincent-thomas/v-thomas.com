@@ -28,7 +28,7 @@ body {
   font-family: var(--serif);
   font-size: 19px;
   line-height: 1.62;
-  padding: 0 28px 120px;
+  padding: 0 28px 60px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
