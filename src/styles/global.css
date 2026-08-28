@@ -68,14 +68,14 @@ main { display: grid; gap: 76px; padding-top: 88px; }
 section { display: grid; gap: 22px; }
 .hero { gap: 20px; }
 .hero-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 152px;
-  align-items: center;
+  display: flex;
+  align-items: flex-end;
   gap: 32px;
+  justify-content: space-between;
 }
 .hero-copy { display: grid; gap: 20px; min-width: 0; }
 .portrait-frame {
-  align-self: end;
+  flex-shrink: 0;
   width: 152px;
   height: 152px;
   overflow: hidden;
@@ -194,6 +194,6 @@ footer {
   body { font-size: 18px; padding: 0 20px 90px; }
   h1 { font-size: 34px; }
   main { gap: 60px; padding-top: 64px; }
-  .hero-intro { grid-template-columns: minmax(0, 1fr) 96px; gap: 16px; }
+  .hero-intro { gap: 16px; }
   .portrait-frame { width: 96px; height: 96px; }
 }
