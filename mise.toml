@@ -1,0 +1,19 @@
+[tools]
+bun = "latest"
+"npm:wrangler" = "latest"
+terraform = "1.16.0"
+
+[tasks.install]
+run = "bun install"
+
+[tasks.build]
+depends = ["install"]
+run = "bun x astro build"
+
+[tasks.dev]
+depends = ["install"]
+run = "bun x astro dev"
+
+[tasks.preview]
+depends = ["build"]
+run = "bun x astro preview"
