@@ -1,0 +1,199 @@
+/* Vincent Thomas — dark-only, markdown-flavoured personal site */
+
+:root {
+  color-scheme: dark;
+  --bg: #121211;
+  --ink: #edeae1;
+  --body: #b6b1a4;
+  --muted: #a5a094;
+  --meta: #9d988b;
+  --faint: #6b675e;
+  --mark: #55514a;
+  --rule: #2b2a26;
+  --accent: #d08d60;
+  --sel: #35332c;
+
+  --serif: Newsreader, Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--bg); }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.62;
+  padding: 0 28px 120px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--sel); }
+
+a {
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklab, var(--ink) 30%, transparent);
+  transition: color 140ms ease, text-decoration-color 140ms ease;
+}
+a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+.wrap { max-width: 620px; margin: 0 auto; }
+
+/* header */
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 40px 0 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  color: var(--meta);
+}
+.masthead nav { display: flex; align-items: baseline; gap: 18px; }
+.masthead nav a { color: var(--meta); text-decoration: none; }
+.masthead nav a:hover { color: var(--ink); }
+
+/* layout rhythm */
+main { display: grid; gap: 76px; padding-top: 88px; }
+section { display: grid; gap: 22px; }
+.hero { gap: 20px; }
+.hero-intro {
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  justify-content: space-between;
+}
+.hero-copy { display: grid; gap: 20px; min-width: 0; }
+.portrait-frame {
+  flex-shrink: 0;
+  width: 152px;
+  height: 152px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+}
+.portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.2) translate(-8%, -7%);
+}
+
+/* h1 */
+h1 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+h1 .hash { font-family: var(--mono); font-size: 22px; color: var(--mark); }
+
+/* typed tagline */
+.tagline {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--meta);
+  min-height: 46px;
+}
+.tagline a { color: var(--meta); text-decoration-color: color-mix(in oklab, var(--meta) 40%, transparent); }
+.tagline a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.cursor {
+  display: inline-block;
+  width: 7px;
+  height: 15px;
+  margin-left: 1px;
+  background: var(--accent);
+  transform: translateY(2px);
+  animation: blink 1.05s step-end infinite;
+}
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+
+/* pull quote */
+.quote {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  border-left: 2px solid var(--rule);
+  color: var(--body);
+  font-size: 20px;
+  font-style: italic;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* h2 — "## Now", self-linking, underline on the word only */
+h2 {
+  margin: 0;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+h2 a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+h2 a .hash { color: var(--mark); font-weight: 400; }
+h2 a .label {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--rule);
+  transition: text-decoration-color 140ms ease;
+}
+h2 a:hover { color: var(--accent); }
+h2 a:hover .label { text-decoration-color: var(--accent); }
+
+/* markdown-ish list */
+.md-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.md-list li { display: grid; grid-template-columns: 16px 1fr; gap: 12px; align-items: baseline; }
+.md-list .bullet { font-family: var(--mono); font-size: 13px; color: var(--mark); }
+.md-list span:last-child { text-wrap: pretty; }
+
+code, .code { font-family: var(--mono); font-size: 0.86em; }
+
+.stamp { margin: 2px 0 0; font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
+
+.prose { display: grid; gap: 16px; max-width: 66ch; }
+.prose p { margin: 0; text-wrap: pretty; }
+
+footer {
+  margin-top: 48px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--faint);
+}
+
+@media (max-width: 640px) {
+  body { font-size: 18px; padding: 0 20px 90px; }
+  h1 { font-size: 34px; }
+  main { gap: 60px; padding-top: 64px; }
+  .hero-intro { gap: 16px; }
+  .portrait-frame { width: 96px; height: 96px; }
+}
