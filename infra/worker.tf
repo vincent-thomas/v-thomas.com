@@ -12,8 +12,4 @@ resource "cloudflare_workers_custom_domain" "site" {
   account_id = var.cloudflare_account_id
   hostname   = var.worker_domain
   service    = cloudflare_worker.site.name
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
