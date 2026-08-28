@@ -75,6 +75,7 @@ section { display: grid; gap: 22px; }
 }
 .hero-copy { display: grid; gap: 20px; min-width: 0; }
 .portrait-frame {
+  align-self: end;
   width: 152px;
   height: 152px;
   overflow: hidden;
