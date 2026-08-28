@@ -3,7 +3,7 @@ resource "cloudflare_worker" "site" {
   name       = var.worker_name
 
   subdomain = {
-    enabled          = true
+    enabled          = false
     previews_enabled = true
   }
 }
