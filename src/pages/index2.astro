@@ -1,0 +1,119 @@
+---
+import '../styles/global.css';
+
+const tagline = 'infrastructure for long-horizon agents @ vers.sh';
+const linkText = 'vers.sh';
+const before = tagline.slice(0, tagline.lastIndexOf(linkText));
+const lastUpdated = '2026-08-28';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vincent Thomas</title>
+    <meta name="description" content={tagline} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+  </head>
+
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <span>~/vincent-thomas.md</span>
+        <nav>
+          <a href="#now">now</a>
+          <a href="#about">about</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <h1><span class="hash">#</span><span>Vincent Thomas</span></h1>
+
+          <p class="tagline" data-tagline={tagline} data-link={linkText}>
+            <span data-typed>{before}</span><a href="https://vers.sh" data-typed-link>{linkText}</a><span class="cursor"></span>
+          </p>
+
+          <p class="quote">
+            An agent that runs for a minute is a demo. One that runs for a week is an
+            infrastructure problem. I work on the second kind.
+          </p>
+        </section>
+
+        <section id="now">
+          <h2><a href="#now"><span class="hash">##</span><span class="label">Now</span></a></h2>
+          <ul class="md-list">
+            <li>
+              <span class="bullet">-</span>
+              <span>Building durable execution and memory infrastructure at <a href="https://vers.sh">vers.sh</a>.</span>
+            </li>
+            <li>
+              <span class="bullet">-</span>
+              <span>building my own long-horizon&nbsp;<a href="https://github.com/vincent-thomas/agents"><span class="code">agents</span></a>.</span>
+            </li>
+            <li>
+              <span class="bullet">-</span>
+              <span>Building <a href="https://github.com/vincent-thomas/lio"><span class="code">lio</span></a>,&nbsp;a high performance, zero-copy, platform-independent I/O library.</span>
+            </li>
+          </ul>
+          <p class="stamp">last updated {lastUpdated}</p>
+        </section>
+
+        <section id="about">
+          <h2><a href="#about"><span class="hash">##</span><span class="label">About</span></a></h2>
+          <div class="prose">
+            <p>
+              I build the layer underneath the interesting part. Right now that means
+              long-horizon agents: keeping them coherent across restarts, hours of work, and
+              everything they've already done.
+            </p>
+            <p>
+              Before <a href="https://vers.sh">vers.sh</a>, I spent my time on distributed
+              systems and developer tooling. I like small interfaces, plain text, and software
+              that explains itself.
+            </p>
+          </div>
+          <div class="elsewhere">
+            <a href="mailto:hello@vers.sh">email</a>
+            <a href="https://github.com/vincent-thomas">github</a>
+            <a href="https://x.com">x</a>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>EOF</span>
+        <span>© {new Date().getFullYear()} Vincent Thomas</span>
+      </footer>
+    </div>
+
+    <script>
+      // Types the tagline out; `vers.sh` becomes clickable as it appears.
+      const host = document.querySelector('[data-tagline]');
+      if (host && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const full = host.dataset.tagline ?? '';
+        const link = host.dataset.link ?? '';
+        const split = full.lastIndexOf(link);
+        const textEl = host.querySelector('[data-typed]');
+        const linkEl = host.querySelector('[data-typed-link]');
+        let i = 0;
+        textEl.textContent = '';
+        linkEl.textContent = '';
+        const id = setInterval(() => {
+          i += 1;
+          const shown = full.slice(0, i);
+          const cut = split === -1 ? shown.length : Math.min(shown.length, split);
+          textEl.textContent = shown.slice(0, cut);
+          linkEl.textContent = shown.slice(cut);
+          if (i >= full.length) clearInterval(id);
+        }, 42);
+      }
+    </script>
+  </body>
+</html>
