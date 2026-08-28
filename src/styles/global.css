@@ -66,7 +66,7 @@ a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 /* layout rhythm */
 main { display: grid; gap: 76px; padding-top: 88px; }
 section { display: grid; gap: 22px; }
-.hero { gap: 20px; }
+.hero { gap: 40px; }
 .hero-intro {
   display: flex;
   align-items: flex-end;
@@ -109,7 +109,6 @@ h1 .hash { font-family: var(--mono); font-size: 22px; color: var(--mark); }
   font-size: 13.5px;
   line-height: 1.7;
   color: var(--meta);
-  min-height: 46px;
 }
 .tagline a { color: var(--meta); text-decoration-color: color-mix(in oklab, var(--meta) 40%, transparent); }
 .tagline a:hover { color: var(--accent); text-decoration-color: var(--accent); }
