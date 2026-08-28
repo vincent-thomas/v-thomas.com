@@ -17,3 +17,39 @@ run = "bun x astro dev"
 [tasks.preview]
 depends = ["build"]
 run = "bun x astro preview"
+
+[tasks.deploy]
+depends = ["build"]
+description = "Deploy the site and reconcile its Cloudflare infrastructure"
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ -z "${TF_CONFIG:-}" ]; then
+  echo "TF_CONFIG is required" >&2
+  exit 1
+fi
+
+deploy_tfvars="$(mktemp)"
+trap 'rm -f "$deploy_tfvars"' EXIT
+printf '%s\n' "$TF_CONFIG" > "$deploy_tfvars"
+
+terraform -chdir=infra init -input=false
+terraform -chdir=infra apply -input=false -auto-approve -target=cloudflare_worker.site -var-file="$deploy_tfvars"
+wrangler deploy
+terraform -chdir=infra apply -input=false -auto-approve -var-file="$deploy_tfvars"
+'''
+
+[tasks."tf:init"]
+description = "Generates an execution plan for Terraform"
+run = "terraform -chdir=infra init -input=false"
+
+[tasks."tf:plan"]
+depends = ["tf:init"]
+description = "Generates an execution plan for Terraform"
+run = "terraform -chdir=infra plan"
+
+[tasks."tf:destroy"]
+depends = ["tf:init"]
+description = "Destroy Terraform-managed infrastructure"
+run = "terraform -chdir=infra destroy"
