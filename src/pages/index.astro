@@ -29,7 +29,7 @@ const lastUpdated = '2026-08-28';
       <header class="masthead">
         <span>~/vincent-thomas.md</span>
         <nav>
-          <a href="mailto:hello@vers.sh">email</a>
+          <a href="#email" data-email-user="olleh" data-email-host="hs.srev">email</a>
           <a href="https://github.com/vincent-thomas">github</a>
           <a href="https://x.com">x</a>
         </nav>
@@ -92,6 +92,16 @@ const lastUpdated = '2026-08-28';
     </div>
 
     <script>
+      // Keep the email address out of the static HTML and reconstruct it on click.
+      const emailLink = document.querySelector('[data-email-user]');
+      emailLink?.addEventListener('click', (event) => {
+        event.preventDefault();
+        const reverse = (value) => [...value].reverse().join('');
+        const user = reverse(emailLink.dataset.emailUser ?? '');
+        const host = reverse(emailLink.dataset.emailHost ?? '');
+        window.location.href = `mailto:${user}@${host}`;
+      });
+
       // Types the tagline out; `vers.sh` becomes clickable as it appears.
       const host = document.querySelector('[data-tagline]');
       if (host && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
