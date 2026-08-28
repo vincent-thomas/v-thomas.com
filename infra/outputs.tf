@@ -10,5 +10,5 @@ output "worker_name" {
 
 output "site_url" {
   description = "Public URL of the Worker's custom domain."
-  value       = "https://${cloudflare_workers_custom_domain.site.hostname}"
+  value       = "https://${var.worker_domain}"
 }

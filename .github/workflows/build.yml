@@ -39,6 +39,17 @@ jobs:
             versions upload
             --preview-alias pr-${{ github.event.pull_request.number }}
 
+      - name: Configure Terraform
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          TF_CONFIG: ${{ vars.TF_CONFIG }}
+        run: |
+          if [ -z "$TF_CONFIG" ]; then
+            echo "::error::The TF_CONFIG repository variable is empty"
+            exit 1
+          fi
+          printf '%s\n' "$TF_CONFIG" > infra/terraform.tfvars
+
       - name: Initialize Terraform
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: infra
@@ -56,8 +67,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_ENDPOINT_URL_S3: https://${{ vars.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          TF_VAR_cloudflare_account_id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-          TF_VAR_worker_domain: ${{ vars.WORKER_DOMAIN }}
         run: terraform apply -input=false -auto-approve
 
       - name: Deploy production

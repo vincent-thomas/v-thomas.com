@@ -23,7 +23,14 @@ Worker preview URLs are enabled. Pull requests from branches in this repository 
 The GitHub repository must define:
 
 - Secrets: `CLOUDFLARE_API_TOKEN`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY`.
-- Variables: `CLOUDFLARE_ACCOUNT_ID` and `WORKER_DOMAIN`.
+- Variables: `CLOUDFLARE_ACCOUNT_ID` and `TF_CONFIG`.
+
+`TF_CONFIG` must contain valid Terraform variable definitions:
+
+```hcl
+cloudflare_account_id = "a0cee71ecebb3bd111c29e454aa97f17"
+worker_domain         = "new.v-thomas.com"
+```
 
 Terraform stores production state in the `v-thomas-com-terraform-state` R2 bucket at `production/terraform.tfstate`. The backend uses an adjacent `.tflock` object to prevent concurrent state writes.
 
