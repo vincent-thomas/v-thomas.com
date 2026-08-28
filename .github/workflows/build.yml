@@ -14,6 +14,7 @@ jobs:
     permissions:
       contents: read
       deployments: write
+      pull-requests: write
 
     steps:
       - name: Check out repository
@@ -26,6 +27,7 @@ jobs:
         run: mise build
 
       - name: Upload preview
+        id: preview
         if: >-
           github.event_name == 'pull_request' &&
           github.event.pull_request.head.repo.full_name == github.repository
@@ -38,6 +40,42 @@ jobs:
           command: >-
             versions upload
             --preview-alias pr-${{ github.event.pull_request.number }}
+
+      - name: Comment preview URL
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/github-script@v8
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.deployment-url }}
+        with:
+          script: |
+            const marker = '<!-- cloudflare-preview -->';
+            const body = `${marker}\n🚀 Preview: ${process.env.PREVIEW_URL}`;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find((comment) =>
+              comment.user?.type === 'Bot' && comment.body?.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
 
       - name: Configure Terraform
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
