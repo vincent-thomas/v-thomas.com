@@ -99,7 +99,7 @@ jobs:
           AWS_ENDPOINT_URL_S3: https://${{ vars.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
         run: terraform init -input=false
 
-      - name: Apply infrastructure
+      - name: Create Worker
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: infra
         env:
@@ -107,7 +107,11 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_ENDPOINT_URL_S3: https://${{ vars.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: terraform apply -input=false -auto-approve
+        run: >-
+          terraform apply
+          -input=false
+          -auto-approve
+          -target=cloudflare_worker.site
 
       - name: Deploy production
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -118,3 +122,13 @@ jobs:
           gitHubToken: ${{ github.token }}
           packageManager: bun
           command: deploy
+
+      - name: Apply infrastructure
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: infra
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL_S3: https://${{ vars.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: terraform apply -input=false -auto-approve
