@@ -177,17 +177,8 @@ code, .code { font-family: var(--mono); font-size: 0.86em; }
 .prose { display: grid; gap: 16px; max-width: 66ch; }
 .prose p { margin: 0; text-wrap: pretty; }
 
-.elsewhere {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 22px;
-  padding-top: 6px;
-  font-family: var(--mono);
-  font-size: 13px;
-}
-
 footer {
-  margin-top: 96px;
+  margin-top: 48px;
   padding-top: 22px;
   border-top: 1px solid var(--rule);
   display: flex;
