@@ -92,15 +92,16 @@ const lastUpdated = '2026-08-28';
     </div>
 
     <script>
-      // Keep the email address out of the static HTML and reconstruct it on click.
+      // Keep the email address out of the static HTML, then restore a native mailto link.
       const emailLink = document.querySelector('[data-email-user]');
-      emailLink?.addEventListener('click', (event) => {
-        event.preventDefault();
+      if (emailLink instanceof HTMLAnchorElement) {
         const reverse = (value) => [...value].reverse().join('');
         const user = reverse(emailLink.dataset.emailUser ?? '');
         const host = reverse(emailLink.dataset.emailHost ?? '');
-        window.location.href = `mailto:${user}@${host}`;
-      });
+        emailLink.href = `mailto:${user}@${host}`;
+        delete emailLink.dataset.emailUser;
+        delete emailLink.dataset.emailHost;
+      }
 
       // Types the tagline out; `vers.sh` becomes clickable as it appears.
       const host = document.querySelector('[data-tagline]');
