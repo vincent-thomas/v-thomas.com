@@ -45,7 +45,7 @@ a {
 }
 a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
-.wrap { max-width: 720px; margin: 0 auto; }
+.wrap { max-width: 620px; margin: 0 auto; }
 
 /* header */
 .masthead {
