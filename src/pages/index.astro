@@ -1,71 +1,12 @@
 ---
-import { Image } from 'astro:assets';
-import portrait from '../assets/me.jpeg';
-import '../styles/global.css';
-import PostList from '../components/PostList.astro';
-import { getPosts } from '../lib/posts';
+import { getEntry, render } from 'astro:content';
+import HomeLayout from '../layouts/HomeLayout.astro';
 
-const posts = await getPosts();
-
-const lastUpdated = '2026-08-28';
+const page = await getEntry('pages', 'index');
+if (!page) throw new Error('Homepage content is missing');
+const { Content } = await render(page);
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Vincent Thomas</title>
-    <meta name="description" content="Vincent Thomas — building infrastructure for long-horizon agents at vers.sh." />
-  </head>
-  <body>
-    <main>
-      <header class="intro">
-          <h1><span class="syntax" aria-hidden="true"># </span>Vincent Thomas</h1>
-          <nav aria-label="Contact, profiles, and posts">
-            <a href="/posts/">posts</a>
-            <a href="#email" data-email-user="tnecniv" data-email-host="moc.samoht-v">email</a>
-            <a href="https://github.com/vincent-thomas">github</a>
-            <a href="https://x.com/vtho06">x</a>
-          </nav>
-      </header>
-      <figure class="portrait-frame">
-        <Image class="portrait" src={portrait} alt="Vincent Thomas giving a thumbs up" width={240} height={240} quality={85} />
-      </figure>
-      <p>
-        I work on infrastructure for long-horizon agents at <a href="https://vers.sh">vers.sh</a>.
-        Mostly durable execution and memory: keeping agents running for days or weeks.
-      </p>
-      <section id="now" aria-labelledby="now-heading">
-        <h2 id="now-heading"><a href="#now"><span class="syntax" aria-hidden="true">## </span>Other things I’m building</a></h2>
-        <ul>
-          <li>My own <a href="https://github.com/vincent-thomas/agents">long-horizon agents</a>.</li>
-          <li>
-            <a href="https://github.com/vincent-thomas/lio">lio</a>, a high-performance,
-            zero-copy I/O library that works across platforms.
-          </li>
-        </ul>
-      </section>
-      <section id="posts" aria-labelledby="posts-heading">
-        <h2 id="posts-heading"><a href="/posts/"><span class="syntax" aria-hidden="true">## </span>Posts</a></h2>
-        <PostList posts={posts.slice(0, 5)} />
-        {posts.length > 5 && <p class="archive-link"><a href="/posts/">All posts →</a></p>}
-      </section>
-      <footer>
-        <p class="stamp"><span aria-hidden="true">&lt;!-- </span>Updated <time datetime={lastUpdated}>{lastUpdated}</time><span aria-hidden="true"> --&gt;</span></p>
-      </footer>
-    </main>
-    <script>
-      // Keep the email address out of the static HTML, then restore a native mailto link.
-      const emailLink = document.querySelector('[data-email-user]');
-      if (emailLink instanceof HTMLAnchorElement) {
-        const reverse = (value: string) => [...value].reverse().join('');
-        const user = reverse(emailLink.dataset.emailUser ?? '');
-        const host = reverse(emailLink.dataset.emailHost ?? '');
-        emailLink.href = `mailto:${user}@${host}`;
-        delete emailLink.dataset.emailUser;
-        delete emailLink.dataset.emailHost;
-      }
-    </script>
-  </body>
-</html>
+<HomeLayout {...page.data}>
+  <Content />
+</HomeLayout>

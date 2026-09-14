@@ -2,6 +2,12 @@
 
 Personal website built with Astro. Posts are Markdown files stored in this repository.
 
+## Editing the landing page
+
+Edit `src/content/pages/index.mdoc` to update the homepage heading, profile links, portrait, copy, and metadata. The page uses Markdoc, with `{% post-list limit=5 /%}` placing the latest posts wherever you want them. Omit `limit` to show all posts. The tag renders `src/components/PostList.astro` and preserves draft filtering and the archive link.
+
+`src/pages/index.astro` renders the content collection entry. `src/layouts/HomeLayout.astro` supplies the footer, styling, and email-link behavior. Custom tags are registered in `markdoc.config.mjs`.
+
 ## Writing a post
 
 Create `src/content/posts/my-post.md` (or copy `example.md`):

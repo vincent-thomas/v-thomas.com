@@ -1,13 +1,17 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { formatDate, postUrl } from '../lib/posts';
-interface Props { posts: CollectionEntry<'posts'>[] }
-const { posts } = Astro.props;
+import { formatDate, postUrl, getPosts } from '../lib/posts';
+interface Props {
+  posts?: CollectionEntry<'posts'>[];
+  limit?: number;
+}
+const { posts = await getPosts(), limit } = Astro.props;
+const visiblePosts = limit === undefined ? posts : posts.slice(0, limit);
 ---
 
 {posts.length ? (
   <ul class="post-list">
-    {posts.map((post) => (
+    {visiblePosts.map((post) => (
       <li>
         <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
         <div>
@@ -19,3 +23,7 @@ const { posts } = Astro.props;
     ))}
   </ul>
 ) : <p class="empty-posts">No posts yet.</p>}
+
+{limit !== undefined && posts.length > limit && (
+  <p class="archive-link"><a href="/posts/">All posts →</a></p>
+)}
