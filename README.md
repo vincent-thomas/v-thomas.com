@@ -4,7 +4,7 @@ Personal website built with Astro. Posts are Markdown files stored in this repos
 
 ## Editing the landing page
 
-Edit `src/pages/index.md` to update the homepage copy, title, description, and last-updated date. `src/layouts/HomeLayout.astro` supplies the portrait, navigation, latest posts, and footer.
+Edit `src/pages/index.md` to update the homepage heading, profile links, portrait, copy, and metadata. `src/layouts/HomeLayout.astro` supplies the latest posts, footer, styling, and email-link behavior.
 
 ## Writing a post
 
