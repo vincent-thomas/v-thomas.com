@@ -47,3 +47,35 @@ footer { margin-top: 27px; padding-top: 20px; border-top: 1px solid #333; }
   h1 { font-size: 18px; }
   .stamp { font-size: 12px; }
 }
+
+/* Posts follow the same Markdown document styling as the homepage. */
+.post-list { list-style: none; padding: 0; }
+.post-list li { display: grid; grid-template-columns: 12ch minmax(0, 1fr); gap: 2ch; padding: 13.5px 0; border-bottom: 1px solid #333; }
+.post-list li + li { margin-top: 0; }
+.post-list li::marker { content: ''; }
+.post-list time, .post-meta, .draft-label { font-size: 13px; color: #999; }
+.post-list p { margin: 4.5px 0 0; color: #aaa; }
+.post-list a, .post-header h1 { overflow-wrap: anywhere; }
+.draft-label { margin-left: 1ch; color: #6db9e8; }
+.empty-posts { color: #999; }
+.archive-link { margin: 13.5px 0 0; }
+.post-nav { margin-bottom: 27px; }
+.post-header { margin-bottom: 27px; }
+.post-header .archive-link { display: inline-block; margin: 0 0 13.5px; }
+.post-meta { margin-bottom: 13.5px; }
+.post-description { color: #aaa; }
+.post-prose { overflow-wrap: anywhere; }
+.post-prose h2, .post-prose h3, .post-prose h4, .post-prose h5, .post-prose h6 { margin: 27px 0 13.5px; font-size: 1em; color: #f2f2f2; }
+.post-prose h2::before { content: '## '; color: #888; font-weight: 400; }
+.post-prose h3::before { content: '### '; color: #888; font-weight: 400; }
+.post-prose ul, .post-prose ol { margin-bottom: 27px; }
+.post-prose img { display: block; max-width: 100%; height: auto; }
+.post-prose pre { max-width: 100%; overflow-x: auto; padding: 18px; border: 1px solid #333; font-size: 13px; }
+.post-prose pre code::before, .post-prose pre code::after { content: none; }
+.post-prose blockquote { margin: 27px 0; padding-left: 2ch; border-left: 2px solid #888; color: #aaa; }
+.post-prose table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 27px 0; }
+.post-prose th, .post-prose td { padding: 8px 14px; border: 1px solid #333; text-align: left; }
+.post-prose hr { margin: 27px 0; border: 0; border-top: 1px solid #333; }
+@media (max-width: 480px) {
+  .post-list li { grid-template-columns: minmax(0, 1fr); gap: 4.5px; }
+}
