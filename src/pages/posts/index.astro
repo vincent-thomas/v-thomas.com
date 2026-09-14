@@ -1,0 +1,16 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/posts';
+const posts = await getPosts();
+---
+
+<SiteLayout title="Posts — Vincent Thomas" description="Writing by Vincent Thomas.">
+  <main>
+    <nav aria-label="Site navigation"><a href="/">home</a></nav>
+    <section>
+      <h1><span class="syntax" aria-hidden="true"># </span>Posts</h1>
+      <PostList posts={posts} />
+    </section>
+  </main>
+</SiteLayout>

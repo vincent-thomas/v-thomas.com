@@ -1,0 +1,31 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { formatDate, getPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  return (await getPosts()).map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+interface Props { post: CollectionEntry<'posts'> }
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<SiteLayout title={`${post.data.title} — Vincent Thomas`} description={post.data.description}>
+  <main>
+    <nav class="post-nav" aria-label="Site navigation"><a href="/">home</a><a href="/posts/">posts</a></nav>
+    <article>
+      <header class="post-header">
+        <a class="archive-link" href="/posts/">← All posts</a>
+        <h1><span class="syntax" aria-hidden="true"># </span>{post.data.title}</h1>
+        <div class="post-meta">
+          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+          {post.data.draft && <span class="draft-label">Draft · local preview</span>}
+        </div>
+        <p class="post-description">{post.data.description}</p>
+      </header>
+      <div class="post-prose"><Content /></div>
+    </article>
+  </main>
+</SiteLayout>
