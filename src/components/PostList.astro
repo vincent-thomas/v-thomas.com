@@ -23,7 +23,3 @@ const visiblePosts = limit === undefined ? posts : posts.slice(0, limit);
     ))}
   </ul>
 ) : <p class="empty-posts">No posts yet.</p>}
-
-{limit !== undefined && posts.length > limit && (
-  <p class="archive-link"><a href="/posts/">All posts →</a></p>
-)}
