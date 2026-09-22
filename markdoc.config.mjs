@@ -1,10 +1,10 @@
 import { Markdoc, component, defineMarkdocConfig, nodes } from '@astrojs/markdoc/config';
 
 function isExternalHttpUrl(href) {
-  if (typeof href !== 'string' || !/^https?:\/\//i.test(href)) return false;
+  if (typeof href !== 'string' || !/^(?:https?:)?\/\//i.test(href)) return false;
 
   try {
-    const url = new URL(href);
+    const url = new URL(href, 'https://localhost');
     return (url.protocol === 'http:' || url.protocol === 'https:') && Boolean(url.hostname);
   } catch {
     return false;
