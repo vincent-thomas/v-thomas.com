@@ -52,4 +52,13 @@ const { title, description, lastUpdated } = Astro.props;
     color: #888;
     font-weight: 400;
   }
+  .home-copy :global(.posts-heading) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2ch;
+    margin-bottom: 13.5px;
+  }
+  .home-copy :global(.posts-heading h2),
+  .home-copy :global(.posts-heading p) { margin: 0; }
 </style>
