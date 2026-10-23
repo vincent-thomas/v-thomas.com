@@ -5,8 +5,11 @@ import HomeLayout from '../layouts/HomeLayout.astro';
 const page = await getEntry('pages', 'index');
 if (!page) throw new Error('Homepage content is missing');
 const { Content } = await render(page);
+
+// The bio is Markdown; the meta description keeps only the link text.
+const description = page.data.description.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
 ---
 
-<HomeLayout {...page.data}>
-  <Content />
+<HomeLayout {...page.data} description={description}>
+  <Content description={page.data.description} />
 </HomeLayout>
