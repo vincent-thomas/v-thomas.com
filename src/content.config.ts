@@ -15,7 +15,6 @@ const pages = defineCollection({
   loader: glob({ pattern: '**/*.mdoc', base: './src/content/pages' }),
   schema: z.object({
     title: z.string(),
-    description: z.string(),
     lastUpdated: z.string(),
   }),
 });

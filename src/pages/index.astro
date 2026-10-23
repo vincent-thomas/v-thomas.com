@@ -1,12 +1,24 @@
 ---
 import { getEntry, render } from 'astro:content';
+import { Markdoc } from '@astrojs/markdoc/config';
 import HomeLayout from '../layouts/HomeLayout.astro';
 
 const page = await getEntry('pages', 'index');
 if (!page) throw new Error('Homepage content is missing');
 const { Content } = await render(page);
+
+// The meta description is the plain text of the paragraph annotated `{% .bio %}`.
+const bio = [...Markdoc.parse(page.body ?? '').walk()].find(
+  (node) => node.type === 'paragraph' && node.attributes.class?.bio,
+);
+if (!bio) throw new Error('Homepage bio paragraph is missing');
+const description = [...bio.walk()]
+  .filter((node) => node.type === 'text')
+  .map((node) => node.attributes.content)
+  .join('')
+  .trim();
 ---
 
-<HomeLayout {...page.data}>
+<HomeLayout {...page.data} description={description}>
   <Content />
 </HomeLayout>
