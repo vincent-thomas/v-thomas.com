@@ -28,6 +28,14 @@ export default defineMarkdocConfig({
     },
   },
   tags: {
+    // Renders the front matter description, which doubles as the meta description.
+    // It's passed in as a <Content> prop, so it's absent when Astro collects headings.
+    bio: {
+      selfClosing: true,
+      transform(node, config) {
+        return Markdoc.transform(Markdoc.parse(config.variables?.description ?? '').children, config);
+      },
+    },
     nav: {
       render: 'nav',
       attributes: { label: { type: String, render: 'aria-label' } },
