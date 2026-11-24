@@ -5,6 +5,8 @@ description: 'An Einstein-level model with no tools is useless.'
 draft: false
 ---
 
+![White hand reaching toward line drawings of a face, circuits, and hexagons on a blue background, with yellow wires and a block of small text.](/images/cloud-for-agents-cover.webp)
+
 An Einstein-level model with no tools is useless. It can reason about anything and do nothing.
 
 That's the part of the agent conversation I think people underrate. We argue about which model is smartest, but an agent is only as powerful as the tools you give it. And the most fundamental tool there is, a computer, is still built for humans.
