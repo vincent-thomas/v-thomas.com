@@ -25,8 +25,59 @@ jobs:
       - name: Set up mise
         uses: jdx/mise-action@v4
 
+      - name: Set preview site URL
+        id: preview_site
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          PREVIEW_ALIAS: pr-${{ github.event.pull_request.number }}
+        run: node --input-type=module <<'EOF'
+          import { readFileSync } from 'node:fs';
+
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const alias = process.env.PREVIEW_ALIAS;
+          if (!token || !account || !alias) {
+            throw new Error('Preview site URL requires the Cloudflare account, token, and alias');
+          }
+
+          const response = await fetch(
+            `https://api.cloudflare.com/client/v4/accounts/${account}/workers/subdomain`,
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
+          const payload = await response.json();
+          const subdomain = payload?.result?.subdomain;
+          if (!response.ok || !payload?.success || !subdomain) {
+            throw new Error(`Could not read the workers.dev subdomain (${response.status})`);
+          }
+
+          const configText = readFileSync('wrangler.jsonc', 'utf8')
+            .replace(/\/\*[\s\S]*?\*\//g, '')
+            .replace(/(^|\s)\/\/.*$/gm, '$1');
+          const workerName = JSON.parse(configText).name;
+          const label = (value, name) => {
+            if (!/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(value)) {
+              throw new Error(`Unexpected ${name}: ${value}`);
+            }
+          };
+          label(alias, 'preview alias');
+          label(workerName, 'worker name');
+          label(subdomain, 'workers.dev subdomain');
+
+          const url = `https://${alias}-${workerName}.${subdomain}.workers.dev`;
+          console.log(`Preview site URL: ${url}`);
+          const output = process.env.GITHUB_OUTPUT;
+          if (!output) throw new Error('GITHUB_OUTPUT is not set');
+          await import('node:fs').then(({ appendFileSync }) => appendFileSync(output, `url=${url}\n`));
+          EOF
+
       - name: Build
         if: github.event_name == 'pull_request'
+        env:
+          SITE_URL: ${{ steps.preview_site.outputs.url }}
         run: mise build
 
       - name: Upload preview

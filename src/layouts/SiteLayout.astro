@@ -6,7 +6,8 @@ interface Props {
   image?: { src: string; alt: string; width?: number; height?: number };
 }
 const { title, description, image } = Astro.props;
-// Social cards need an absolute image URL. Astro.site is the configured site origin.
+// Social cards need an absolute image URL. Astro.site is the production origin,
+// or the preview deployment origin when the preview build sets SITE_URL.
 const imageUrl = image ? new URL(image.src, Astro.site).href : undefined;
 ---
 
