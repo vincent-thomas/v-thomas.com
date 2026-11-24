@@ -1,6 +1,7 @@
 ---
 import { render, type CollectionEntry } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import { publicImageSize } from '../../lib/imageSize';
 import { formatDate, getPosts } from '../../lib/posts';
 
 export async function getStaticPaths() {
@@ -10,9 +11,12 @@ export async function getStaticPaths() {
 interface Props { post: CollectionEntry<'posts'> }
 const { post } = Astro.props;
 const { Content } = await render(post);
+const cover = post.data.cover && post.data.coverAlt
+  ? { src: post.data.cover, alt: post.data.coverAlt, ...await publicImageSize(post.data.cover) }
+  : undefined;
 ---
 
-<SiteLayout title={`${post.data.title} — Vincent Thomas`} description={post.data.description}>
+<SiteLayout title={`${post.data.title} — Vincent Thomas`} description={post.data.description} image={cover}>
   <main>
     <nav class="post-nav" aria-label="Site navigation"><a href="/">home</a><a href="/posts/">posts</a></nav>
     <article>
