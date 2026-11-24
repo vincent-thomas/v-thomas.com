@@ -63,6 +63,7 @@ footer { margin-top: 27px; padding-top: 20px; border-top: 1px solid #333; }
 .archive-link { margin: 13.5px 0 0; }
 .post-nav { margin-bottom: 27px; }
 .post-header { margin-bottom: 27px; }
+.post-cover { display: block; max-width: 100%; height: auto; margin: 0 0 27px; }
 .post-header .archive-link { display: inline-block; margin: 0 0 13.5px; }
 .post-meta { margin-bottom: 13.5px; }
 .post-description { color: #aaa; }

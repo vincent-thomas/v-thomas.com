@@ -8,6 +8,11 @@ const posts = defineCollection({
     date: z.coerce.date(),
     description: z.string().trim().min(1),
     draft: z.boolean().default(false),
+    cover: z.string().trim().min(1).optional(),
+    coverAlt: z.string().trim().min(1).optional(),
+  }).refine((post) => !post.cover || post.coverAlt, {
+    message: 'coverAlt is required when cover is set',
+    path: ['coverAlt'],
   }),
 });
 

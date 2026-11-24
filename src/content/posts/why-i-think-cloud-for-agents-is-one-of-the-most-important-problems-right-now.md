@@ -3,9 +3,9 @@ title: 'Why I think cloud for agents is one of the most important problems right
 date: 2026-11-24
 description: 'An Einstein-level model with no tools is useless.'
 draft: false
+cover: '/images/cloud-for-agents-cover.webp'
+coverAlt: 'White hand reaching toward line drawings of a face, circuits, and hexagons on a blue background, with yellow wires and a block of small text.'
 ---
-
-![White hand reaching toward line drawings of a face, circuits, and hexagons on a blue background, with yellow wires and a block of small text.](/images/cloud-for-agents-cover.webp)
 
 An Einstein-level model with no tools is useless. It can reason about anything and do nothing.
 
