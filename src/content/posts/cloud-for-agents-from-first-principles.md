@@ -13,8 +13,6 @@ The agent was smart enough for the task. It got stuck on the environment.
 
 An Einstein-level model with no tools is useless. It can reason about anything and do nothing. We argue about which model is smartest, but an agent is only as powerful as the tools you give it, and the most fundamental tool there is, a computer, is still built for humans.
 
-I work on infrastructure at [vers.sh](https://vers.sh), the agent cloud, so I'm not neutral here. It's also why I look at this problem every day.
-
 ## The timing
 
 A few years ago agents couldn't do much with a computer even if you gave them one. Now they plan, write code, run it, read the errors, and try again for hours. The infrastructure under them hasn't kept up. They run on a stack that was designed for a person clicking around in a console.
@@ -33,7 +31,7 @@ Most of the cloud wasn't designed so much as inherited, layer by layer, for a hu
 
 An agent does one thing in a loop: it acts, looks at what happened, and tries again. When it's unsure, it tries several things at once. It does this without a browser, without sleeping, and without anyone trusting it. Each of those facts asks something of the computer.
 
-- **It has no browser, so it needs a way in.** Agents don't click through web consoles. They speak MCP, run CLIs, and open SSH sessions. Getting a machine should be as simple as pointing an agent at a command, like `ssh try.vers.sh`, and letting it figure out the rest.
+- **It has no browser, so it needs a way in.** Agents don't click through web consoles. They speak MCP, run CLIs, and open SSH sessions. Getting a machine should be as simple as pointing an agent at a command and letting it figure out the rest. At [Vers](https://vers.sh), where I work, that command is `ssh try.vers.sh`.
 - **It tries several things at once, so it needs machines on demand.** Agents don't want one server kept around. They want hundreds of environments, for seconds or minutes, all at once.
 - **It tries again, so it needs state it can control.** That means checkpointing an entire machine, branching it, trying five approaches, and rolling back the four that failed.
 - **Nobody trusts it, so it needs freedom with safety.** An agent is autonomous and untrusted at the same time. It needs the real machine, with isolation designed around that, not a smaller box.
