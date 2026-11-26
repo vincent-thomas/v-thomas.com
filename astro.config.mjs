@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import markdoc from '@astrojs/markdoc';
+import sitemap from '@astrojs/sitemap';
 
 const PRODUCTION_SITE = 'https://v-thomas.com';
 
@@ -20,5 +21,5 @@ function siteOrigin() {
 // https://astro.build/config
 export default defineConfig({
   site: siteOrigin(),
-  integrations: [markdoc({ allowHTML: true })],
+  integrations: [markdoc({ allowHTML: true }), sitemap()],
 });
