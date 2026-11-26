@@ -1,14 +1,34 @@
 ---
 import '../styles/global.css';
+import portrait from '../assets/me.jpeg';
+
 interface Props {
   title: string;
   description: string;
   image?: { src: string; alt: string; width?: number; height?: number };
+  person?: boolean;
 }
-const { title, description, image } = Astro.props;
-// Social cards need an absolute image URL. Astro.site is the production origin,
-// or the preview deployment origin when the preview build sets SITE_URL.
-const imageUrl = image ? new URL(image.src, Astro.site).href : undefined;
+const { title, description, image, person = false } = Astro.props;
+// Social cards and canonical links use the production origin, or the preview
+// deployment origin when the preview build sets SITE_URL.
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const share = image
+  ? { url: new URL(image.src, Astro.site).href, alt: image.alt, width: image.width, height: image.height }
+  : {
+      url: new URL(portrait.src, Astro.site).href,
+      alt: 'Vincent Thomas giving a thumbs up',
+      width: portrait.width,
+      height: portrait.height,
+    };
+const personJson = person
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Vincent Thomas',
+      url: new URL('/', Astro.site).href,
+      sameAs: ['https://github.com/vincent-thomas', 'https://x.com/vtho06'],
+    }
+  : undefined;
 ---
 
 <!doctype html>
@@ -18,17 +38,21 @@ const imageUrl = image ? new URL(image.src, Astro.site).href : undefined;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {imageUrl && image && (
-      <>
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content={imageUrl} />
-        <meta property="og:image:alt" content={image.alt} />
-        {image.width && <meta property="og:image:width" content={image.width} />}
-        {image.height && <meta property="og:image:height" content={image.height} />}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={imageUrl} />
-      </>
-    )}
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:type" content={image ? 'article' : 'website'} />
+    <meta property="og:image" content={share.url} />
+    <meta property="og:image:alt" content={share.alt} />
+    {share.width && <meta property="og:image:width" content={share.width} />}
+    {share.height && <meta property="og:image:height" content={share.height} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={share.url} />
+    <meta name="twitter:image:alt" content={share.alt} />
+    {personJson && <script type="application/ld+json" set:html={JSON.stringify(personJson)} />}
   </head>
   <body>
     <slot />
